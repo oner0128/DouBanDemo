@@ -19,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class APIService {
-    private static final String URL_TOP250 = "https://api.douban.com";
+    private static final String URL_TOP250 = "https://api.douban.com/v2/movie/";
     private static final Interceptor CACHE_CONTROL_INTERCEPTOP = new Interceptor() {
         @Override
         public Response intercept(Chain chain) throws IOException {

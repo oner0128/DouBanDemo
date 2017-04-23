@@ -3,7 +3,7 @@ package com.android.oner0128.doubandemo.presenter;
 import android.util.Log;
 
 import com.android.oner0128.doubandemo.api.APIService;
-import com.android.oner0128.doubandemo.bean.MovieList;
+import com.android.oner0128.doubandemo.bean.MovieBean;
 import com.android.oner0128.doubandemo.fragment.Top250Fragment;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -26,22 +26,26 @@ public class Top250PresenterImpl extends BasePresenterImpl implements Top250Frag
 
     @Override
     public void getMovieList(int nums) {
+        fragment.showProgressDialog();
         Disposable disposable = APIService.getINSTANCE().getTop250Service()
-                .getTop250Movies(nums)
+                .getTop250Movies(0,nums)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableObserver<MovieList>() {
+                .subscribeWith(new DisposableObserver<MovieBean>() {
                     @Override
-                    public void onNext(@NonNull MovieList list) {
+                    public void onNext(@NonNull MovieBean movieBean) {
+                        Log.d("Test",movieBean.getCount()+movieBean.getTitle());
                         fragment.hideProgressDialog();
-                        fragment.upListItem(list);
-                        Log.d("Test",list.getMovieList().get(0).getTitle());
+//                        MovieList list=MovieList.setMovieList(movieBean);
+                        fragment.upListItem(movieBean);
+
                     }
 
                     @Override
                     public void onError(@NonNull Throwable e) {
                         fragment.hideProgressDialog();
                         fragment.showError(e.toString());
+                        Log.e("error",e.toString());
                     }
 
                     @Override

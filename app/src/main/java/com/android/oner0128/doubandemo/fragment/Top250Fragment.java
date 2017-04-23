@@ -2,17 +2,19 @@ package com.android.oner0128.doubandemo.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.android.oner0128.doubandemo.R;
 import com.android.oner0128.doubandemo.adapter.Top250Adapter;
-import com.android.oner0128.doubandemo.bean.MovieList;
+import com.android.oner0128.doubandemo.bean.MovieBean;
 import com.android.oner0128.doubandemo.presenter.Top250PresenterImpl;
 
 import butterknife.BindView;
@@ -29,14 +31,14 @@ public class Top250Fragment extends Fragment implements Top250View {
 
     LinearLayoutManager mLinearLayoutManager;
     RecyclerView.OnScrollListener loadingMoreListener;
-
+    GridLayoutManager gridLayoutManager;
     int currentIndex;
 
     Top250PresenterImpl mTop250PresenterImpl;
     @BindView(R.id.recycler_top250)
     RecyclerView recycler_top250;
-    @BindView(R.id.progressBar)
-    ProgressBar progressBar;
+//    @BindView(R.id.progressBar)
+//    ProgressBar progressBar;
 
     static Top250Fragment INSTANCE;
     public static Top250Fragment newINSTANCE(){
@@ -51,22 +53,33 @@ public class Top250Fragment extends Fragment implements Top250View {
 
     @Override
     public void showProgressDialog() {
-
+        if (currentIndex ==0){
+//            progressBar.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public void hideProgressDialog() {
-
+//        progressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void showError(String error) {
-
+        if (recycler_top250 != null) {
+            Snackbar.make(recycler_top250, getString(R.string.please_check_your_network), Snackbar.LENGTH_SHORT).setAction("重试", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mTop250PresenterImpl.getMovieList(currentIndex);
+                }
+            }).show();
+        }
     }
 
     @Override
-    public void upListItem(MovieList movieList) {
-
+    public void upListItem(MovieBean movieBean) {
+        loading=false;
+//        progressBar.setVisibility(View.INVISIBLE);
+        mTop250Adapter.addItems(movieBean);
     }
 
     @Nullable
@@ -80,11 +93,70 @@ public class Top250Fragment extends Fragment implements Top250View {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initPresenter();
+        initPresenterAndAdapter();
+        initView();
     }
 
-    private void initPresenter() {
+    private void initPresenterAndAdapter() {
         mTop250PresenterImpl=new Top250PresenterImpl(this);
         mTop250Adapter=new Top250Adapter(getContext());
+    }
+
+    private void initView() {
+        gridLayoutManager=new GridLayoutManager(getContext(),3);
+//        initialListener();
+//        mLinearLayoutManager = new LinearLayoutManager(getContext());
+//        recycler_top250.setLayoutManager(mLinearLayoutManager);
+//        recycler_top250.setLayoutManager(gridLayoutManager);
+//        recycler_top250.setHasFixedSize(true);
+        recycler_top250.setAdapter(mTop250Adapter);
+//        recycler_top250.addOnScrollListener(loadingMoreListener);
+        if (connected) {
+            loadMove();
+        }
+    }
+
+    private void loadMove() {
+        Log.v("loadMove",mTop250Adapter.getItemCount()+"");
+        if (mTop250Adapter.getItemCount() > 0) {
+            mTop250Adapter.clearData();
+        }
+        currentIndex = 10;
+        mTop250PresenterImpl.getMovieList(currentIndex);
+
+    }
+
+    private void initialListener() {
+        loadingMoreListener = new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (dy > 0) //向下滚动
+                {
+                    int visibleItemCount = mLinearLayoutManager.getChildCount();
+                    int totalItemCount = mLinearLayoutManager.getItemCount();
+                    int pastVisiblesItems = mLinearLayoutManager.findFirstVisibleItemPosition();
+                    Log.v("OnScrollListener",visibleItemCount+"-"+pastVisiblesItems+"-"+totalItemCount);
+                    if (!loading && (visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                        loading = true;
+                        loadMoreMovies();
+                    }
+                }
+            }
+        };
+
+    }
+
+    private void loadMoreMovies() {
+        mTop250Adapter.loadingStart();
+        currentIndex +=20;
+        mTop250PresenterImpl.getMovieList(currentIndex);
+
     }
 }
