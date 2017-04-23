@@ -18,23 +18,22 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
  >
 
-<!--    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:indeterminate="true"
-        android:indeterminateTint="?android:colorAccent"
-        android:indeterminateTintMode="src_in"
- />
+    <ProgressBar
+    android:id="@+id/progressBar"
+    style="?android:attr/progressBarStyle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:indeterminate="true"
+    android:indeterminateTint="?android:colorAccent"
+    android:indeterminateTintMode="src_in"
+    />
     <ViewStub
         android:id="@+id/stub_no_internet_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout="@layout/no_internet_text"
- />-->
-
+        />
 
 </FrameLayout>

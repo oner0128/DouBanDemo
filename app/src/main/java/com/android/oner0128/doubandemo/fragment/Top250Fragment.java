@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.android.oner0128.doubandemo.R;
 import com.android.oner0128.doubandemo.adapter.Top250Adapter;
@@ -37,8 +38,8 @@ public class Top250Fragment extends Fragment implements Top250View {
     Top250PresenterImpl mTop250PresenterImpl;
     @BindView(R.id.recycler_top250)
     RecyclerView recycler_top250;
-//    @BindView(R.id.progressBar)
-//    ProgressBar progressBar;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
 
     static Top250Fragment INSTANCE;
     public static Top250Fragment newINSTANCE(){
@@ -54,13 +55,13 @@ public class Top250Fragment extends Fragment implements Top250View {
     @Override
     public void showProgressDialog() {
         if (currentIndex ==0){
-//            progressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
         }
     }
 
     @Override
     public void hideProgressDialog() {
-//        progressBar.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -78,7 +79,7 @@ public class Top250Fragment extends Fragment implements Top250View {
     @Override
     public void upListItem(MovieBean movieBean) {
         loading=false;
-//        progressBar.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.INVISIBLE);
         mTop250Adapter.addItems(movieBean);
     }
 
@@ -112,12 +113,12 @@ public class Top250Fragment extends Fragment implements Top250View {
         recycler_top250.setAdapter(mTop250Adapter);
 //        recycler_top250.addOnScrollListener(loadingMoreListener);
         if (connected) {
-            loadMove();
+            loadMovie();
         }
     }
 
-    private void loadMove() {
-        Log.v("loadMove",mTop250Adapter.getItemCount()+"");
+    private void loadMovie() {
+        Log.v("loadMovie",mTop250Adapter.getItemCount()+"");
         if (mTop250Adapter.getItemCount() > 0) {
             mTop250Adapter.clearData();
         }
