@@ -25,10 +25,10 @@ public class Top250PresenterImpl extends BasePresenterImpl implements Top250Frag
     }
 
     @Override
-    public void getMovieList(int nums) {
+    public void getMovieList(int start,int count) {
         fragment.showProgressDialog();
         Disposable disposable = APIService.getINSTANCE().getTop250Service()
-                .getTop250Movies(0,nums)
+                .getTop250Movies(start, count)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<MovieBean>() {

@@ -13,6 +13,7 @@ import com.android.oner0128.doubandemo.MainActivity;
 import com.android.oner0128.doubandemo.R;
 import com.android.oner0128.doubandemo.bean.MovieBean;
 import com.android.oner0128.doubandemo.fragment.Top250Fragment;
+import com.android.oner0128.doubandemo.util.DensityUtil;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
@@ -33,6 +34,8 @@ public class Top250Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private ArrayList<MovieBean.Subjects> mTop250MovieList = new ArrayList<>();
     int w_screen ;
     int h_screen ;
+    int widthPx ;
+    int heighPx ;
     Top250Fragment fragment;
     public Top250Adapter(Context context) {
         mContext = context;
@@ -47,57 +50,54 @@ public class Top250Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public Top250Adapter(Context context, Top250Fragment fragment) {
         mContext = context;this.fragment=fragment;
+        int width = 200;
+        widthPx = DensityUtil.dip2px(mContext, width);
+        heighPx = widthPx * 4 / 3;
     }
 
 
-//    @Override
-//    public int getItemViewType(int position) {
-//        if (position < mTop250MovieList.size() && mTop250MovieList.size() > 0)
-//            return TYPE_NOMAL_ITEM;
-//        return TYPE_LOADING_MORE;
-//    }
+    @Override
+    public int getItemViewType(int position) {
+        if (position < mTop250MovieList.size() && mTop250MovieList.size() > 0)
+            return TYPE_NOMAL_ITEM;
+        return TYPE_LOADING_MORE;
+    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//        switch (viewType) {
-//            case TYPE_NOMAL_ITEM:
+        switch (viewType) {
+            case TYPE_NOMAL_ITEM:
                 return new Top250MoviesViewHolder(LayoutInflater.from(mContext)
                         .inflate(R.layout.menuitem_top250_recyclerview, parent, false));
-//            case TYPE_LOADING_MORE:
-//                return new LoadingMoreHolder(LayoutInflater.from(mContext)
-//                        .inflate(R.layout.infinite_loading, parent, false));
-//        }
-//        return null;
+            case TYPE_LOADING_MORE:
+                return new LoadingMoreHolder(LayoutInflater.from(mContext)
+                        .inflate(R.layout.infinite_loading, parent, false));
+        }
+        return null;
     }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-//        int type=getItemViewType(position);
-//        switch (type){
-//            case TYPE_NOMAL_ITEM:bindViewHolderNormal((Top250MoviesViewHolder) holder,position);break;
-//            case TYPE_LOADING_MORE:bindViewHolderLoadingMore((LoadingMoreHolder) holder,position);break;
-//            default:return;
-//        }
-        bindViewHolderNormal((Top250MoviesViewHolder) holder,position);
+        int type=getItemViewType(position);
+        switch (type){
+            case TYPE_NOMAL_ITEM:bindViewHolderNormal((Top250MoviesViewHolder) holder,position);break;
+            case TYPE_LOADING_MORE:bindViewHolderLoadingMore((LoadingMoreHolder) holder,position);break;
+            default:return;
+        }
+//        bindViewHolderNormal((Top250MoviesViewHolder) holder,position);
     }
 
     private void bindViewHolderNormal(Top250MoviesViewHolder holder, int position) {
         MovieBean.Subjects movie_Subject=mTop250MovieList.get(position);
-//        Log.v("pic",movie_Subject.getTitle()+"-"+movie_Subject.getImages().getLarge());
+        Log.v("pic",movie_Subject.getTitle()+"-"+movie_Subject.getImages().getMedium());
+        Log.v("pic",widthPx+"-"+heighPx);
         Glide.with(fragment)
                 .load(movie_Subject.getImages().getLarge())
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher_round)
-                .override(300,450)
-                .crossFade().centerCrop()
+                .override(widthPx,heighPx)
+                .centerCrop()
                 .into(holder.imageV_top250);
-//        Picasso.with(mContext)
-//                .load(movie_Subject.getImages().getLarge())
-//                .centerInside().resize(450,600)
-//                .placeholder(R.mipmap.ic_launcher)
-//               .error(R.mipmap.ic_launcher_round)
-//                .into(holder.imageV_top250);
     }
 
     private void bindViewHolderLoadingMore(LoadingMoreHolder holder, int position) {

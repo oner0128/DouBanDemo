@@ -5,6 +5,7 @@ import com.android.oner0128.doubandemo.util.IntenetUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
 import okhttp3.Interceptor;
@@ -25,7 +26,7 @@ public class APIService {
         public Response intercept(Chain chain) throws IOException {
             Response mResponse = chain.proceed(chain.request());
             if (IntenetUtils.isInternetAvailable(MyApplication.getContext())) {
-                int maxAge = 60; // 1分钟在线缓存
+                int maxAge = 5*60; // 5分钟在线缓存
                 return mResponse.newBuilder().removeHeader("Prama")
                         .removeHeader("Cache-Control")
                         .header("Cache-Control", "public, max-age=" + maxAge)
@@ -56,11 +57,11 @@ public class APIService {
     private static Cache cache=new Cache(HTTPCACHEDIRECTORY,CACHE_SIZE);
     private static OkHttpClient mOkHttpClient =new OkHttpClient.Builder()
             .addNetworkInterceptor(CACHE_CONTROL_INTERCEPTOP)
-            .addInterceptor(CACHE_CONTROL_INTERCEPTOP)
+            .addInterceptor(CACHE_CONTROL_INTERCEPTOP).writeTimeout(5, TimeUnit.SECONDS)
             .cache(cache).build();
 
     public  Top250Service mTop250Service;
-    public InTheatersService mPopularService;
+    public InTheatersService inTheatersService;
     private static Object syncobj =new Object();
     
     public  Top250Service getTop250Service(){
@@ -78,10 +79,10 @@ public class APIService {
         return mTop250Service;
     }
     public InTheatersService getInTheatersService(){
-        if (mPopularService==null){
+        if (inTheatersService ==null){
             synchronized (syncobj){
-                if (mPopularService==null){
-                    mPopularService=new Retrofit.Builder()
+                if (inTheatersService ==null){
+                    inTheatersService =new Retrofit.Builder()
                             .baseUrl(BASE_MOVIE_URL)
                             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                             .addConverterFactory(GsonConverterFactory.create())
@@ -89,6 +90,6 @@ public class APIService {
                 }
             }
         }
-        return mPopularService;
+        return inTheatersService;
     }
 }

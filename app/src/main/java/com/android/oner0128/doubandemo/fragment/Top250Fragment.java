@@ -18,6 +18,7 @@ import com.android.oner0128.doubandemo.R;
 import com.android.oner0128.doubandemo.adapter.Top250Adapter;
 import com.android.oner0128.doubandemo.bean.MovieBean;
 import com.android.oner0128.doubandemo.presenter.Top250PresenterImpl;
+import com.android.oner0128.doubandemo.util.CustomGridLayoutManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,9 +32,10 @@ public class Top250Fragment extends Fragment implements Top250View {
     boolean connected = true;
     Top250Adapter mTop250Adapter;
 
-    LinearLayoutManager mLinearLayoutManager;
+    GridLayoutManager mGridLayoutManager;
     RecyclerView.OnScrollListener loadingMoreListener;
     int currentIndex;
+    int start=0,count=10;
 
     Top250PresenterImpl mTop250PresenterImpl;
     @BindView(R.id.recycler_top250)
@@ -56,7 +58,7 @@ public class Top250Fragment extends Fragment implements Top250View {
 
     @Override
     public void showProgressDialog() {
-        if (currentIndex ==0){
+        if (start ==0){
             progressBar.setVisibility(View.VISIBLE);
         }
     }
@@ -72,7 +74,7 @@ public class Top250Fragment extends Fragment implements Top250View {
             Snackbar.make(recycler_top250, getString(R.string.please_check_your_network), Snackbar.LENGTH_INDEFINITE).setAction("重试", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mTop250PresenterImpl.getMovieList(currentIndex);
+                    mTop250PresenterImpl.getMovieList(start,count);
                 }
             }).show();
         }
@@ -106,14 +108,14 @@ public class Top250Fragment extends Fragment implements Top250View {
     }
 
     private void initView() {
-//        gridLayoutManager=new GridLayoutManager(getContext(),3);
-//        initialListener();
+        mGridLayoutManager=new CustomGridLayoutManager(getContext(),2);
+        initialListener();
 //        mLinearLayoutManager = new LinearLayoutManager(getContext());
 //        recycler_top250.setLayoutManager(mLinearLayoutManager);
-//        recycler_top250.setLayoutManager(gridLayoutManager);
+        recycler_top250.setLayoutManager(mGridLayoutManager);
 //        recycler_top250.setHasFixedSize(true);
         recycler_top250.setAdapter(mTop250Adapter);
-//        recycler_top250.addOnScrollListener(loadingMoreListener);
+        recycler_top250.addOnScrollListener(loadingMoreListener);
         if (connected) {
             loadMovie();
         }
@@ -124,8 +126,8 @@ public class Top250Fragment extends Fragment implements Top250View {
         if (mTop250Adapter.getItemCount() > 0) {
             mTop250Adapter.clearData();
         }
-        currentIndex = 20;
-        mTop250PresenterImpl.getMovieList(currentIndex);
+        start=0;count=10;
+        mTop250PresenterImpl.getMovieList(start,count);
 
     }
 
@@ -142,9 +144,9 @@ public class Top250Fragment extends Fragment implements Top250View {
 
                 if (dy > 0) //向下滚动
                 {
-                    int visibleItemCount = mLinearLayoutManager.getChildCount();
-                    int totalItemCount = mLinearLayoutManager.getItemCount();
-                    int pastVisiblesItems = mLinearLayoutManager.findFirstVisibleItemPosition();
+                    int visibleItemCount = mGridLayoutManager.getChildCount();
+                    int totalItemCount = mGridLayoutManager.getItemCount();
+                    int pastVisiblesItems = mGridLayoutManager.findFirstVisibleItemPosition();
                     Log.v("OnScrollListener",visibleItemCount+"-"+pastVisiblesItems+"-"+totalItemCount);
                     if (!loading && (visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                         loading = true;
@@ -158,8 +160,15 @@ public class Top250Fragment extends Fragment implements Top250View {
 
     private void loadMoreMovies() {
         mTop250Adapter.loadingStart();
-        currentIndex +=20;
-        mTop250PresenterImpl.getMovieList(currentIndex);
+        start+=count+1;
+        count=6;
+        mTop250PresenterImpl.getMovieList(start,count);
 
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mTop250PresenterImpl.undisposable();
+//        ButterKnife.reset(this);
     }
 }
