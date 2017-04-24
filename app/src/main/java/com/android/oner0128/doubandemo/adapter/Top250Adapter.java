@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import com.android.oner0128.doubandemo.MainActivity;
 import com.android.oner0128.doubandemo.R;
 import com.android.oner0128.doubandemo.bean.MovieBean;
+import com.android.oner0128.doubandemo.fragment.Top250Fragment;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
@@ -30,9 +31,22 @@ public class Top250Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     boolean showLoadingMore;
     private Context mContext;
     private ArrayList<MovieBean.Subjects> mTop250MovieList = new ArrayList<>();
-
+    int w_screen ;
+    int h_screen ;
+    Top250Fragment fragment;
     public Top250Adapter(Context context) {
         mContext = context;
+    }
+
+    public Top250Adapter(Context context, int width, int height) {
+        mContext = context;
+        w_screen = width;
+        h_screen = height;
+        Log.v("w_screen--h_screen",width+" "+height);
+    }
+
+    public Top250Adapter(Context context, Top250Fragment fragment) {
+        mContext = context;this.fragment=fragment;
     }
 
 
@@ -69,13 +83,21 @@ public class Top250Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private void bindViewHolderNormal(Top250MoviesViewHolder holder, int position) {
         MovieBean.Subjects movie_Subject=mTop250MovieList.get(position);
-        Log.v("pic",movie_Subject.getTitle()+"-"+movie_Subject.getImages().getSmall());
-        Glide.with(mContext)
-                .load(movie_Subject.getImages().getMedium())
+//        Log.v("pic",movie_Subject.getTitle()+"-"+movie_Subject.getImages().getLarge());
+        Glide.with(fragment)
+                .load(movie_Subject.getImages().getLarge())
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-//                .placeholder(R.drawable.ic_menu_camera)
-//                .error(R.drawable.ic_menu_gallery)
+                .placeholder(R.mipmap.ic_launcher)
+                .error(R.mipmap.ic_launcher_round)
+                .override(300,450)
+                .crossFade().centerCrop()
                 .into(holder.imageV_top250);
+//        Picasso.with(mContext)
+//                .load(movie_Subject.getImages().getLarge())
+//                .centerInside().resize(450,600)
+//                .placeholder(R.mipmap.ic_launcher)
+//               .error(R.mipmap.ic_launcher_round)
+//                .into(holder.imageV_top250);
     }
 
     private void bindViewHolderLoadingMore(LoadingMoreHolder holder, int position) {

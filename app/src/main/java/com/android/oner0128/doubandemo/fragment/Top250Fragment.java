@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import com.android.oner0128.doubandemo.R;
@@ -32,7 +33,6 @@ public class Top250Fragment extends Fragment implements Top250View {
 
     LinearLayoutManager mLinearLayoutManager;
     RecyclerView.OnScrollListener loadingMoreListener;
-    GridLayoutManager gridLayoutManager;
     int currentIndex;
 
     Top250PresenterImpl mTop250PresenterImpl;
@@ -40,6 +40,8 @@ public class Top250Fragment extends Fragment implements Top250View {
     RecyclerView recycler_top250;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
+    @BindView(R.id.fragment_top250)
+    FrameLayout frameLayout;
 
     static Top250Fragment INSTANCE;
     public static Top250Fragment newINSTANCE(){
@@ -67,7 +69,7 @@ public class Top250Fragment extends Fragment implements Top250View {
     @Override
     public void showError(String error) {
         if (recycler_top250 != null) {
-            Snackbar.make(recycler_top250, getString(R.string.please_check_your_network), Snackbar.LENGTH_SHORT).setAction("重试", new View.OnClickListener() {
+            Snackbar.make(recycler_top250, getString(R.string.please_check_your_network), Snackbar.LENGTH_INDEFINITE).setAction("重试", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mTop250PresenterImpl.getMovieList(currentIndex);
@@ -100,11 +102,11 @@ public class Top250Fragment extends Fragment implements Top250View {
 
     private void initPresenterAndAdapter() {
         mTop250PresenterImpl=new Top250PresenterImpl(this);
-        mTop250Adapter=new Top250Adapter(getContext());
+        mTop250Adapter=new Top250Adapter(getContext(),this);
     }
 
     private void initView() {
-        gridLayoutManager=new GridLayoutManager(getContext(),3);
+//        gridLayoutManager=new GridLayoutManager(getContext(),3);
 //        initialListener();
 //        mLinearLayoutManager = new LinearLayoutManager(getContext());
 //        recycler_top250.setLayoutManager(mLinearLayoutManager);
@@ -122,7 +124,7 @@ public class Top250Fragment extends Fragment implements Top250View {
         if (mTop250Adapter.getItemCount() > 0) {
             mTop250Adapter.clearData();
         }
-        currentIndex = 10;
+        currentIndex = 20;
         mTop250PresenterImpl.getMovieList(currentIndex);
 
     }

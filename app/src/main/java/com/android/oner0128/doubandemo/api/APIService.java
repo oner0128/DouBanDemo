@@ -19,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class APIService {
-    private static final String URL_TOP250 = "https://api.douban.com/v2/movie/";
+    private static final String BASE_MOVIE_URL = "https://api.douban.com/v2/movie/";
     private static final Interceptor CACHE_CONTROL_INTERCEPTOP = new Interceptor() {
         @Override
         public Response intercept(Chain chain) throws IOException {
@@ -52,13 +52,15 @@ public class APIService {
         return apiService;
     }
     private static File HTTPCACHEDIRECTORY=new File(MyApplication.getContext().getCacheDir(),"doubanCache");
-    private static long CACHE_SIZE=12*1024*1024;//12MB
+    private static long CACHE_SIZE=20*1024*1024;//20MB
     private static Cache cache=new Cache(HTTPCACHEDIRECTORY,CACHE_SIZE);
     private static OkHttpClient mOkHttpClient =new OkHttpClient.Builder()
             .addNetworkInterceptor(CACHE_CONTROL_INTERCEPTOP)
             .addInterceptor(CACHE_CONTROL_INTERCEPTOP)
             .cache(cache).build();
+
     public  Top250Service mTop250Service;
+    public InTheatersService mPopularService;
     private static Object syncobj =new Object();
     
     public  Top250Service getTop250Service(){
@@ -66,7 +68,7 @@ public class APIService {
             synchronized (syncobj){
                 if (mTop250Service==null){
                     mTop250Service=new Retrofit.Builder()
-                            .baseUrl(URL_TOP250)
+                            .baseUrl(BASE_MOVIE_URL)
                             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                             .addConverterFactory(GsonConverterFactory.create())
                             .client(mOkHttpClient).build().create(Top250Service.class);
@@ -74,5 +76,19 @@ public class APIService {
             }
         }
         return mTop250Service;
+    }
+    public InTheatersService getInTheatersService(){
+        if (mPopularService==null){
+            synchronized (syncobj){
+                if (mPopularService==null){
+                    mPopularService=new Retrofit.Builder()
+                            .baseUrl(BASE_MOVIE_URL)
+                            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .client(mOkHttpClient).build().create(InTheatersService.class);
+                }
+            }
+        }
+        return mPopularService;
     }
 }

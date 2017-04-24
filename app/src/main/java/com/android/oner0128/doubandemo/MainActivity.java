@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import com.android.oner0128.doubandemo.fragment.InTheatersFragment;
 import com.android.oner0128.doubandemo.fragment.Top250Fragment;
 import com.android.oner0128.doubandemo.util.ActivtyUtils;
 
@@ -34,7 +36,7 @@ public class MainActivity extends AppCompatActivity
     long exitTime = 0;
     Fragment currentFragment;
     MenuItem currentMenuItem;
-
+    FragmentManager fragmentManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,11 +62,11 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
-
-        currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        fragmentManager=getSupportFragmentManager();
+        currentFragment = fragmentManager.findFragmentById(R.id.fragment_container);
         if (currentFragment == null) {
             currentFragment = Top250Fragment.newINSTANCE();
-            ActivtyUtils.addFragmentToActivity(getSupportFragmentManager(), currentFragment, R.id.fragment_container);
+            ActivtyUtils.addFragmentToActivity(fragmentManager, currentFragment, R.id.fragment_container);
         }
     }
 
@@ -111,10 +113,11 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_Top250) {
-            if (currentFragment != getSupportFragmentManager().findFragmentById(R.id.fragment_top250))
-                ActivtyUtils.switchFragment(getSupportFragmentManager(), Top250Fragment.newINSTANCE(), R.id.fragment_container);
+            if (currentFragment != fragmentManager.findFragmentById(R.id.fragment_top250))
+                ActivtyUtils.switchFragment(fragmentManager, Top250Fragment.newINSTANCE(), R.id.fragment_container);
         } else if (id == R.id.nav_gallery) {
-
+            if (currentFragment != fragmentManager.findFragmentById(R.id.fragment_in_theaters))
+                ActivtyUtils.switchFragment(fragmentManager, InTheatersFragment.newINSTANCE(), R.id.fragment_container);
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
