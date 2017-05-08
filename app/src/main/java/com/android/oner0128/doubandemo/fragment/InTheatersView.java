@@ -8,4 +8,5 @@ import com.android.oner0128.doubandemo.bean.MovieBean;
 
 public interface InTheatersView extends BaseView {
     void updateInTheatersItems(MovieBean movieBean);
+    void updateMoreItems(MovieBean movieBean);
 }

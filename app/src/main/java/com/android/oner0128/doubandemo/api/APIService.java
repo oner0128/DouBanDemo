@@ -1,6 +1,6 @@
 package com.android.oner0128.doubandemo.api;
 
-import com.android.oner0128.doubandemo.MyApplication;
+import com.android.oner0128.doubandemo.App;
 import com.android.oner0128.doubandemo.util.IntenetUtils;
 
 import java.io.File;
@@ -25,7 +25,7 @@ public class APIService {
         @Override
         public Response intercept(Chain chain) throws IOException {
             Response mResponse = chain.proceed(chain.request());
-            if (IntenetUtils.isInternetAvailable(MyApplication.getContext())) {
+            if (IntenetUtils.isInternetAvailable(App.getContext())) {
                 int maxAge = 5*60; // 5分钟在线缓存
                 return mResponse.newBuilder().removeHeader("Prama")
                         .removeHeader("Cache-Control")
@@ -52,7 +52,7 @@ public class APIService {
         }
         return apiService;
     }
-    private static File HTTPCACHEDIRECTORY=new File(MyApplication.getContext().getCacheDir(),"doubanCache");
+    private static File HTTPCACHEDIRECTORY=new File(App.getContext().getCacheDir(),"doubanCache");
     private static long CACHE_SIZE=20*1024*1024;//20MB
     private static Cache cache=new Cache(HTTPCACHEDIRECTORY,CACHE_SIZE);
     private static OkHttpClient mOkHttpClient =new OkHttpClient.Builder()

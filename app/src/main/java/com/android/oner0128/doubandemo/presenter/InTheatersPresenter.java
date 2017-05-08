@@ -6,4 +6,5 @@ package com.android.oner0128.doubandemo.presenter;
 
 public interface InTheatersPresenter extends BasePresenter {
     void getInTheatersMovies(int start,int count);
+    void getMoreMovies(int start,int count);
 }
