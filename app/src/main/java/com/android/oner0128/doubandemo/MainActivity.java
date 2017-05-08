@@ -14,8 +14,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
-import com.android.oner0128.doubandemo.fragment.InTheatersFragment3;
-import com.android.oner0128.doubandemo.fragment.InTheatersFragmentTest;
+import com.android.oner0128.doubandemo.fragment.Top250FragmentLinearManager;
+import com.android.oner0128.doubandemo.fragment.InTheatersFragment;
 import com.android.oner0128.doubandemo.fragment.Top250Fragment;
 import com.android.oner0128.doubandemo.util.ActivtyUtils;
 
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
-
+        toolbar.setTitle("Top250");
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -114,14 +114,16 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_Top250) {
-            if (currentFragment != fragmentManager.findFragmentById(R.id.fragment_top250))
+            if (currentFragment != fragmentManager.findFragmentById(R.id.fragment_top250)){
                 ActivtyUtils.switchFragment(fragmentManager, Top250Fragment.newINSTANCE(), R.id.fragment_container);
+            toolbar.setTitle("Top250");}
         } else if (id == R.id.nav_in_theaters) {
-            if (currentFragment != fragmentManager.findFragmentById(R.id.fragment_in_theaters_test))
-                ActivtyUtils.switchFragment(fragmentManager, InTheatersFragmentTest.newINSTANCE(), R.id.fragment_container);
-        } else if (id == R.id.nav_slideshow) {
-            if (currentFragment != fragmentManager.findFragmentById(R.id.fragment_in_theaters_3))
-                ActivtyUtils.switchFragment(fragmentManager, InTheatersFragment3.newINSTANCE(), R.id.fragment_container);
+            if (currentFragment != fragmentManager.findFragmentById(R.id.fragment_in_theaters_test)){
+                ActivtyUtils.switchFragment(fragmentManager, InTheatersFragment.newINSTANCE(), R.id.fragment_container);
+            toolbar.setTitle("正在上映");}
+        } else if (id == R.id.nav_test) {
+            if (currentFragment != fragmentManager.findFragmentById(R.id.fragment_top250_linear))
+                ActivtyUtils.switchFragment(fragmentManager, Top250FragmentLinearManager.newINSTANCE(), R.id.fragment_container);
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {

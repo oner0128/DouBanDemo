@@ -11,7 +11,7 @@
         android:id="@+id/recycler_top250"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/menuitem_top250_recyclerview"
+        tools:listitem="@layout/item_top250_recyclerview"
 />
  >
 

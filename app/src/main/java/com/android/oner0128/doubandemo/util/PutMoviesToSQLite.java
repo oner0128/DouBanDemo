@@ -1,7 +1,9 @@
 package com.android.oner0128.doubandemo.util;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.android.oner0128.doubandemo.bean.MovieBean;
@@ -20,8 +22,8 @@ public class PutMoviesToSQLite {
     private static final String LOG_TAG = PutMoviesToSQLite.class.getSimpleName();
 
     //从DouBan获取intheatersMovies
-    public static void getInTheatersMoviesFromJson(Context context, MovieBean movieBean) {
-        context.getContentResolver().delete(MoviesContract.InTheatersMoviesEntry.CONTENT_URI, null, null);
+    public static void getInTheatersMoviesFromJson(Activity activity , MovieBean movieBean) {
+        activity.getContentResolver().delete(MoviesContract.InTheatersMoviesEntry.CONTENT_URI, null, null);
         List<MovieBean.Subjects> list = movieBean.getSubjects();
         int size = list.size();
         Vector<ContentValues> valuesVector = new Vector<>(size);
@@ -71,7 +73,7 @@ public class PutMoviesToSQLite {
         if (valuesVector.size() > 0) {
             ContentValues[] contentValues = new ContentValues[valuesVector.size()];
             valuesVector.toArray(contentValues);
-            isInsert = context.getContentResolver().bulkInsert(MoviesContract.InTheatersMoviesEntry.CONTENT_URI, contentValues);
+            isInsert = activity.getContentResolver().bulkInsert(MoviesContract.InTheatersMoviesEntry.CONTENT_URI, contentValues);
         }
         if (isInsert != 0)
             Log.d(LOG_TAG, LOG_TAG + " complete." + isInsert + " inserted (in_theater)");

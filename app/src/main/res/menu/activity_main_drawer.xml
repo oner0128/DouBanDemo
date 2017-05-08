@@ -11,9 +11,9 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="in_theaters" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_test"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:title="Test" />
         <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"

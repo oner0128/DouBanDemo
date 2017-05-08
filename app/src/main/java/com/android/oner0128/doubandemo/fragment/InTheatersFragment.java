@@ -18,9 +18,8 @@ import com.android.oner0128.doubandemo.R;
 import com.android.oner0128.doubandemo.adapter.InTheatersListCursorAdapter;
 import com.android.oner0128.doubandemo.bean.MovieBean;
 import com.android.oner0128.doubandemo.data.MoviesContract;
-import com.android.oner0128.doubandemo.presenter.InTheatersPresentImplTest;
+import com.android.oner0128.doubandemo.presenter.InTheatersPresentImpl;
 import com.android.oner0128.doubandemo.util.CustomGridLayoutManager;
-import com.android.oner0128.doubandemo.util.PutMoviesToSQLite;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,26 +28,26 @@ import butterknife.ButterKnife;
  * Created by rrr on 2017/5/7.
  */
 
-public class InTheatersFragmentTest extends Fragment implements InTheatersView,LoaderManager.LoaderCallbacks<Cursor> {
+public class InTheatersFragment extends Fragment implements InTheatersView,LoaderManager.LoaderCallbacks<Cursor> {
     @BindView(R.id.fragment_in_theaters_test)
     FrameLayout fragment_in_theaters;
-    @BindView(R.id.recycler_in_theaters)
+    @BindView(R.id.recycler_top250_linear)
     RecyclerView recycler_in_theaters;
     InTheatersListCursorAdapter mInTheatersListCursorAdapter;
     GridLayoutManager gridLayoutManager;
-    InTheatersPresentImplTest inTheatersPresentImpl;
-    public static InTheatersFragmentTest INSTANCE;
+    InTheatersPresentImpl inTheatersPresentImpl;
+    public static InTheatersFragment INSTANCE;
     public final String[] MOVIEDS_COLUNMS = {
             MoviesContract.TopRatedMoviesEntry._ID,
             MoviesContract.TopRatedMoviesEntry.COLUMN_TITLE,
             MoviesContract.TopRatedMoviesEntry.COLUMN_IMAGE_POSTER,
     };
     private static final int MOVIES_LIST_LOADER_ID = 1;
-    private static final String LOG_TAG = InTheatersFragmentTest.class.getSimpleName();
-    public static InTheatersFragmentTest newINSTANCE() {
+    private static final String LOG_TAG = InTheatersFragment.class.getSimpleName();
+    public static InTheatersFragment newINSTANCE() {
         if (INSTANCE == null) {
-            synchronized (InTheatersFragmentTest.class) {
-                if (INSTANCE == null) INSTANCE = new InTheatersFragmentTest();
+            synchronized (InTheatersFragment.class) {
+                if (INSTANCE == null) INSTANCE = new InTheatersFragment();
             }
         }
         return INSTANCE;
@@ -71,8 +70,8 @@ public class InTheatersFragmentTest extends Fragment implements InTheatersView,L
     }
 
     private void initPresenterAndAdapter() {
-        mInTheatersListCursorAdapter = new InTheatersListCursorAdapter(getContext(),null);
-        inTheatersPresentImpl = new InTheatersPresentImplTest(this);
+        mInTheatersListCursorAdapter = new InTheatersListCursorAdapter(getContext(),this,null);
+        inTheatersPresentImpl = new InTheatersPresentImpl(getActivity(),this);
     }
 
     private void initView() {
@@ -105,7 +104,7 @@ public class InTheatersFragmentTest extends Fragment implements InTheatersView,L
 
     @Override
     public void updateInTheatersItems(MovieBean movieBean) {
-        PutMoviesToSQLite.getInTheatersMoviesFromJson(getContext(),movieBean);
+
     }
 
     @Override

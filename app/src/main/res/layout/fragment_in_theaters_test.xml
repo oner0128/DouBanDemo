@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.android.oner0128.doubandemo.fragment.InTheatersFragment">
+    tools:mContext="com.android.oner0128.doubandemo.fragment.InTheatersFragment">
     <!-- TODO: Update blank fragment layout -->
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:id="@+id/recycler_in_theaters"
+        android:id="@+id/recycler_top250_linear"
         android:layout_height="match_parent"
-        tools:listitem="@layout/menuitem_in_theaters_recyclerview"
+        tools:listitem="@layout/item_in_theaters_recyclerview"
         ></android.support.v7.widget.RecyclerView>
 
 </FrameLayout>

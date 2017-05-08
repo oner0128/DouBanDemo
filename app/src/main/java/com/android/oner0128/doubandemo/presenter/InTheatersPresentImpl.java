@@ -1,48 +1,80 @@
 package com.android.oner0128.doubandemo.presenter;
 
+import android.app.Activity;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.oner0128.doubandemo.api.APIService;
 import com.android.oner0128.doubandemo.bean.MovieBean;
-import com.android.oner0128.doubandemo.fragment.InTheatersFragment3;
+import com.android.oner0128.doubandemo.fragment.InTheatersFragment;
+import com.android.oner0128.doubandemo.util.PutMoviesToSQLite;
 
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Created by rrr on 2017/4/24.
+ * Created by rrr on 2017/5/7.
  */
 
-public class InTheatersPresentImpl3 extends BasePresenterImpl implements InTheatersPresenter {
-    static InTheatersFragment3 fragment;
-
-    public InTheatersPresentImpl3(InTheatersFragment3 fragment) {
+public class InTheatersPresentImpl extends BasePresenterImpl implements InTheatersPresenter{
+    InTheatersFragment fragment;
+    Activity activity;
+    public InTheatersPresentImpl(InTheatersFragment fragment) {
         this.fragment = fragment;
-
+    }
+    public InTheatersPresentImpl(Activity activity, InTheatersFragment fragment) {
+        this.fragment = fragment;
+        this.activity=activity;
     }
     @Override
     public void getInTheatersMovies(int start, int count) {
         fragment.showProgressDialog();
-       APIService.getINSTANCE().getInTheatersService()
+        Disposable disposable = APIService.getINSTANCE().getInTheatersService()
                 .getInTheatersMovies(start,count)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<MovieBean>() {
+                .subscribeWith(new DisposableObserver<MovieBean>() {
                     @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-                        Toast.makeText(fragment.getContext(), "Get Top Movie Completed", Toast.LENGTH_SHORT).show();
+                    public void onNext(@NonNull MovieBean movieBean) {
+                        Log.d("Test",movieBean.getCount()+movieBean.getTitle());
+                        fragment.hideProgressDialog();
+//                        MovieList list=MovieList.setMovieList(movieBean);
+//                        fragment.updateInTheatersItems(movieBean);
+                        PutMoviesToSQLite.getInTheatersMoviesFromJson(activity,movieBean);
                     }
 
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        fragment.hideProgressDialog();
+                        fragment.showError(e.toString());
+                        Log.e("error",e.toString());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+        addDisposabe(disposable);
+    }
+
+    @Override
+    public void getMoreMovies(int start, int count) {
+        fragment.showProgressDialog();
+        Disposable disposable = APIService.getINSTANCE().getInTheatersService()
+                .getInTheatersMovies(start,count)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableObserver<MovieBean>() {
                     @Override
                     public void onNext(@NonNull MovieBean movieBean) {
                         Log.d("Test",movieBean.getCount()+movieBean.getTitle());
                         fragment.hideProgressDialog();
 //                        MovieList list=MovieList.setMovieList(movieBean);
                         fragment.updateInTheatersItems(movieBean);
+
                     }
 
                     @Override
@@ -57,41 +89,6 @@ public class InTheatersPresentImpl3 extends BasePresenterImpl implements InTheat
 
                     }
                 });
-//        addDisposabe(disposable);
-    }
-
-    @Override
-    public void getMoreMovies(int start, int count) {
-        fragment.showProgressDialog();
-        APIService.getINSTANCE().getInTheatersService()
-                .getInTheatersMovies(start,count)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<MovieBean>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-                        Toast.makeText(fragment.getContext(), "Get more Movie Completed", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onNext(@NonNull MovieBean movieBean) {
-                        Log.d("Test",movieBean.getCount()+movieBean.getTitle());
-                        fragment.hideProgressDialog();
-//                        MovieList list=MovieList.setMovieList(movieBean);
-                        fragment.updateMoreItems(movieBean);
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        fragment.hideProgressDialog();
-                        fragment.showError(e.toString());
-                        Log.e("error",e.toString());
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
+        addDisposabe(disposable);
     }
 }
