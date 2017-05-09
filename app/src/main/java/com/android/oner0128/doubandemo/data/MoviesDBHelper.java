@@ -33,8 +33,8 @@ public class MoviesDBHelper extends SQLiteOpenHelper {
                 MoviesContract.TopRatedMoviesEntry.COLUMN_OVERVIEW + " TEXT NOT NULL );";
         final String SQL_CREAT_POPULAR_TABLE = "CREATE TABLE " + MoviesContract.InTheatersMoviesEntry.TABLE_NAME + " (" +
                 MoviesContract.InTheatersMoviesEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                MoviesContract.InTheatersMoviesEntry.COLUMN_DOUBAN_ID + " INTEGER NOT NULL, " +
                 MoviesContract.InTheatersMoviesEntry.COLUMN_TITLE + " TEXT NOT NULL, " +
+                MoviesContract.InTheatersMoviesEntry.COLUMN_DOUBAN_ID + " TEXT NOT NULL, " +
                 MoviesContract.InTheatersMoviesEntry.COLUMN_ALT + " TEXT NOT NULL, " +
                 MoviesContract.InTheatersMoviesEntry.COLUMN_GENERE_IDS + " TEXT NOT NULL, " +
                 MoviesContract.InTheatersMoviesEntry.COLUMN_RELEASE_DATE + " TEXT NOT NULL, " +

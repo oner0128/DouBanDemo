@@ -41,6 +41,8 @@
                     android:id="@+id/tv_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                     android:layout_weight="1"
                     android:text="title" />
 
@@ -50,7 +52,12 @@
                     android:layout_height="wrap_content"
                     android:text="tv_rating" />
             </LinearLayout>
-
+            <TextView
+                android:id="@+id/tv_casts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/text_margin_vertical"
+                android:text="tv_casts" />
             <TextView
                 android:id="@+id/tv_director"
                 android:layout_width="wrap_content"

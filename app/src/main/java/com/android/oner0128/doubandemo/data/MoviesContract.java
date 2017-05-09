@@ -43,7 +43,7 @@ public class MoviesContract {
         public static final String COLUMN_TITLE="title";
 //        public static final String COLUMN_OVERVIEW="overview";
         public static final String COLUMN_ALT="alt";
-        public static final String COLUMN_DOUBAN_ID ="tmdb_id";
+        public static final String COLUMN_DOUBAN_ID ="douban_id";
         public static final String COLUMN_RELEASE_DATE="release_date";
         public static final String COLUMN_GENERE_IDS="genre_ids";//影片类型
 //        public static final String COLUMN_IMAGE_BACKDROP="backdrop_path";

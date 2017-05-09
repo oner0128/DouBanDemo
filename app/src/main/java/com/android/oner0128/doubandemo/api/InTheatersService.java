@@ -12,5 +12,5 @@ import retrofit2.http.Query;
 
 public interface InTheatersService {
     @GET("in_theaters")
-    Observable<MovieBean> getInTheatersMovies(@Query("start") int start, @Query("count") int count);
+    Observable<MovieBean> getInTheatersMovies();
 }

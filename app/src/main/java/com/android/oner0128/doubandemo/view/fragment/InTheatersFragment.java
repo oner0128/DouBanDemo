@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 
 import com.android.oner0128.doubandemo.R;
 import com.android.oner0128.doubandemo.adapter.InTheatersListCursorAdapter;
@@ -29,19 +30,26 @@ import butterknife.ButterKnife;
  */
 
 public class InTheatersFragment extends Fragment implements InTheatersView,LoaderManager.LoaderCallbacks<Cursor> {
-    @BindView(R.id.fragment_in_theaters_test)
+    @BindView(R.id.fragment_in_theaters)
     FrameLayout fragment_in_theaters;
-    @BindView(R.id.recycler_top250_linear)
+    @BindView(R.id.recycler_in_theaters)
     RecyclerView recycler_in_theaters;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
     InTheatersListCursorAdapter mInTheatersListCursorAdapter;
     GridLayoutManager gridLayoutManager;
     InTheatersPresentImpl inTheatersPresentImpl;
     public static InTheatersFragment INSTANCE;
     public final String[] MOVIEDS_COLUNMS = {
-            MoviesContract.TopRatedMoviesEntry._ID,
-            MoviesContract.TopRatedMoviesEntry.COLUMN_TITLE,
-            MoviesContract.TopRatedMoviesEntry.COLUMN_IMAGE_POSTER,
+            MoviesContract.InTheatersMoviesEntry._ID,
+            MoviesContract.InTheatersMoviesEntry.COLUMN_TITLE,
+            MoviesContract.InTheatersMoviesEntry.COLUMN_DOUBAN_ID,
+            MoviesContract.InTheatersMoviesEntry.COLUMN_IMAGE_POSTER,
     };
+    public static final int COLUMN_MOVIE_ID = 0;
+    public static final int COLUMN_TITLE = 1;
+    public static final int COLUMN_DOUBAN_ID = 2;
+    public static final int COLUMN_IMAGE_POSTER = 3;
     private static final int MOVIES_LIST_LOADER_ID = 1;
     private static final String LOG_TAG = InTheatersFragment.class.getSimpleName();
     public static InTheatersFragment newINSTANCE() {
@@ -57,7 +65,7 @@ public class InTheatersFragment extends Fragment implements InTheatersView,Loade
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_in_theaters_test, container, false);
+        View view = inflater.inflate(R.layout.fragment_in_theaters, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -83,18 +91,18 @@ public class InTheatersFragment extends Fragment implements InTheatersView,Loade
     }
 
     private void loadMovies() {
-        inTheatersPresentImpl.getInTheatersMovies(0,20);
+        inTheatersPresentImpl.getInTheatersMovies();
     }
 
 
     @Override
     public void showProgressDialog() {
-
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgressDialog() {
-
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override

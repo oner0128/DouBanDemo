@@ -1,6 +1,7 @@
 package com.android.oner0128.doubandemo.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,8 @@ import android.widget.Toast;
 
 import com.android.oner0128.doubandemo.R;
 import com.android.oner0128.doubandemo.data.MoviesContract;
+import com.android.oner0128.doubandemo.view.activity.MovieDetailActivity;
+import com.android.oner0128.doubandemo.view.fragment.InTheatersFragment;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
@@ -26,14 +29,8 @@ public class InTheatersListCursorAdapter extends CursorRecyclerViewAdapter<InThe
     private final String LOG_TAG = InTheatersListCursorAdapter.class.getSimpleName();
     private final Context mContext;
     private final Fragment mFragment;
-    public final String[] MOVIEDS_COLUNMS = {
-            MoviesContract.TopRatedMoviesEntry._ID,
-            MoviesContract.TopRatedMoviesEntry.COLUMN_TITLE,
-            MoviesContract.TopRatedMoviesEntry.COLUMN_IMAGE_POSTER,
-    };
-    public static final int COLUMN_MOVIE_ID = 0;
-    public static final int COLUMN_TITLE = 1;
-    public static final int COLUMN_IMAGE_POSTER = 2;
+
+
     public InTheatersListCursorAdapter(Context context,Fragment fragment, Cursor cursor) {
         super(context, cursor);
         this.mContext = context;
@@ -50,8 +47,9 @@ public class InTheatersListCursorAdapter extends CursorRecyclerViewAdapter<InThe
     @Override
     public void onBindViewHolder(final InTheatersListCursorAdapter.ViewHodler viewHolder, final Cursor cursor) {
         //movie_image
-        String imagePosterURL = cursor.getString(COLUMN_IMAGE_POSTER);
-        final String title=cursor.getString(COLUMN_TITLE);
+        String imagePosterURL = cursor.getString(InTheatersFragment.COLUMN_IMAGE_POSTER);
+        final String title=cursor.getString(InTheatersFragment.COLUMN_TITLE);
+        final String id=cursor.getString(InTheatersFragment.COLUMN_DOUBAN_ID);
         Glide.with(mFragment)
                 .load(imagePosterURL)
                 .placeholder(R.mipmap.ic_launcher)
@@ -62,10 +60,10 @@ public class InTheatersListCursorAdapter extends CursorRecyclerViewAdapter<InThe
         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                    Intent intent = new Intent(mContext, MovieDetailActivity.class);
-//                    intent.putExtra(MovieDetailFragment.MOVIE_TITLE, viewHolder.title);
-//                    context.startActivity(intent);
-                Toast.makeText(mContext,title,Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(mContext, MovieDetailActivity.class);
+                intent.putExtra("MovieID",id);
+                intent.putExtra("MovieTitle",title);
+                mContext.startActivity(intent);
             }
         });
     }

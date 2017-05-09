@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity
                 ActivtyUtils.switchFragment(fragmentManager, Top250Fragment.newINSTANCE(), R.id.fragment_container);
             toolbar.setTitle("Top250");}
         } else if (id == R.id.nav_in_theaters) {
-            if (currentFragment != fragmentManager.findFragmentById(R.id.fragment_in_theaters_test)){
+            if (currentFragment != fragmentManager.findFragmentById(R.id.fragment_in_theaters)){
                 ActivtyUtils.switchFragment(fragmentManager, InTheatersFragment.newINSTANCE(), R.id.fragment_container);
             toolbar.setTitle("正在上映");}
         } else if (id == R.id.nav_top250_linear) {

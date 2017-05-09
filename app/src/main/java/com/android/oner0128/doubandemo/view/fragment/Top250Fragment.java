@@ -151,7 +151,7 @@ public class Top250Fragment extends Fragment implements Top250View {
                     int visibleItemCount = mGridLayoutManager.getChildCount();
                     int totalItemCount = mGridLayoutManager.getItemCount();
                     int pastVisiblesItems = mGridLayoutManager.findFirstVisibleItemPosition();
-                    Log.v("OnScrollListener",visibleItemCount+"-"+pastVisiblesItems+"-"+totalItemCount);
+//                    Log.v("OnScrollListener",visibleItemCount+"-"+pastVisiblesItems+"-"+totalItemCount);
                     if (!loading && (visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                         loading = true;
                         loadMoreMovies();
@@ -165,7 +165,7 @@ public class Top250Fragment extends Fragment implements Top250View {
     private void loadMoreMovies() {
         mTop250Adapter.loadingStart();
         start+=count+1;
-        count=6;
+        count=10;
         mTop250PresenterImpl.getMovieList(start,count);
 
     }

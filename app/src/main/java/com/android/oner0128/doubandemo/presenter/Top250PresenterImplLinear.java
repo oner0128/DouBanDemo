@@ -10,6 +10,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -25,28 +26,54 @@ public class Top250PresenterImplLinear extends BasePresenterImpl implements Top2
     @Override
     public void getMovieList(int start, int count) {
         fragment.showProgressDialog();
-        APIService.getINSTANCE().getTop250Service().getTop250Movies(start, count)
+//        APIService.getINSTANCE().getTop250Service().getTop250Movies(start, count)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer<MovieBean>() {
+//                    @Override
+//                    public void onSubscribe(@NonNull Disposable d) {
+////                        Toast.makeText(fragment.getContext(), "Get Top Movie Completed", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                    @Override
+//                    public void onNext(@NonNull MovieBean movieBean) {
+//                        Log.d("Test", movieBean.getCount() + movieBean.getTitle());
+//                        fragment.hideProgressDialog();
+////                        MovieList list=MovieList.setMovieList(movieBean);
+//                        fragment.updateListItem(movieBean);
+//                    }
+//
+//                    @Override
+//                    public void onError(@NonNull Throwable e) {
+//                        fragment.hideProgressDialog();
+//                        fragment.showError(e.toString());
+//                        Log.e("error", e.toString());
+//                    }
+//
+//                    @Override
+//                    public void onComplete() {
+//
+//                    }
+//                });
+        Disposable disposable = APIService.getINSTANCE().getTop250Service()
+                .getTop250Movies(start, count)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<MovieBean>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-//                        Toast.makeText(fragment.getContext(), "Get Top Movie Completed", Toast.LENGTH_SHORT).show();
-                    }
-
+                .subscribeWith(new DisposableObserver<MovieBean>() {
                     @Override
                     public void onNext(@NonNull MovieBean movieBean) {
-                        Log.d("Test", movieBean.getCount() + movieBean.getTitle());
+//                        Log.d("Test",movieBean.getCount()+movieBean.getTitle());
                         fragment.hideProgressDialog();
 //                        MovieList list=MovieList.setMovieList(movieBean);
                         fragment.updateListItem(movieBean);
+
                     }
 
                     @Override
                     public void onError(@NonNull Throwable e) {
                         fragment.hideProgressDialog();
                         fragment.showError(e.toString());
-                        Log.e("error", e.toString());
+                        Log.e("error",e.toString());
                     }
 
                     @Override
@@ -54,33 +81,59 @@ public class Top250PresenterImplLinear extends BasePresenterImpl implements Top2
 
                     }
                 });
+        addDisposabe(disposable);
     }
 
     @Override
     public void loadingMoreMovie(int start, int count) {
         fragment.showProgressDialog();
-        APIService.getINSTANCE().getTop250Service().getTop250Movies(start, count)
+//        APIService.getINSTANCE().getTop250Service().getTop250Movies(start, count)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer<MovieBean>() {
+//                    @Override
+//                    public void onSubscribe(@NonNull Disposable d) {
+////                        Toast.makeText(fragment.getContext(), "Get more Movie Completed", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                    @Override
+//                    public void onNext(@NonNull MovieBean movieBean) {
+////                        Log.d("Test", movieBean.getCount() + movieBean.getTitle());
+//                        fragment.hideProgressDialog();
+////                        MovieList list=MovieList.setMovieList(movieBean);
+//                        fragment.loadingMoreItem(movieBean);
+//                    }
+//
+//                    @Override
+//                    public void onError(@NonNull Throwable e) {
+//                        fragment.hideProgressDialog();
+//                        fragment.showError(e.toString());
+//                        Log.e("error", e.toString());
+//                    }
+//
+//                    @Override
+//                    public void onComplete() {
+//
+//                    }
+//                });
+        Disposable disposable = APIService.getINSTANCE().getTop250Service()
+                .getTop250Movies(start, count)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<MovieBean>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-//                        Toast.makeText(fragment.getContext(), "Get more Movie Completed", Toast.LENGTH_SHORT).show();
-                    }
-
+                .subscribeWith(new DisposableObserver<MovieBean>() {
                     @Override
                     public void onNext(@NonNull MovieBean movieBean) {
-//                        Log.d("Test", movieBean.getCount() + movieBean.getTitle());
+                        Log.d("Test",movieBean.getCount()+movieBean.getTitle());
                         fragment.hideProgressDialog();
 //                        MovieList list=MovieList.setMovieList(movieBean);
                         fragment.loadingMoreItem(movieBean);
+
                     }
 
                     @Override
                     public void onError(@NonNull Throwable e) {
                         fragment.hideProgressDialog();
                         fragment.showError(e.toString());
-                        Log.e("error", e.toString());
                     }
 
                     @Override
@@ -88,5 +141,6 @@ public class Top250PresenterImplLinear extends BasePresenterImpl implements Top2
 
                     }
                 });
+        addDisposabe(disposable);
     }
 }

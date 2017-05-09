@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
 public class Top250FragmentLinear extends Fragment implements Top250View {
     @BindView(R.id.fragment_top250_linear)
     FrameLayout fragment_in_theaters;
-    @BindView(R.id.recycler_top250_linear)
+    @BindView(R.id.recycler_in_theaters)
     RecyclerView recycler_top250_linear;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
@@ -93,7 +93,7 @@ public class Top250FragmentLinear extends Fragment implements Top250View {
                             count = 10;
                             mTop250PresentImpl.loadingMoreMovie(start, count);
                         }
-                    }, 2000);
+                    }, 1000);
                 } else {
                     Toast.makeText(getActivity(), "Loading data completed", Toast.LENGTH_SHORT).show();
                 }

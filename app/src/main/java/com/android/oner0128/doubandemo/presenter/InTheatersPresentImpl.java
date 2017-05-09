@@ -29,16 +29,16 @@ public class InTheatersPresentImpl extends BasePresenterImpl implements InTheate
         this.activity=activity;
     }
     @Override
-    public void getInTheatersMovies(int start, int count) {
+    public void getInTheatersMovies() {
         fragment.showProgressDialog();
         Disposable disposable = APIService.getINSTANCE().getInTheatersService()
-                .getInTheatersMovies(start,count)
+                .getInTheatersMovies()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<MovieBean>() {
                     @Override
                     public void onNext(@NonNull MovieBean movieBean) {
-                        Log.d("Test",movieBean.getCount()+movieBean.getTitle());
+//                        Log.d("Test",movieBean.getCount()+movieBean.getTitle());
                         fragment.hideProgressDialog();
 //                        MovieList list=MovieList.setMovieList(movieBean);
 //                        fragment.updateInTheatersItems(movieBean);
@@ -49,39 +49,7 @@ public class InTheatersPresentImpl extends BasePresenterImpl implements InTheate
                     public void onError(@NonNull Throwable e) {
                         fragment.hideProgressDialog();
                         fragment.showError(e.toString());
-                        Log.e("error",e.toString());
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-        addDisposabe(disposable);
-    }
-
-    @Override
-    public void getMoreMovies(int start, int count) {
-        fragment.showProgressDialog();
-        Disposable disposable = APIService.getINSTANCE().getInTheatersService()
-                .getInTheatersMovies(start,count)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableObserver<MovieBean>() {
-                    @Override
-                    public void onNext(@NonNull MovieBean movieBean) {
-                        Log.d("Test",movieBean.getCount()+movieBean.getTitle());
-                        fragment.hideProgressDialog();
-//                        MovieList list=MovieList.setMovieList(movieBean);
-                        fragment.updateInTheatersItems(movieBean);
-
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        fragment.hideProgressDialog();
-                        fragment.showError(e.toString());
-                        Log.e("error",e.toString());
+//                        Log.e("error",e.toString());
                     }
 
                     @Override

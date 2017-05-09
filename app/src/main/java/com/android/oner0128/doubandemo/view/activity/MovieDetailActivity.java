@@ -116,7 +116,7 @@ public class MovieDetailActivity extends AppCompatActivity implements BaseView {
                             tv_summary.setText(moiveDetailBean.getSummary());
                             tv_title.setText(moiveDetailBean.getOriginal_title());
                             tv_alt.setText(moiveDetailBean.getMobile_url());
-                            share = moiveDetailBean.getOriginal_title() + moiveDetailBean.getMobile_url();
+                            share = moiveDetailBean.getOriginal_title() +'\n'+ moiveDetailBean.getMobile_url();
                         }
 
                         @Override

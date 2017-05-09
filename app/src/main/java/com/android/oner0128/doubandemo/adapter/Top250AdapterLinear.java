@@ -90,6 +90,10 @@ public class Top250AdapterLinear extends RecyclerView.Adapter<RecyclerView.ViewH
                     .into(userViewHolder.imageView);
             userViewHolder.tv_title.setText(movie.getTitle());
             userViewHolder.tv_rating.setText(movie.getRating().getAverage()+"/10.0");
+            String cast="";
+            List<MovieBean.Subjects.Casts>genres=movie.getCasts();
+            for (MovieBean.Subjects.Casts s:genres)cast+=s.getName()+" ";
+            userViewHolder.tv_casts.setText("主演:"+cast);
             userViewHolder.tv_director.setText("导演:"+movie.getDirectors().get(0).getName()+"");
             userViewHolder.tv_years.setText("年份:"+movie.getYear());
 //            userViewHolder.tv_alt.setText(movie.getAlt());
@@ -99,10 +103,10 @@ public class Top250AdapterLinear extends RecyclerView.Adapter<RecyclerView.ViewH
 //                    Toast.makeText(mContext,movie.getAlt(),Toast.LENGTH_SHORT).show();
 //                }
 //            });
-            String gere="";
-            List<String>geres=movie.getGenres();
-            for (String s:geres)gere+=s+" ";
-            userViewHolder.tv_genec.setText("类型:"+gere);
+            String genre="";
+            List<String>genreList=movie.getGenres();
+            for (String s:genreList)genre+=s+" ";
+            userViewHolder.tv_genres.setText("类型:"+genre);
             userViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -178,7 +182,9 @@ public class Top250AdapterLinear extends RecyclerView.Adapter<RecyclerView.ViewH
         @BindView(R.id.tv_years)
         TextView tv_years;
         @BindView(R.id.tv_genres)
-        TextView tv_genec;
+        TextView tv_genres;
+        @BindView(R.id.tv_casts)
+        TextView tv_casts;
 //        @BindView(R.id.tv_alt)
 //        TextView tv_alt;
         public UserViewHolder(View view) {
