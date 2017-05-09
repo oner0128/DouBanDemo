@@ -5,14 +5,68 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.android.oner0128.doubandemo.activity.MovieDetailActivity"
+    tools:context=".view.activity.MovieDetailActivity"
     tools:showIn="@layout/activity_movie_detail">
 
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/large_text" />
+        <FrameLayout
+            android:id="@+id/fragmentlayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:indeterminateTint="?android:colorAccent"
+                android:indeterminateTintMode="src_in" />
+
+            <ViewStub
+                android:id="@+id/stub_no_internet_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout="@layout/no_internet_text" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/card_margin_vertical"
+                android:layout_marginLeft="@dimen/card_margin_horizontal"
+                android:layout_marginRight="@dimen/card_margin_horizontal"
+                android:layout_marginTop="@dimen/card_margin_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
+                     />
+
+                <ImageView
+                    android:id="@+id/iv_post"
+                    android:layout_width="150dp"
+                    android:layout_height="240dp" />
+
+                <TextView
+                    android:id="@+id/tv_summary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
+                     />
+
+                <TextView
+                    android:id="@+id/tv_alt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="@dimen/text_margin"
+                    android:autoLink="web"
+                    />
+            </LinearLayout>
+        </FrameLayout>
+
 
 </android.support.v4.widget.NestedScrollView>

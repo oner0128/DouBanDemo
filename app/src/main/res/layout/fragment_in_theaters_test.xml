@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:mContext="com.android.oner0128.doubandemo.fragment.InTheatersFragment">
+    tools:mContext="com.android.oner0128.doubandemo.view.fragment.InTheatersFragment">
     <!-- TODO: Update blank fragment layout -->
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

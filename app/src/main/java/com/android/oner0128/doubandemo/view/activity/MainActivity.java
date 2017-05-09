@@ -1,4 +1,4 @@
-package com.android.oner0128.doubandemo.activity;
+package com.android.oner0128.doubandemo.view.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -15,9 +15,9 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.android.oner0128.doubandemo.R;
-import com.android.oner0128.doubandemo.fragment.InTheatersFragment;
-import com.android.oner0128.doubandemo.fragment.Top250Fragment;
-import com.android.oner0128.doubandemo.fragment.Top250FragmentLinear;
+import com.android.oner0128.doubandemo.view.fragment.InTheatersFragment;
+import com.android.oner0128.doubandemo.view.fragment.Top250Fragment;
+import com.android.oner0128.doubandemo.view.fragment.Top250FragmentLinear;
 import com.android.oner0128.doubandemo.util.ActivtyUtils;
 
 import butterknife.BindView;
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
-        toolbar.setTitle("Top250");
+        getSupportActionBar().setTitle("Top250");
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity
         fragmentManager=getSupportFragmentManager();
         currentFragment = fragmentManager.findFragmentById(R.id.fragment_container);
         if (currentFragment == null) {
-            currentFragment = Top250Fragment.newINSTANCE();
+            currentFragment = Top250FragmentLinear.newINSTANCE();
             ActivtyUtils.addFragmentToActivity(fragmentManager, currentFragment, R.id.fragment_container);
         }
     }
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_Top250) {
+        if (id == R.id.nav_Top250_grid) {
             if (currentFragment != fragmentManager.findFragmentById(R.id.fragment_top250)){
                 ActivtyUtils.switchFragment(fragmentManager, Top250Fragment.newINSTANCE(), R.id.fragment_container);
             toolbar.setTitle("Top250");}
@@ -121,9 +121,10 @@ public class MainActivity extends AppCompatActivity
             if (currentFragment != fragmentManager.findFragmentById(R.id.fragment_in_theaters_test)){
                 ActivtyUtils.switchFragment(fragmentManager, InTheatersFragment.newINSTANCE(), R.id.fragment_container);
             toolbar.setTitle("正在上映");}
-        } else if (id == R.id.nav_test) {
-            if (currentFragment != fragmentManager.findFragmentById(R.id.fragment_top250_linear))
+        } else if (id == R.id.nav_top250_linear) {
+            if (currentFragment != fragmentManager.findFragmentById(R.id.fragment_top250_linear)){
                 ActivtyUtils.switchFragment(fragmentManager, Top250FragmentLinear.newINSTANCE(), R.id.fragment_container);
+            toolbar.setTitle("Top250");}
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {

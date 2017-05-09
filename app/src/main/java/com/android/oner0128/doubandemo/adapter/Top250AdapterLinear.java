@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.oner0128.doubandemo.R;
-import com.android.oner0128.doubandemo.activity.MovieDetailActivity;
+import com.android.oner0128.doubandemo.view.activity.MovieDetailActivity;
 import com.android.oner0128.doubandemo.bean.MovieBean;
 import com.bumptech.glide.Glide;
 
@@ -92,6 +92,13 @@ public class Top250AdapterLinear extends RecyclerView.Adapter<RecyclerView.ViewH
             userViewHolder.tv_rating.setText(movie.getRating().getAverage()+"/10.0");
             userViewHolder.tv_director.setText("导演:"+movie.getDirectors().get(0).getName()+"");
             userViewHolder.tv_years.setText("年份:"+movie.getYear());
+//            userViewHolder.tv_alt.setText(movie.getAlt());
+//            userViewHolder.tv_alt.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Toast.makeText(mContext,movie.getAlt(),Toast.LENGTH_SHORT).show();
+//                }
+//            });
             String gere="";
             List<String>geres=movie.getGenres();
             for (String s:geres)gere+=s+" ";
@@ -172,7 +179,8 @@ public class Top250AdapterLinear extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView tv_years;
         @BindView(R.id.tv_genres)
         TextView tv_genec;
-
+//        @BindView(R.id.tv_alt)
+//        TextView tv_alt;
         public UserViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);

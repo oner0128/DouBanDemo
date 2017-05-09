@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.android.oner0128.doubandemo.api.APIService;
 import com.android.oner0128.doubandemo.bean.MovieBean;
-import com.android.oner0128.doubandemo.fragment.Top250Fragment;
+import com.android.oner0128.doubandemo.view.fragment.Top250Fragment;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -54,5 +54,10 @@ public class Top250PresenterImpl extends BasePresenterImpl implements Top250Frag
                     }
                 });
         addDisposabe(disposable);
+    }
+
+    @Override
+    public void loadingMoreMovie(int start, int count) {
+
     }
 }

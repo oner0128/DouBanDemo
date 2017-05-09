@@ -51,6 +51,7 @@ public class InTheatersListCursorAdapter extends CursorRecyclerViewAdapter<InThe
     public void onBindViewHolder(final InTheatersListCursorAdapter.ViewHodler viewHolder, final Cursor cursor) {
         //movie_image
         String imagePosterURL = cursor.getString(COLUMN_IMAGE_POSTER);
+        final String title=cursor.getString(COLUMN_TITLE);
         Glide.with(mFragment)
                 .load(imagePosterURL)
                 .placeholder(R.mipmap.ic_launcher)
@@ -64,7 +65,7 @@ public class InTheatersListCursorAdapter extends CursorRecyclerViewAdapter<InThe
 //                    Intent intent = new Intent(mContext, MovieDetailActivity.class);
 //                    intent.putExtra(MovieDetailFragment.MOVIE_TITLE, viewHolder.title);
 //                    context.startActivity(intent);
-                Toast.makeText(mContext,cursor.getString(COLUMN_TITLE),Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext,title,Toast.LENGTH_SHORT).show();
             }
         });
     }

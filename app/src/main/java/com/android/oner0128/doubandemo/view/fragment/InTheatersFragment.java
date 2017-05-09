@@ -1,4 +1,4 @@
-package com.android.oner0128.doubandemo.fragment;
+package com.android.oner0128.doubandemo.view.fragment;
 
 import android.database.Cursor;
 import android.os.Bundle;

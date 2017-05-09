@@ -1,4 +1,4 @@
-package com.android.oner0128.doubandemo.fragment;
+package com.android.oner0128.doubandemo.view;
 
 /**
  * Created by rrr on 2017/4/22.

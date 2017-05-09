@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.android.oner0128.doubandemo.activity.MainActivity;
+import com.android.oner0128.doubandemo.view.activity.MainActivity;
 import com.android.oner0128.doubandemo.R;
 import com.android.oner0128.doubandemo.bean.MovieBean;
-import com.android.oner0128.doubandemo.fragment.Top250Fragment;
+import com.android.oner0128.doubandemo.view.fragment.Top250Fragment;
 import com.android.oner0128.doubandemo.util.DensityUtil;
 import com.bumptech.glide.Glide;
 
@@ -100,8 +100,8 @@ public class Top250Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private void bindViewHolderNormal(Top250MoviesViewHolder holder, int position) {
         MovieBean.Subjects movie_Subject = mTop250MovieList.get(position);
-        Log.v("pic", movie_Subject.getTitle() + "-" + movie_Subject.getImages().getMedium());
-        Log.v("pic", widthPx + "-" + heighPx);
+//        Log.v("pic", movie_Subject.getTitle() + "-" + movie_Subject.getImages().getMedium());
+//        Log.v("pic", widthPx + "-" + heighPx);
         Glide.with(fragment)
                 .load(movie_Subject.getImages().getLarge())
                 .placeholder(R.mipmap.ic_launcher)

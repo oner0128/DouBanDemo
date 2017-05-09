@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.android.oner0128.doubandemo.api.APIService;
 import com.android.oner0128.doubandemo.bean.MovieBean;
-import com.android.oner0128.doubandemo.fragment.InTheatersFragment;
+import com.android.oner0128.doubandemo.view.fragment.InTheatersFragment;
 import com.android.oner0128.doubandemo.util.PutMoviesToSQLite;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;

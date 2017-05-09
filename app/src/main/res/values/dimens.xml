@@ -14,15 +14,17 @@
     <dimen name="spacing_xlarge">48dp</dimen>
     <dimen name="spacing_huge">64dp</dimen>
     <!-- cardview -->
-    <dimen name="card_margin_horizontal">8dp</dimen>
+    <dimen name="card_margin_horizontal">6dp</dimen>
     <dimen name="card_margin_vertical">8dp</dimen>
+    <dimen name="image_margin_horizontal">8dp</dimen>
+    <dimen name="image_margin_vertical">8dp</dimen>
     <dimen name="card_recycler_corner_radius">2dp</dimen>
     <dimen name="card_recycler_elevation">2dp</dimen>
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="app_bar_movie_detail_height">250dp</dimen>
     <!-- margin -->
     <dimen name="text_margin">8dp</dimen>
-    <dimen name="image_margin_vertica">2dp</dimen>
-    <dimen name="image_margin_horizontal">2dp</dimen>
-    <dimen name="text_margin_vertical">8dp</dimen>
+
+    <dimen name="text_margin_vertical">4dp</dimen>
+    <dimen name="item_card_height">146dp</dimen>
 </resources>

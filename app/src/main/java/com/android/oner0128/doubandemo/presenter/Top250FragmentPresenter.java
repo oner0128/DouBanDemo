@@ -5,4 +5,5 @@ package com.android.oner0128.doubandemo.presenter;
  */
 public interface Top250FragmentPresenter extends BasePresenter {
     void getMovieList(int start,int count);
+    void loadingMoreMovie(int start,int count);
 }
