@@ -1,5 +1,6 @@
 package com.android.oner0128.doubandemo.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -80,8 +81,12 @@ public class MainActivity extends AppCompatActivity
             if (System.currentTimeMillis() - exitTime > 2000) {
                 Snackbar.make(frameLayout, "再点一次，退出", Snackbar.LENGTH_LONG).show();
                 exitTime = System.currentTimeMillis();
-            } else
+            } else{
                 super.onBackPressed();
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                startActivity(intent);}
         }
     }
 
@@ -141,4 +146,5 @@ public class MainActivity extends AppCompatActivity
         void loadingStart();
         void loadingEnd();
     }
+
 }

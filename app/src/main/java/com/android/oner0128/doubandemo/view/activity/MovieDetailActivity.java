@@ -48,7 +48,7 @@ public class MovieDetailActivity extends AppCompatActivity implements BaseView {
     FrameLayout frameLayout;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
-    TextView noInternetText;
+
     private String title;
     private String id;
     private String share;
@@ -146,9 +146,6 @@ hideProgressDialog();
     @Override
     public void showError(String error) {
         if (frameLayout != null) {
-            progressBar.setVisibility(View.INVISIBLE);
-            ViewStub stub_text = (ViewStub) findViewById(R.id.stub_no_internet_text);
-            noInternetText = (TextView) stub_text.inflate();
             Snackbar.make(frameLayout, getString(R.string.please_check_your_network), Snackbar.LENGTH_INDEFINITE).setAction("重试", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

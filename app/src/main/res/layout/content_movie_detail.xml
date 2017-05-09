@@ -23,12 +23,6 @@
                 android:indeterminateTint="?android:colorAccent"
                 android:indeterminateTintMode="src_in" />
 
-            <ViewStub
-                android:id="@+id/stub_no_internet_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout="@layout/no_internet_text" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

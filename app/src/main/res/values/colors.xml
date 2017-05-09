@@ -6,7 +6,11 @@
 
     <color name="content_placeholder">#3F51B5</color>
     <color name="activity_background">#EEEEEE</color>
-
+    <!-- Material Design Color - Color palette -->
+    <color name="red_primary">#F44336</color>
+    <color name="red_primary_dark">#D32F2F</color>
+    <color name="light_blue_primary">#03A9F4</color>
+    <color name="blue_primary_dark">#1976D2</color>
     <color name="color_fab_scrolling">#FFA000</color>
     <color name="white">#FFFFFF</color>
 </resources>

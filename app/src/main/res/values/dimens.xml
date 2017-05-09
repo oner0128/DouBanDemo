@@ -14,7 +14,7 @@
     <dimen name="spacing_xlarge">48dp</dimen>
     <dimen name="spacing_huge">64dp</dimen>
     <!-- cardview -->
-    <dimen name="card_margin_horizontal">6dp</dimen>
+    <dimen name="card_margin_horizontal">8dp</dimen>
     <dimen name="card_margin_vertical">8dp</dimen>
     <dimen name="image_margin_horizontal">8dp</dimen>
     <dimen name="image_margin_vertical">8dp</dimen>
