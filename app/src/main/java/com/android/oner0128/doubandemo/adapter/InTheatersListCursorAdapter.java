@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.android.oner0128.doubandemo.R;
 import com.android.oner0128.doubandemo.data.MoviesContract;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

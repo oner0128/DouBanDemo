@@ -6,5 +6,6 @@ import com.android.oner0128.doubandemo.bean.MovieBean;
  * Created by rrr on 2017/4/22.
  */
 public interface Top250View extends BaseView {
-    void upListItem(MovieBean movieBean);
+    void updateListItem(MovieBean movieBean);
+    void loadingMoreItem(MovieBean movieBean);
 }

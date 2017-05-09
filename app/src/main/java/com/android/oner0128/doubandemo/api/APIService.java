@@ -26,7 +26,7 @@ public class APIService {
         public Response intercept(Chain chain) throws IOException {
             Response mResponse = chain.proceed(chain.request());
             if (IntenetUtils.isInternetAvailable(App.getContext())) {
-                int maxAge = 5*60; // 5分钟在线缓存
+                int maxAge = 5 * 60; // 5分钟在线缓存
                 return mResponse.newBuilder().removeHeader("Prama")
                         .removeHeader("Cache-Control")
                         .header("Cache-Control", "public, max-age=" + maxAge)
@@ -44,6 +44,7 @@ public class APIService {
 
 
     public static APIService apiService;
+
     public static APIService getINSTANCE() {
         if (apiService == null) {
             synchronized (APIService.class) {
@@ -52,23 +53,25 @@ public class APIService {
         }
         return apiService;
     }
-    private static File HTTPCACHEDIRECTORY=new File(App.getContext().getCacheDir(),"doubanCache");
-    private static long CACHE_SIZE=20*1024*1024;//20MB
-    private static Cache cache=new Cache(HTTPCACHEDIRECTORY,CACHE_SIZE);
-    private static OkHttpClient mOkHttpClient =new OkHttpClient.Builder()
+
+    private static File HTTPCACHEDIRECTORY = new File(App.getContext().getCacheDir(), "doubanCache");
+    private static long CACHE_SIZE = 20 * 1024 * 1024;//20MB
+    private static Cache cache = new Cache(HTTPCACHEDIRECTORY, CACHE_SIZE);
+    private static OkHttpClient mOkHttpClient = new OkHttpClient.Builder()
             .addNetworkInterceptor(CACHE_CONTROL_INTERCEPTOP)
             .addInterceptor(CACHE_CONTROL_INTERCEPTOP).writeTimeout(5, TimeUnit.SECONDS)
             .cache(cache).build();
 
-    public  Top250Service mTop250Service;
+    public Top250Service mTop250Service;
     public InTheatersService inTheatersService;
-    private static Object syncobj =new Object();
-    
-    public  Top250Service getTop250Service(){
-        if (mTop250Service==null){
-            synchronized (syncobj){
-                if (mTop250Service==null){
-                    mTop250Service=new Retrofit.Builder()
+    public MovieDetailSevice mMovieDetailSevice;
+    private static Object syncobj = new Object();
+
+    public Top250Service getTop250Service() {
+        if (mTop250Service == null) {
+            synchronized (syncobj) {
+                if (mTop250Service == null) {
+                    mTop250Service = new Retrofit.Builder()
                             .baseUrl(BASE_MOVIE_URL)
                             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                             .addConverterFactory(GsonConverterFactory.create())
@@ -78,11 +81,27 @@ public class APIService {
         }
         return mTop250Service;
     }
-    public InTheatersService getInTheatersService(){
-        if (inTheatersService ==null){
-            synchronized (syncobj){
-                if (inTheatersService ==null){
-                    inTheatersService =new Retrofit.Builder()
+
+    public MovieDetailSevice getMovieDetailSevice() {
+        if (mMovieDetailSevice == null) {
+            synchronized (syncobj) {
+                if (mMovieDetailSevice == null) {
+                    mMovieDetailSevice = new Retrofit.Builder()
+                            .baseUrl(BASE_MOVIE_URL)
+                            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .client(mOkHttpClient).build().create(MovieDetailSevice.class);
+                }
+            }
+        }
+        return mMovieDetailSevice;
+    }
+
+    public InTheatersService getInTheatersService() {
+        if (inTheatersService == null) {
+            synchronized (syncobj) {
+                if (inTheatersService == null) {
+                    inTheatersService = new Retrofit.Builder()
                             .baseUrl(BASE_MOVIE_URL)
                             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                             .addConverterFactory(GsonConverterFactory.create())

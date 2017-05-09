@@ -24,22 +24,22 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class Top250FragmentLinearManager extends Fragment implements InTheatersView {
+public class Top250FragmentLinear extends Fragment implements Top250View {
     @BindView(R.id.fragment_top250_linear)
     FrameLayout fragment_in_theaters;
     @BindView(R.id.recycler_top250_linear)
-    RecyclerView recycler_in_theaters;
+    RecyclerView recycler_top250_linear;
     Top250PresentImplLinear mTop250PresentImpl;
     private ArrayList<MovieBean.Subjects> movies;
     private Top250AdapterLinear mTop250Adapter;
 
     public int start, count, total;
-    static Top250FragmentLinearManager INSTANCE;
+    static Top250FragmentLinear INSTANCE;
 
-    public static Top250FragmentLinearManager newINSTANCE() {
+    public static Top250FragmentLinear newINSTANCE() {
         if (INSTANCE == null) {
-            synchronized (Top250FragmentLinearManager.class) {
-                if (INSTANCE == null) INSTANCE = new Top250FragmentLinearManager();
+            synchronized (Top250FragmentLinear.class) {
+                if (INSTANCE == null) INSTANCE = new Top250FragmentLinear();
             }
         }
         return INSTANCE;
@@ -67,9 +67,9 @@ public class Top250FragmentLinearManager extends Fragment implements InTheatersV
     }
 
     private void initView() {
-        recycler_in_theaters.setLayoutManager(new LinearLayoutManager(getContext()));
-        mTop250Adapter = new Top250AdapterLinear(recycler_in_theaters, getContext(),movies);
-        recycler_in_theaters.setAdapter(mTop250Adapter);
+        recycler_top250_linear.setLayoutManager(new LinearLayoutManager(getContext()));
+        mTop250Adapter = new Top250AdapterLinear(recycler_top250_linear, getContext(),movies);
+        recycler_top250_linear.setAdapter(mTop250Adapter);
         loadMovies();
         mTop250Adapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
@@ -80,14 +80,12 @@ public class Top250FragmentLinearManager extends Fragment implements InTheatersV
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            movies.remove(movies.size() - 1);
-                            mTop250Adapter.notifyItemRemoved(movies.size());
                             //Generating more data
                             start+=count;
-                            count=20;
+                            count=10;
                             mTop250PresentImpl.getMoreMovies(start,count);
                         }
-                    }, 3000);
+                    }, 2000);
                 } else {
                     Toast.makeText(getActivity(), "Loading data completed", Toast.LENGTH_SHORT).show();
                 }
@@ -97,7 +95,7 @@ public class Top250FragmentLinearManager extends Fragment implements InTheatersV
 
     private void loadMovies() {
         start = 0;
-        count = 20;
+        count = 10;
         mTop250PresentImpl.getInTheatersMovies(start, count);
     }
 
@@ -118,7 +116,7 @@ public class Top250FragmentLinearManager extends Fragment implements InTheatersV
     }
 
     @Override
-    public void updateInTheatersItems(MovieBean movieBean) {
+    public void updateListItem(MovieBean movieBean) {
         total = movieBean.getTotal();
         movies.addAll(movieBean.getSubjects());
         mTop250Adapter.notifyDataSetChanged();
@@ -126,10 +124,13 @@ public class Top250FragmentLinearManager extends Fragment implements InTheatersV
     }
 
     @Override
-    public void updateMoreItems(MovieBean movieBean) {
+    public void loadingMoreItem(MovieBean movieBean) {
+        int delete=movies.size() - 1;
         total = movieBean.getTotal();
         movies.addAll(movieBean.getSubjects());
         mTop250Adapter.notifyDataSetChanged();
         mTop250Adapter.setLoaded();
+        movies.remove(delete);
+        mTop250Adapter.notifyItemRemoved(delete+1);
     }
 }

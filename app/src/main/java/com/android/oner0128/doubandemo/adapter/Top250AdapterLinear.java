@@ -1,6 +1,7 @@
 package com.android.oner0128.doubandemo.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,10 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.oner0128.doubandemo.R;
-import com.android.oner0128.doubandemo.bean.Contact;
+import com.android.oner0128.doubandemo.activity.MovieDetailActivity;
 import com.android.oner0128.doubandemo.bean.MovieBean;
 import com.bumptech.glide.Glide;
 
@@ -67,7 +67,7 @@ public class Top250AdapterLinear extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_ITEM) {
-            View view = LayoutInflater.from(mContext).inflate(R.layout.item_recyclerview_row, parent, false);
+            View view = LayoutInflater.from(mContext).inflate(R.layout.item_recyclerview_top250_linear, parent, false);
             return new UserViewHolder(view);
         } else if (viewType == VIEW_TYPE_LOADING) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.item_loading_more, parent, false);
@@ -81,26 +81,30 @@ public class Top250AdapterLinear extends RecyclerView.Adapter<RecyclerView.ViewH
         if (holder instanceof UserViewHolder) {
             final MovieBean.Subjects movie = movies.get(position);
             UserViewHolder userViewHolder = (UserViewHolder) holder;
-            userViewHolder.tv_title.setText(movie.getTitle());
-            userViewHolder.tv_rating.setText(movie.getYear());
-            String imageViewURL = movie.getImages().getLarge();
+            String imageViewURL = movie.getImages().getMedium();
             Glide.with(mContext)
                     .load(imageViewURL)
+                    .centerCrop()
                     .placeholder(R.mipmap.ic_launcher)
                     .error(R.mipmap.ic_launcher_round)
-                    .override(700, 933)
-                    .centerCrop()
                     .into(userViewHolder.imageView);
+            userViewHolder.tv_title.setText(movie.getTitle());
+            userViewHolder.tv_rating.setText(movie.getRating().getAverage()+"/10.0");
+            userViewHolder.tv_director.setText("导演:"+movie.getDirectors().get(0).getName()+"");
+            userViewHolder.tv_years.setText("年份:"+movie.getYear());
+            String gere="";
+            List<String>geres=movie.getGenres();
+            for (String s:geres)gere+=s+" ";
+            userViewHolder.tv_genec.setText("类型:"+gere);
             userViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(mContext, movie.getTitle(), Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(mContext, MovieDetailActivity.class);
+                    intent.putExtra("MovieID",movie.getId());
+                    intent.putExtra("MovieTitle",movie.getTitle());
+                    mContext.startActivity(intent);
                 }
             });
-//            Contact contact = contacts.get(position);
-//            UserViewHolder userViewHolder = (UserViewHolder) holder;
-//            userViewHolder.tv_title.setText(contact.getEmail());
-//            userViewHolder.tv_rating.setText(contact.getPhone());
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             loadingViewHolder.progressBar.setIndeterminate(true);
@@ -110,13 +114,11 @@ public class Top250AdapterLinear extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public int getItemViewType(int position) {
         return movies.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
-//        return contacts.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
     }
 
     @Override
     public int getItemCount() {
         return movies == null ? 0 : movies.size();
-//        return contacts == null ? 0 : contacts.size();
     }
 
     public void setLoaded() {
@@ -168,6 +170,8 @@ public class Top250AdapterLinear extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView tv_director;
         @BindView(R.id.tv_years)
         TextView tv_years;
+        @BindView(R.id.tv_genres)
+        TextView tv_genec;
 
         public UserViewHolder(View view) {
             super(view);

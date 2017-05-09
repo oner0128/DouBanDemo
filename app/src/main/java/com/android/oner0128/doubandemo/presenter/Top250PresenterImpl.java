@@ -37,7 +37,7 @@ public class Top250PresenterImpl extends BasePresenterImpl implements Top250Frag
                         Log.d("Test",movieBean.getCount()+movieBean.getTitle());
                         fragment.hideProgressDialog();
 //                        MovieList list=MovieList.setMovieList(movieBean);
-                        fragment.upListItem(movieBean);
+                        fragment.updateListItem(movieBean);
 
                     }
 

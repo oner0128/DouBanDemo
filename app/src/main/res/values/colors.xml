@@ -6,4 +6,7 @@
 
     <color name="content_placeholder">#3F51B5</color>
     <color name="activity_background">#EEEEEE</color>
+
+    <color name="color_fab_scrolling">#FFA000</color>
+    <color name="white">#FFFFFF</color>
 </resources>

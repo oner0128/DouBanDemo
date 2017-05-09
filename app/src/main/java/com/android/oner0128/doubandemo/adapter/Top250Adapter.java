@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.android.oner0128.doubandemo.MainActivity;
+import com.android.oner0128.doubandemo.activity.MainActivity;
 import com.android.oner0128.doubandemo.R;
 import com.android.oner0128.doubandemo.bean.MovieBean;
 import com.android.oner0128.doubandemo.fragment.Top250Fragment;
@@ -73,7 +73,7 @@ public class Top250Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         switch (viewType) {
             case TYPE_NOMAL_ITEM:
                 return new Top250MoviesViewHolder(LayoutInflater.from(mContext)
-                        .inflate(R.layout.item_top250_recyclerview, parent, false));
+                        .inflate(R.layout.item_recyclerview_top250_grid, parent, false));
             case TYPE_LOADING_MORE:
                 return new LoadingMoreHolder(LayoutInflater.from(mContext)
                         .inflate(R.layout.item_loading_more, parent, false));

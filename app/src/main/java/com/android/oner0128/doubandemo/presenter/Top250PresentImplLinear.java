@@ -5,7 +5,7 @@ import android.widget.Toast;
 
 import com.android.oner0128.doubandemo.api.APIService;
 import com.android.oner0128.doubandemo.bean.MovieBean;
-import com.android.oner0128.doubandemo.fragment.Top250FragmentLinearManager;
+import com.android.oner0128.doubandemo.fragment.Top250FragmentLinear;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -18,16 +18,16 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class Top250PresentImplLinear extends BasePresenterImpl implements InTheatersPresenter {
-    static Top250FragmentLinearManager fragment;
+    static Top250FragmentLinear fragment;
 
-    public Top250PresentImplLinear(Top250FragmentLinearManager fragment) {
+    public Top250PresentImplLinear(Top250FragmentLinear fragment) {
         this.fragment = fragment;
-
     }
+
     @Override
     public void getInTheatersMovies(int start, int count) {
         fragment.showProgressDialog();
-       APIService.getINSTANCE().getTop250Service().getTop250Movies(start,count)
+        APIService.getINSTANCE().getTop250Service().getTop250Movies(start, count)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<MovieBean>() {
@@ -38,17 +38,17 @@ public class Top250PresentImplLinear extends BasePresenterImpl implements InThea
 
                     @Override
                     public void onNext(@NonNull MovieBean movieBean) {
-                        Log.d("Test",movieBean.getCount()+movieBean.getTitle());
+                        Log.d("Test", movieBean.getCount() + movieBean.getTitle());
                         fragment.hideProgressDialog();
 //                        MovieList list=MovieList.setMovieList(movieBean);
-                        fragment.updateInTheatersItems(movieBean);
+                        fragment.updateListItem(movieBean);
                     }
 
                     @Override
                     public void onError(@NonNull Throwable e) {
                         fragment.hideProgressDialog();
                         fragment.showError(e.toString());
-                        Log.e("error",e.toString());
+                        Log.e("error", e.toString());
                     }
 
                     @Override
@@ -62,28 +62,28 @@ public class Top250PresentImplLinear extends BasePresenterImpl implements InThea
     @Override
     public void getMoreMovies(int start, int count) {
         fragment.showProgressDialog();
-        APIService.getINSTANCE().getTop250Service().getTop250Movies(start,count)
+        APIService.getINSTANCE().getTop250Service().getTop250Movies(start, count)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<MovieBean>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
-                        Toast.makeText(fragment.getContext(), "Get more Movie Completed", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(fragment.getContext(), "Get more Movie Completed", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onNext(@NonNull MovieBean movieBean) {
-                        Log.d("Test",movieBean.getCount()+movieBean.getTitle());
+//                        Log.d("Test", movieBean.getCount() + movieBean.getTitle());
                         fragment.hideProgressDialog();
 //                        MovieList list=MovieList.setMovieList(movieBean);
-                        fragment.updateMoreItems(movieBean);
+                        fragment.loadingMoreItem(movieBean);
                     }
 
                     @Override
                     public void onError(@NonNull Throwable e) {
                         fragment.hideProgressDialog();
                         fragment.showError(e.toString());
-                        Log.e("error",e.toString());
+                        Log.e("error", e.toString());
                     }
 
                     @Override

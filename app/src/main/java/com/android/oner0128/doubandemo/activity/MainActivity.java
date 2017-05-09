@@ -1,9 +1,9 @@
-package com.android.oner0128.doubandemo;
+package com.android.oner0128.doubandemo.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,9 +14,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
-import com.android.oner0128.doubandemo.fragment.Top250FragmentLinearManager;
+import com.android.oner0128.doubandemo.R;
 import com.android.oner0128.doubandemo.fragment.InTheatersFragment;
 import com.android.oner0128.doubandemo.fragment.Top250Fragment;
+import com.android.oner0128.doubandemo.fragment.Top250FragmentLinear;
 import com.android.oner0128.doubandemo.util.ActivtyUtils;
 
 import butterknife.BindView;
@@ -36,7 +37,6 @@ public class MainActivity extends AppCompatActivity
 
     long exitTime = 0;
     Fragment currentFragment;
-    MenuItem currentMenuItem;
     FragmentManager fragmentManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity
             toolbar.setTitle("正在上映");}
         } else if (id == R.id.nav_test) {
             if (currentFragment != fragmentManager.findFragmentById(R.id.fragment_top250_linear))
-                ActivtyUtils.switchFragment(fragmentManager, Top250FragmentLinearManager.newINSTANCE(), R.id.fragment_container);
+                ActivtyUtils.switchFragment(fragmentManager, Top250FragmentLinear.newINSTANCE(), R.id.fragment_container);
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {

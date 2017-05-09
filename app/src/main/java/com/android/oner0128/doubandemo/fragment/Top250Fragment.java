@@ -80,10 +80,15 @@ public class Top250Fragment extends Fragment implements Top250View {
     }
 
     @Override
-    public void upListItem(MovieBean movieBean) {
+    public void updateListItem(MovieBean movieBean) {
         loading=false;
         progressBar.setVisibility(View.INVISIBLE);
         mTop250Adapter.addItems(movieBean);
+    }
+
+    @Override
+    public void loadingMoreItem(MovieBean movieBean) {
+
     }
 
     @Nullable
