@@ -45,7 +45,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@color/blue_primary_dark"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:fontFamily="sans-serif"
                     android:layout_weight="1"
                     android:text="title" />
                 <ImageView
