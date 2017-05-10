@@ -28,11 +28,10 @@ import butterknife.ButterKnife;
  */
 
 public class Top250AdapterLinear extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private boolean isLoading;
+    private boolean isLoading=true;
     private Context mContext;
     private List<MovieBean.Subjects> movies;
-    private int visibleThreshold = 20;
-    private int lastVisibleItem, totalItemCount;
+    private int visibleItemCount ,pastVisiblesItems,totalItemCount ;
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
     private OnLoadMoreListener onLoadMoreListener;
@@ -51,9 +50,11 @@ public class Top250AdapterLinear extends RecyclerView.Adapter<RecyclerView.ViewH
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (dy > 0) {
+
+                    visibleItemCount = linearLayoutManager.getChildCount();
+                    pastVisiblesItems = linearLayoutManager.findFirstVisibleItemPosition();
                     totalItemCount = linearLayoutManager.getItemCount();
-                    lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-                    if (!isLoading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
+                    if (!isLoading && totalItemCount <= (visibleItemCount + pastVisiblesItems)) {
                         if (onLoadMoreListener != null) {
                             onLoadMoreListener.onLoadMore();
                         }
