@@ -87,13 +87,12 @@ public class Top250FragmentLinear extends Fragment implements Top250View {
                     @Override
                     public void run() {
                         //refresh data
-                        movies.clear();
-                        mTop250Adapter.notifyDataSetChanged();
+                        mTop250Adapter.clearData();
                         start = 0;
                         count = 10;
                         mTop250PresentImpl.getMovieList(start, count);
                     }
-                }, 1500);
+                }, 1000);
             }
         });
         //loading more
@@ -101,8 +100,6 @@ public class Top250FragmentLinear extends Fragment implements Top250View {
             @Override
             public void onLoadMore() {
                 if (movies.size() <= total) {
-                    movies.add(null);
-                    mTop250Adapter.notifyItemInserted(movies.size() - 1);
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -111,7 +108,7 @@ public class Top250FragmentLinear extends Fragment implements Top250View {
                             count = 10;
                             mTop250PresentImpl.loadingMoreMovie(start, count);
                         }
-                    }, 500);
+                    }, 800);
                 } else {
                     Toast.makeText(getActivity(), "Loading data completed", Toast.LENGTH_SHORT).show();
                 }
@@ -165,12 +162,10 @@ public class Top250FragmentLinear extends Fragment implements Top250View {
 
     @Override
     public void loadingMoreItem(MovieBean movieBean) {
-        int delete = movies.size() - 1;
+        mTop250Adapter.notifyItemRemoved(mTop250Adapter.getItemCount());
         total = movieBean.getTotal();
         movies.addAll(movieBean.getSubjects());
         mTop250Adapter.notifyDataSetChanged();
         mTop250Adapter.setLoaded();
-        movies.remove(delete);
-        mTop250Adapter.notifyItemRemoved(delete + 1);
     }
 }

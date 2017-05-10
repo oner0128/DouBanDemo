@@ -125,21 +125,16 @@ public class Top250AdapterLinear extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemViewType(int position) {
-        return movies.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
+        return position+1 == getItemCount() ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
     }
 
     @Override
     public int getItemCount() {
-        return movies == null ? 0 : movies.size();
+        return movies.size() == 0 ? 0 : movies.size()+1;
     }
 
     public void setLoaded() {
         isLoading = false;
-    }
-
-    public void addItems(MovieBean movieBean) {
-        movies.addAll(movieBean.getSubjects());
-        notifyDataSetChanged();
     }
 
     public void clearData() {
