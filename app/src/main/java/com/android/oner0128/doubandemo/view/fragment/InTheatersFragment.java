@@ -2,11 +2,13 @@ package com.android.oner0128.doubandemo.view.fragment;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -34,8 +36,8 @@ public class InTheatersFragment extends Fragment implements InTheatersView,Loade
     FrameLayout fragment_in_theaters;
     @BindView(R.id.recycler_in_theaters)
     RecyclerView recycler_in_theaters;
-    @BindView(R.id.progressBar)
-    ProgressBar progressBar;
+    @BindView(R.id.swipe_layout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
     InTheatersListCursorAdapter mInTheatersListCursorAdapter;
     GridLayoutManager gridLayoutManager;
     InTheatersPresentImpl inTheatersPresentImpl;
@@ -87,6 +89,20 @@ public class InTheatersFragment extends Fragment implements InTheatersView,Loade
         gridLayoutManager = new CustomGridLayoutManager(getContext(), 2);
         recycler_in_theaters.setLayoutManager(gridLayoutManager);
         recycler_in_theaters.setAdapter(mInTheatersListCursorAdapter);
+        //swipe refresh
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.blue_primary_dark, R.color.blue_primary_light, R.color.color_fab_scrolling);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //refresh data
+                        inTheatersPresentImpl.getInTheatersMovies();
+                    }
+                }, 1500);
+            }
+        });
         loadMovies();
     }
 
@@ -97,12 +113,12 @@ public class InTheatersFragment extends Fragment implements InTheatersView,Loade
 
     @Override
     public void showProgressDialog() {
-        progressBar.setVisibility(View.VISIBLE);
+        mSwipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
     public void hideProgressDialog() {
-        progressBar.setVisibility(View.INVISIBLE);
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override

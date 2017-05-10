@@ -79,7 +79,7 @@ public class Top250FragmentLinear extends Fragment implements Top250View {
         recycler_top250_linear.setAdapter(mTop250Adapter);
         loadMovies();
         //swipe refresh
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.blue_primary_dark,R.color.blue_primary_light,R.color.color_fab_scrolling);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.blue_primary_dark, R.color.blue_primary_light, R.color.color_fab_scrolling);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -89,8 +89,8 @@ public class Top250FragmentLinear extends Fragment implements Top250View {
                         //refresh data
                         movies.clear();
                         mTop250Adapter.notifyDataSetChanged();
-                        start=0;
-                        count=10;
+                        start = 0;
+                        count = 10;
                         mTop250PresentImpl.getMovieList(start, count);
                     }
                 }, 1500);
@@ -141,11 +141,15 @@ public class Top250FragmentLinear extends Fragment implements Top250View {
     @Override
     public void showError(String error) {
         if (recycler_top250_linear != null) {
-           mSwipeRefreshLayout.setRefreshing(true);
-            Snackbar.make(recycler_top250_linear, getString(R.string.please_check_your_network), Snackbar.LENGTH_INDEFINITE).setAction("重试", new View.OnClickListener() {
+            mSwipeRefreshLayout.setRefreshing(true);
+            Snackbar.make(recycler_top250_linear,
+                    getString(R.string.please_check_your_network),
+                    Snackbar.LENGTH_INDEFINITE).setAction("重试", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (start==0)
                     mTop250PresentImpl.getMovieList(start, count);
+                    else mTop250PresentImpl.loadingMoreMovie(start, count);
                 }
             }).show();
         }

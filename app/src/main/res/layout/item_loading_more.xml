@@ -8,5 +8,8 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:indeterminateTint="?android:colorAccent"
+        android:indeterminateTintMode="src_in"/>
 </LinearLayout>
