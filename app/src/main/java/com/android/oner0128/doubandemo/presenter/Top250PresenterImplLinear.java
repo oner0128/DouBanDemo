@@ -86,7 +86,7 @@ public class Top250PresenterImplLinear extends BasePresenterImpl implements Top2
 
     @Override
     public void loadingMoreMovie(int start, int count) {
-        fragment.showProgressDialog();
+//        fragment.showProgressDialog();
 //        APIService.getINSTANCE().getTop250Service().getTop250Movies(start, count)
 //                .subscribeOn(Schedulers.io())
 //                .observeOn(AndroidSchedulers.mainThread())
@@ -123,16 +123,15 @@ public class Top250PresenterImplLinear extends BasePresenterImpl implements Top2
                 .subscribeWith(new DisposableObserver<MovieBean>() {
                     @Override
                     public void onNext(@NonNull MovieBean movieBean) {
-                        Log.d("Test",movieBean.getCount()+movieBean.getTitle());
-                        fragment.hideProgressDialog();
+//                        Log.d("Test",movieBean.getCount()+movieBean.getTitle());
+//                        fragment.hideProgressDialog();
 //                        MovieList list=MovieList.setMovieList(movieBean);
                         fragment.loadingMoreItem(movieBean);
-
                     }
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        fragment.hideProgressDialog();
+//                        fragment.hideProgressDialog();
                         fragment.showError(e.toString());
                     }
 
