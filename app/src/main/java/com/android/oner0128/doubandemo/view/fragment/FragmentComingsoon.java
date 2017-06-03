@@ -11,18 +11,21 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ProgressBar;
 
 import com.android.oner0128.doubandemo.R;
+import com.android.oner0128.doubandemo.adapter.ComingsoonListCursorAdapter;
 import com.android.oner0128.doubandemo.adapter.InTheatersListCursorAdapter;
 import com.android.oner0128.doubandemo.bean.MovieBean;
 import com.android.oner0128.doubandemo.data.MoviesContract;
+import com.android.oner0128.doubandemo.presenter.ComingsoonPresenterImpl;
 import com.android.oner0128.doubandemo.presenter.InTheatersPresentImpl;
 import com.android.oner0128.doubandemo.util.CustomGridLayoutManager;
+import com.android.oner0128.doubandemo.util.RecyclerViewScrollListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,33 +34,35 @@ import butterknife.ButterKnife;
  * Created by rrr on 2017/5/7.
  */
 
-public class InTheatersFragment extends Fragment implements InTheatersView,LoaderManager.LoaderCallbacks<Cursor> {
-    @BindView(R.id.fragment_in_theaters)
-    FrameLayout fragment_in_theaters;
-    @BindView(R.id.recycler_in_theaters)
-    RecyclerView recycler_in_theaters;
+public class FragmentComingsoon extends Fragment implements ComingsoonView,LoaderManager.LoaderCallbacks<Cursor>,View.OnScrollChangeListener {
+    @BindView(R.id.fragment_comingsoon)
+    FrameLayout fragment_comingsoon;
+    @BindView(R.id.recycler_comingsoon)
+    RecyclerView recycler_comingsoon;
     @BindView(R.id.swipe_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
-    InTheatersListCursorAdapter mInTheatersListCursorAdapter;
+//    @BindView(R.id.toolbar)
+//    Toolbar toolbar;
     GridLayoutManager gridLayoutManager;
-    InTheatersPresentImpl inTheatersPresentImpl;
-    public static InTheatersFragment INSTANCE;
+    ComingsoonListCursorAdapter mComingsoonListCursorAdapter;
+    ComingsoonPresenterImpl mComingsoonPresenterImpl;
+    public static FragmentComingsoon INSTANCE;
     public final String[] MOVIEDS_COLUNMS = {
-            MoviesContract.InTheatersMoviesEntry._ID,
-            MoviesContract.InTheatersMoviesEntry.COLUMN_TITLE,
-            MoviesContract.InTheatersMoviesEntry.COLUMN_DOUBAN_ID,
-            MoviesContract.InTheatersMoviesEntry.COLUMN_IMAGE_POSTER,
+            MoviesContract.ComingsoonMoviesEntry._ID,
+            MoviesContract.ComingsoonMoviesEntry.COLUMN_TITLE,
+            MoviesContract.ComingsoonMoviesEntry.COLUMN_DOUBAN_ID,
+            MoviesContract.ComingsoonMoviesEntry.COLUMN_IMAGE_POSTER,
     };
     public static final int COLUMN_MOVIE_ID = 0;
     public static final int COLUMN_TITLE = 1;
     public static final int COLUMN_DOUBAN_ID = 2;
     public static final int COLUMN_IMAGE_POSTER = 3;
-    private static final int MOVIES_LIST_LOADER_ID = 1;
-    private static final String LOG_TAG = InTheatersFragment.class.getSimpleName();
-    public static InTheatersFragment getInstance() {
+    private static final int MOVIES_LIST_LOADER_ID = 2;
+    private static final String LOG_TAG = FragmentComingsoon.class.getSimpleName();
+    public static FragmentComingsoon getInstance() {
         if (INSTANCE == null) {
-            synchronized (InTheatersFragment.class) {
-                if (INSTANCE == null) INSTANCE = new InTheatersFragment();
+            synchronized (FragmentComingsoon.class) {
+                if (INSTANCE == null) INSTANCE = new FragmentComingsoon();
             }
         }
         return INSTANCE;
@@ -67,7 +72,7 @@ public class InTheatersFragment extends Fragment implements InTheatersView,Loade
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_in_theaters, container, false);
+        View view = inflater.inflate(R.layout.fragment_comingsoon, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -80,15 +85,15 @@ public class InTheatersFragment extends Fragment implements InTheatersView,Loade
     }
 
     private void initPresenterAndAdapter() {
-        mInTheatersListCursorAdapter = new InTheatersListCursorAdapter(getContext(),this,null);
-        inTheatersPresentImpl = new InTheatersPresentImpl(getActivity(),this);
+        mComingsoonListCursorAdapter = new ComingsoonListCursorAdapter(getContext(),this,null);
+        mComingsoonPresenterImpl = new ComingsoonPresenterImpl(getActivity(),this);
     }
 
     private void initView() {
         getActivity().getSupportLoaderManager().initLoader(MOVIES_LIST_LOADER_ID, null, this);
-        gridLayoutManager = new CustomGridLayoutManager(getContext(), 2);
-        recycler_in_theaters.setLayoutManager(gridLayoutManager);
-        recycler_in_theaters.setAdapter(mInTheatersListCursorAdapter);
+//        gridLayoutManager = new CustomGridLayoutManager(getContext(), 2);
+        recycler_comingsoon.setLayoutManager(new GridLayoutManager(getContext(),2));
+        recycler_comingsoon.setAdapter(mComingsoonListCursorAdapter);
         //swipe refresh
         mSwipeRefreshLayout.setColorSchemeResources(R.color.blue_primary_dark, R.color.blue_primary_light, R.color.color_fab_scrolling);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -98,16 +103,35 @@ public class InTheatersFragment extends Fragment implements InTheatersView,Loade
                     @Override
                     public void run() {
                         //refresh data
-                        inTheatersPresentImpl.getInTheatersMovies();
+                        mComingsoonPresenterImpl.getComingsoonMovies();
                     }
                 }, 100);
             }
         });
         loadMovies();
+
+        recycler_comingsoon.addOnScrollListener(new RecyclerViewScrollListener() {
+            @Override
+            public void hide() {
+//                ViewPropertyAnimator animator = appBarLayout.animate().translationY(-toolbar.getHeight()).setInterpolator(new AccelerateInterpolator(2));
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        appBarLayout.setVisibility(View.GONE);
+//                    }
+//                },animator.getDuration());
+            }
+
+            @Override
+            public void show() {
+//                appBarLayout.setVisibility(View.VISIBLE);
+//                appBarLayout.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
+            }
+        });
     }
 
     private void loadMovies() {
-        inTheatersPresentImpl.getInTheatersMovies();
+        mComingsoonPresenterImpl.getComingsoonMovies();
     }
 
 
@@ -127,7 +151,7 @@ public class InTheatersFragment extends Fragment implements InTheatersView,Loade
     }
 
     @Override
-    public void updateInTheatersItems(MovieBean movieBean) {
+    public void updateComingsoonItems(MovieBean movieBean) {
 
     }
 
@@ -138,17 +162,22 @@ public class InTheatersFragment extends Fragment implements InTheatersView,Loade
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(getContext(), MoviesContract.InTheatersMoviesEntry.CONTENT_URI,
+        return new CursorLoader(getContext(), MoviesContract.ComingsoonMoviesEntry.CONTENT_URI,
                 MOVIEDS_COLUNMS, null, null, null);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        mInTheatersListCursorAdapter.swapCursor(data);
+        mComingsoonListCursorAdapter.swapCursor(data);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        mInTheatersListCursorAdapter.swapCursor(null);
+        mComingsoonListCursorAdapter.swapCursor(null);
+    }
+
+    @Override
+    public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+
     }
 }

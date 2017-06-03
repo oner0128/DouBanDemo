@@ -18,6 +18,7 @@ import com.android.oner0128.doubandemo.bean.MovieBean;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -49,7 +50,7 @@ public class Top250AdapterLinear extends RecyclerView.Adapter<RecyclerView.ViewH
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0) {
+//                if (dy > 0) {
 
                     visibleItemCount = linearLayoutManager.getChildCount();
                     pastVisiblesItems = linearLayoutManager.findFirstVisibleItemPosition();
@@ -60,7 +61,7 @@ public class Top250AdapterLinear extends RecyclerView.Adapter<RecyclerView.ViewH
                         }
                         isLoading = true;
                     }
-                }
+//                }
             }
         });
     }
@@ -87,7 +88,6 @@ public class Top250AdapterLinear extends RecyclerView.Adapter<RecyclerView.ViewH
                     .load(imageViewURL)
                     .centerCrop()
                     .placeholder(R.mipmap.ic_launcher)
-                    .error(R.mipmap.ic_launcher_round)
                     .into(userViewHolder.imageView);
             userViewHolder.tv_title.setText(movie.getTitle());
             userViewHolder.tv_rating.setText(movie.getRating().getAverage()+"/10.0");
@@ -97,13 +97,6 @@ public class Top250AdapterLinear extends RecyclerView.Adapter<RecyclerView.ViewH
             userViewHolder.tv_casts.setText("主演:"+cast);
             userViewHolder.tv_director.setText("导演:"+movie.getDirectors().get(0).getName()+"");
             userViewHolder.tv_years.setText("年份:"+movie.getYear());
-//            userViewHolder.tv_alt.setText(movie.getAlt());
-//            userViewHolder.tv_alt.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Toast.makeText(mContext,movie.getAlt(),Toast.LENGTH_SHORT).show();
-//                }
-//            });
             String genre="";
             List<String>genreList=movie.getGenres();
             for (String s:genreList)genre+=s+" ";

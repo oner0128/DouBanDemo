@@ -41,15 +41,27 @@ public class MoviesDBHelper extends SQLiteOpenHelper {
                 MoviesContract.InTheatersMoviesEntry.COLUMN_IMAGE_POSTER + " TEXT NOT NULL, " +
                 MoviesContract.InTheatersMoviesEntry.COLUMN_VOTE_COUNT + " INTEGER NOT NULL, " +
                 MoviesContract.InTheatersMoviesEntry.COLUMN_VOTE_AVERAGE + " REAL NOT NULL);" ;
-        db.execSQL(SQL_CREAT_TOP_RATED_TABLE);
+        final String SQL_CREAT_COMINGSOON_TABLE = "CREATE TABLE " + MoviesContract.ComingsoonMoviesEntry.TABLE_NAME + " (" +
+                MoviesContract.ComingsoonMoviesEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                MoviesContract.ComingsoonMoviesEntry.COLUMN_TITLE + " TEXT NOT NULL, " +
+                MoviesContract.ComingsoonMoviesEntry.COLUMN_DOUBAN_ID + " TEXT NOT NULL, " +
+                MoviesContract.ComingsoonMoviesEntry.COLUMN_ALT + " TEXT NOT NULL, " +
+                MoviesContract.ComingsoonMoviesEntry.COLUMN_GENERE_IDS + " TEXT NOT NULL, " +
+                MoviesContract.ComingsoonMoviesEntry.COLUMN_RELEASE_DATE + " TEXT NOT NULL, " +
+                MoviesContract.ComingsoonMoviesEntry.COLUMN_IMAGE_POSTER + " TEXT NOT NULL, " +
+                MoviesContract.ComingsoonMoviesEntry.COLUMN_VOTE_COUNT + " INTEGER NOT NULL, " +
+                MoviesContract.ComingsoonMoviesEntry.COLUMN_VOTE_AVERAGE + " REAL NOT NULL);" ;
+//        db.execSQL(SQL_CREAT_TOP_RATED_TABLE);
         db.execSQL(SQL_CREAT_POPULAR_TABLE);
+        db.execSQL(SQL_CREAT_COMINGSOON_TABLE);
 //        Log.d(TAG_LOG, "SQL_CREATE_LOCATION:" + SQL_CREAT_TOP_RATED_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + MoviesContract.TopRatedMoviesEntry.TABLE_NAME);
+//        db.execSQL("DROP TABLE IF EXISTS " + MoviesContract.TopRatedMoviesEntry.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + MoviesContract.InTheatersMoviesEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + MoviesContract.ComingsoonMoviesEntry.TABLE_NAME);
         onCreate(db);
     }
 }

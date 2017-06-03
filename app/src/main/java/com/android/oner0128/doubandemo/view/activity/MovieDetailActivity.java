@@ -110,7 +110,7 @@ public class MovieDetailActivity extends AppCompatActivity implements BaseView {
                                     .centerCrop()
                                     .into(iv_scrolling);
                             Glide.with(getApplicationContext()).
-                                    load(moiveDetailBean.getImages().getMedium())
+                                    load(moiveDetailBean.getImages().getLarge())
                                     .fitCenter()
                                     .into(iv_post);
                             tv_summary.setText(moiveDetailBean.getSummary());

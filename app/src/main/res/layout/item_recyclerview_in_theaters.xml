@@ -2,10 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:id="@+id/menuitem_in_theaters"
+    android:orientation="horizontal">
 
     <ImageView
-        android:id="@+id/imageV_top250"
+        android:id="@+id/imageView_intheater"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"

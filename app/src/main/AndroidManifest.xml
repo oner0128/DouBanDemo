@@ -3,6 +3,7 @@
     package="com.android.oner0128.doubandemo">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -25,10 +26,9 @@
         </activity>
         <activity
             android:name=".view.activity.MainActivity"
-            android:label="@string/app_name"
+            android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
-
         <provider
             android:name=".data.MoviesProvider"
             android:authorities="@string/authorities" />
@@ -37,7 +37,8 @@
             android:name=".view.activity.MovieDetailActivity"
             android:label="@string/title_activity_movie_detail"
             android:parentActivityName=".view.activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
 
 </manifest>

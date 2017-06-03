@@ -21,6 +21,7 @@ public class MoviesProvider extends ContentProvider {
     static final int TOP_RATED_WITH_TITLE = 101;
     static final int POPULAR = 200;
     static final int POPULAR_WITH_TITLE = 201;
+    static final int COMINGSOON = 300;
 //    private static final SQLiteQueryBuilder MOVIES_QUERY_BUILDER;
 ////
 //    static {
@@ -41,6 +42,7 @@ public class MoviesProvider extends ContentProvider {
         uriMatcher.addURI(authority, MoviesContract.PATH_TOPRATED + "/*", TOP_RATED_WITH_TITLE);
         uriMatcher.addURI(authority, MoviesContract.PATH_IN_THEATERS, POPULAR);
         uriMatcher.addURI(authority, MoviesContract.PATH_IN_THEATERS + "/*", POPULAR_WITH_TITLE);
+        uriMatcher.addURI(authority, MoviesContract.PATH_COMINGSOON, COMINGSOON);
         return uriMatcher;
     }
     private static final String sTitleSelection =
@@ -106,6 +108,17 @@ public class MoviesProvider extends ContentProvider {
                         null);
                 break;
             }
+            case COMINGSOON: {
+                resultCursor = db.query(
+                        MoviesContract.ComingsoonMoviesEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null, null,
+                        sortOrder
+                );
+                break;
+            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -155,6 +168,16 @@ public class MoviesProvider extends ContentProvider {
                 else throw new SQLException("Failed to insert row into " + uri);
                 break;
             }
+            case COMINGSOON: {
+                long _id = db.insert(
+                        MoviesContract.ComingsoonMoviesEntry.TABLE_NAME,
+                        null,
+                        values);
+                if (_id > 0)
+                    returnUri = MoviesContract.ComingsoonMoviesEntry.buildComingsoonUri(_id);
+                else throw new SQLException("Failed to insert row into " + uri);
+                break;
+            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -191,6 +214,13 @@ public class MoviesProvider extends ContentProvider {
             case POPULAR_WITH_TITLE: {
                 isDelete = db.delete(
                         MoviesContract.InTheatersMoviesEntry.TABLE_NAME,
+                        selection,
+                        selectionArgs);
+                break;
+            }
+            case COMINGSOON: {
+                isDelete = db.delete(
+                        MoviesContract.ComingsoonMoviesEntry.TABLE_NAME,
                         selection,
                         selectionArgs);
                 break;
@@ -240,6 +270,14 @@ public class MoviesProvider extends ContentProvider {
                         selectionArgs);
                 break;
             }
+            case COMINGSOON: {
+                isUpdate = db.update(
+                        MoviesContract.ComingsoonMoviesEntry.TABLE_NAME,
+                        values,
+                        selection,
+                        selectionArgs);
+                break;
+            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -276,6 +314,24 @@ public class MoviesProvider extends ContentProvider {
                     for (ContentValues value : values) {
 //                        normalizeDate(value);
                         long _id = db.insert(MoviesContract.InTheatersMoviesEntry.TABLE_NAME, null, value);
+                        if (_id != -1) {
+                            returnInt++;
+                        }
+                    }
+                    db.setTransactionSuccessful();
+                } finally {
+                    db.endTransaction();
+                }
+                getContext().getContentResolver().notifyChange(uri, null);
+                return returnInt;
+            }
+            case COMINGSOON: {
+                db.beginTransaction();
+                int returnInt = 0;
+                try {
+                    for (ContentValues value : values) {
+//                        normalizeDate(value);
+                        long _id = db.insert(MoviesContract.ComingsoonMoviesEntry.TABLE_NAME, null, value);
                         if (_id != -1) {
                             returnInt++;
                         }

@@ -12,7 +12,7 @@ import android.widget.ImageView;
 
 import com.android.oner0128.doubandemo.R;
 import com.android.oner0128.doubandemo.view.activity.MovieDetailActivity;
-import com.android.oner0128.doubandemo.view.fragment.InTheatersFragment;
+import com.android.oner0128.doubandemo.view.fragment.FragmentComingsoon;
 import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
@@ -22,13 +22,13 @@ import butterknife.ButterKnife;
  * Created by rrr on 2017/5/7.
  */
 
-public class InTheatersListCursorAdapter extends CursorRecyclerViewAdapter<InTheatersListCursorAdapter.ViewHodler> {
-    private final String LOG_TAG = InTheatersListCursorAdapter.class.getSimpleName();
+public class ComingsoonListCursorAdapter extends CursorRecyclerViewAdapter<ComingsoonListCursorAdapter.ViewHodler> {
+    private final String LOG_TAG = ComingsoonListCursorAdapter.class.getSimpleName();
     private final Context mContext;
     private final Fragment mFragment;
 
 
-    public InTheatersListCursorAdapter(Context context,Fragment fragment, Cursor cursor) {
+    public ComingsoonListCursorAdapter(Context context, Fragment fragment, Cursor cursor) {
         super(context, cursor);
         this.mContext = context;
         this.mFragment=fragment;
@@ -36,17 +36,17 @@ public class InTheatersListCursorAdapter extends CursorRecyclerViewAdapter<InThe
 
     @Override
     public ViewHodler onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_recyclerview_in_theaters, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_recyclerview_comingsoon, parent, false);
         ViewHodler viewHodler = new ViewHodler(view);
         return viewHodler;
     }
 
     @Override
-    public void onBindViewHolder(final InTheatersListCursorAdapter.ViewHodler viewHolder, final Cursor cursor) {
+    public void onBindViewHolder(final ComingsoonListCursorAdapter.ViewHodler viewHolder, final Cursor cursor) {
         //movie_image
-        String imagePosterURL = cursor.getString(InTheatersFragment.COLUMN_IMAGE_POSTER);
-        final String title=cursor.getString(InTheatersFragment.COLUMN_TITLE);
-        final String id=cursor.getString(InTheatersFragment.COLUMN_DOUBAN_ID);
+        String imagePosterURL = cursor.getString(FragmentComingsoon.COLUMN_IMAGE_POSTER);
+        final String title=cursor.getString(FragmentComingsoon.COLUMN_TITLE);
+        final String id=cursor.getString(FragmentComingsoon.COLUMN_DOUBAN_ID);
         Glide.with(mFragment)
                 .load(imagePosterURL)
                 .placeholder(R.mipmap.ic_launcher)
@@ -66,7 +66,7 @@ public class InTheatersListCursorAdapter extends CursorRecyclerViewAdapter<InThe
     }
 
     public class ViewHodler extends RecyclerView.ViewHolder {
-        @BindView(R.id.imageView_intheater)
+        @BindView(R.id.imageView_comingsoon)
         ImageView imagePoster;
         View mView;
 

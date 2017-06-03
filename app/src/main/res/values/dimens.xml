@@ -18,8 +18,8 @@
     <dimen name="card_margin_vertical">8dp</dimen>
     <dimen name="image_margin_horizontal">8dp</dimen>
     <dimen name="image_margin_vertical">8dp</dimen>
-    <dimen name="card_recycler_corner_radius">2dp</dimen>
-    <dimen name="card_recycler_elevation">2dp</dimen>
+    <dimen name="card_recycler_corner_radius">0dp</dimen>
+    <dimen name="card_recycler_elevation">1.5dp</dimen>
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="app_bar_movie_detail_height">250dp</dimen>
     <!-- margin -->

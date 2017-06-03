@@ -58,15 +58,29 @@ public class APIService {
     private static long CACHE_SIZE = 20 * 1024 * 1024;//20MB
     private static Cache cache = new Cache(HTTPCACHEDIRECTORY, CACHE_SIZE);
     private static OkHttpClient mOkHttpClient = new OkHttpClient.Builder()
-            .addNetworkInterceptor(CACHE_CONTROL_INTERCEPTOP)
-            .addInterceptor(CACHE_CONTROL_INTERCEPTOP).writeTimeout(5, TimeUnit.SECONDS)
+//            .addNetworkInterceptor(CACHE_CONTROL_INTERCEPTOP)
+//            .addInterceptor(CACHE_CONTROL_INTERCEPTOP).writeTimeout(5, TimeUnit.SECONDS)
             .cache(cache).build();
 
     public Top250Service mTop250Service;
     public InTheatersService inTheatersService;
+    public ComingsoonService mComingsoonService;
     public MovieDetailSevice mMovieDetailSevice;
     private static Object syncobj = new Object();
-
+    public ComingsoonService getComingsoonService() {
+        if (mComingsoonService == null) {
+            synchronized (syncobj) {
+                if (mComingsoonService == null) {
+                    mComingsoonService = new Retrofit.Builder()
+                            .baseUrl(BASE_MOVIE_URL)
+                            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .client(mOkHttpClient).build().create(ComingsoonService.class);
+                }
+            }
+        }
+        return mComingsoonService;
+    }
     public Top250Service getTop250Service() {
         if (mTop250Service == null) {
             synchronized (syncobj) {

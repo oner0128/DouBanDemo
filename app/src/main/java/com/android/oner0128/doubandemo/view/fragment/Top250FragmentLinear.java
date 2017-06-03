@@ -43,7 +43,7 @@ public class Top250FragmentLinear extends Fragment implements Top250View {
     static Top250FragmentLinear INSTANCE;
 
 
-    public static Top250FragmentLinear newINSTANCE() {
+    public static Top250FragmentLinear getInstance() {
         if (INSTANCE == null) {
             synchronized (Top250FragmentLinear.class) {
                 if (INSTANCE == null) INSTANCE = new Top250FragmentLinear();
@@ -88,9 +88,7 @@ public class Top250FragmentLinear extends Fragment implements Top250View {
                     public void run() {
                         //refresh data
                         mTop250Adapter.clearData();
-                        start = 0;
-                        count = 10;
-                        mTop250PresentImpl.getMovieList(start, count);
+                        loadMovies();
                     }
                 }, 1000);
             }

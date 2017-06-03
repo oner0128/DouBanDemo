@@ -16,6 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
-        tools:listitem="@layout/item_in_theaters_recyclerview"></android.support.v7.widget.RecyclerView>
+        tools:listitem="@layout/item_recyclerview_in_theaters"></android.support.v7.widget.RecyclerView>
 </android.support.v4.widget.SwipeRefreshLayout>
 </FrameLayout>

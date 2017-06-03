@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion '25.0.3'
     defaultConfig {
         applicationId "com.android.oner0128.doubandemo"
         minSdkVersion 14
@@ -11,6 +11,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -53,4 +54,6 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     //greenDAO
     compile 'org.greenrobot:greendao:3.2.2'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:support-vector-drawable:25.3.1'
 }
