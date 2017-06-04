@@ -1,6 +1,7 @@
 package com.android.oner0128.doubandemo.view.activity;
 
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -160,7 +161,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(MainActivity.this, query, Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(getApplicationContext(), SearchMovieActivity.class);
+                intent.putExtra("SearchString",query);
+                startActivity(intent);
                 return false;
             }
 

@@ -65,7 +65,22 @@ public class APIService {
     public InTheatersService inTheatersService;
     public ComingsoonService mComingsoonService;
     public MovieDetailSevice mMovieDetailSevice;
+    public SearchMovieService mSearchMovieService;
     private static Object syncobj = new Object();
+    public SearchMovieService getSearchMovieService() {
+        if (mSearchMovieService == null) {
+            synchronized (syncobj) {
+                if (mSearchMovieService == null) {
+                    mSearchMovieService = new Retrofit.Builder()
+                            .baseUrl(BASE_MOVIE_URL)
+                            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .client(mOkHttpClient).build().create(SearchMovieService.class);
+                }
+            }
+        }
+        return mSearchMovieService;
+    }
     public ComingsoonService getComingsoonService() {
         if (mComingsoonService == null) {
             synchronized (syncobj) {

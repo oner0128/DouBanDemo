@@ -17,5 +17,6 @@
     <string name="title_Top250">Top250</string>
     <string name="title_inTheater">InTheaters</string>
     <string name="title_comingsoon">ComingSoon</string>
+    <string name="title_activity_search_movie">SearchMovieActivity</string>
 
 </resources>

@@ -21,14 +21,15 @@
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".view.activity.MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
         <provider
             android:name=".data.MoviesProvider"
             android:authorities="@string/authorities" />
@@ -38,7 +39,10 @@
             android:label="@string/title_activity_movie_detail"
             android:parentActivityName=".view.activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
+        <activity
+            android:name=".view.activity.SearchMovieActivity"
+            android:label="@string/title_activity_search_movie"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
