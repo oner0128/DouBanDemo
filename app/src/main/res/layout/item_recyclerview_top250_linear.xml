@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view_item_recycler_view"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/item_card_height"
     android:layout_marginTop="@dimen/card_margin_vertical"
     android:background="@color/white"
     android:foreground="?attr/selectableItemBackground"
@@ -13,7 +13,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/item_card_height"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <ImageView
@@ -43,14 +43,13 @@
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="@color/blue_primary_dark"
                     android:fontFamily="sans-serif"
                     android:layout_weight="1"
                     android:text="title" />
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_star_border_blue_20dp"
+                    app:srcCompat="@drawable/ic_star_black_24dp"
                     ></ImageView>
                 <TextView
                     android:id="@+id/tv_rating"
@@ -58,7 +57,6 @@
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="@color/blue_primary_dark"
                     android:text="tv_rating" />
             </LinearLayout>
             <TextView

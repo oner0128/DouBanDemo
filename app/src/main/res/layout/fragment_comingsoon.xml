@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_comingsoon"
@@ -19,5 +19,12 @@
             android:scrollbars="vertical"
             tools:listitem="@layout/item_recyclerview_comingsoon"></android.support.v7.widget.RecyclerView>
     </android.support.v4.widget.SwipeRefreshLayout>
-
-</FrameLayout>
+    <!--<android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="right|bottom"
+        app:srcCompat="@drawaic_search_white_24dp24dp"
+        android:elevation="6dp"
+        app:pressedTranslationZ="12dp"/>-->
+</android.support.design.widget.CoordinatorLayout>

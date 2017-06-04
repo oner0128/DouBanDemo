@@ -16,6 +16,7 @@ import com.android.oner0128.doubandemo.R;
 import com.android.oner0128.doubandemo.view.activity.MovieDetailActivity;
 import com.android.oner0128.doubandemo.bean.MovieBean;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -83,10 +84,11 @@ public class Top250AdapterLinear extends RecyclerView.Adapter<RecyclerView.ViewH
         if (holder instanceof UserViewHolder) {
             final MovieBean.Subjects movie = movies.get(position);
             UserViewHolder userViewHolder = (UserViewHolder) holder;
-            String imageViewURL = movie.getImages().getMedium();
+            String imageViewURL = movie.getImages().getSmall();
             Glide.with(mContext)
                     .load(imageViewURL)
                     .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
                     .placeholder(R.mipmap.ic_launcher)
                     .into(userViewHolder.imageView);
             userViewHolder.tv_title.setText(movie.getTitle());

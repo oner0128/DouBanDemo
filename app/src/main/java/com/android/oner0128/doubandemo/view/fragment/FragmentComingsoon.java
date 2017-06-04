@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -11,20 +12,15 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import com.android.oner0128.doubandemo.R;
 import com.android.oner0128.doubandemo.adapter.ComingsoonListCursorAdapter;
-import com.android.oner0128.doubandemo.adapter.InTheatersListCursorAdapter;
 import com.android.oner0128.doubandemo.bean.MovieBean;
 import com.android.oner0128.doubandemo.data.MoviesContract;
 import com.android.oner0128.doubandemo.presenter.ComingsoonPresenterImpl;
-import com.android.oner0128.doubandemo.presenter.InTheatersPresentImpl;
-import com.android.oner0128.doubandemo.util.CustomGridLayoutManager;
 import com.android.oner0128.doubandemo.util.RecyclerViewScrollListener;
 
 import butterknife.BindView;
@@ -36,7 +32,7 @@ import butterknife.ButterKnife;
 
 public class FragmentComingsoon extends Fragment implements ComingsoonView,LoaderManager.LoaderCallbacks<Cursor>,View.OnScrollChangeListener {
     @BindView(R.id.fragment_comingsoon)
-    FrameLayout fragment_comingsoon;
+    CoordinatorLayout fragment_comingsoon;
     @BindView(R.id.recycler_comingsoon)
     RecyclerView recycler_comingsoon;
     @BindView(R.id.swipe_layout)

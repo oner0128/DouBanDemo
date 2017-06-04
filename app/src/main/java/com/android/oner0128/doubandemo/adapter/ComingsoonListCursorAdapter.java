@@ -5,15 +5,19 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.android.oner0128.doubandemo.App;
 import com.android.oner0128.doubandemo.R;
+import com.android.oner0128.doubandemo.util.DensityUtil;
 import com.android.oner0128.doubandemo.view.activity.MovieDetailActivity;
 import com.android.oner0128.doubandemo.view.fragment.FragmentComingsoon;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,11 +31,10 @@ public class ComingsoonListCursorAdapter extends CursorRecyclerViewAdapter<Comin
     private final Context mContext;
     private final Fragment mFragment;
 
-
     public ComingsoonListCursorAdapter(Context context, Fragment fragment, Cursor cursor) {
         super(context, cursor);
         this.mContext = context;
-        this.mFragment=fragment;
+        this.mFragment = fragment;
     }
 
     @Override
@@ -45,21 +48,22 @@ public class ComingsoonListCursorAdapter extends CursorRecyclerViewAdapter<Comin
     public void onBindViewHolder(final ComingsoonListCursorAdapter.ViewHodler viewHolder, final Cursor cursor) {
         //movie_image
         String imagePosterURL = cursor.getString(FragmentComingsoon.COLUMN_IMAGE_POSTER);
-        final String title=cursor.getString(FragmentComingsoon.COLUMN_TITLE);
-        final String id=cursor.getString(FragmentComingsoon.COLUMN_DOUBAN_ID);
+        final String title = cursor.getString(FragmentComingsoon.COLUMN_TITLE);
+        final String id = cursor.getString(FragmentComingsoon.COLUMN_DOUBAN_ID);
         Glide.with(mFragment)
                 .load(imagePosterURL)
                 .placeholder(R.mipmap.ic_launcher)
-                .error(R.mipmap.ic_launcher_round)
-                .override(700, 933)
+//                .error(R.mipmap.ic_launcher_round)
+                .override(App.deviceWidthHeight[0], App.deviceWidthHeight[1])
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .centerCrop()
                 .into(viewHolder.imagePoster);
         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    Intent intent=new Intent(mContext, MovieDetailActivity.class);
-                intent.putExtra("MovieID",id);
-                intent.putExtra("MovieTitle",title);
+                Intent intent = new Intent(mContext, MovieDetailActivity.class);
+                intent.putExtra("MovieID", id);
+                intent.putExtra("MovieTitle", title);
                 mContext.startActivity(intent);
             }
         });
@@ -73,7 +77,7 @@ public class ComingsoonListCursorAdapter extends CursorRecyclerViewAdapter<Comin
         public ViewHodler(View itemView) {
             super(itemView);
             mView = itemView;
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

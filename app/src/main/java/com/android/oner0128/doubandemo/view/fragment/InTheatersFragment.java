@@ -15,14 +15,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ProgressBar;
 
 import com.android.oner0128.doubandemo.R;
 import com.android.oner0128.doubandemo.adapter.InTheatersListCursorAdapter;
 import com.android.oner0128.doubandemo.bean.MovieBean;
 import com.android.oner0128.doubandemo.data.MoviesContract;
 import com.android.oner0128.doubandemo.presenter.InTheatersPresentImpl;
-import com.android.oner0128.doubandemo.util.CustomGridLayoutManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -86,7 +84,7 @@ public class InTheatersFragment extends Fragment implements InTheatersView,Loade
 
     private void initView() {
         getActivity().getSupportLoaderManager().initLoader(MOVIES_LIST_LOADER_ID, null, this);
-        gridLayoutManager = new CustomGridLayoutManager(getContext(), 2);
+        gridLayoutManager = new GridLayoutManager(getContext(), 2);
         recycler_in_theaters.setLayoutManager(gridLayoutManager);
         recycler_in_theaters.setAdapter(mInTheatersListCursorAdapter);
         //swipe refresh

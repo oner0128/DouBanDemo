@@ -1,6 +1,5 @@
 package com.android.oner0128.doubandemo.view.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -10,10 +9,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.oner0128.doubandemo.R;
 import com.android.oner0128.doubandemo.adapter.ViewPagerAdapter;
@@ -23,6 +25,7 @@ import com.android.oner0128.doubandemo.view.fragment.Top250FragmentLinear;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     @BindView(R.id.viewpager)
@@ -36,32 +39,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @BindView(R.id.drawer_layout)
     DrawerLayout drawer;
 
+    SearchView mSearchView;
     long exitTime = 0;
     private TextView mTextMessage;
     private Top250FragmentLinear mTop250Fragment;
     private FragmentComingsoon mFragmentComingsoon;
     private InTheatersFragment mInTheatersFragment;
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//            switch (item.getItemId()) {
-//                case R.id.navigation_home:
-//                    mTextMessage.setText(R.string.title_Top250);
-//                    return true;
-//                case R.id.navigation_dashboard:
-//                    mTextMessage.setText(R.string.title_inTheater);
-//                    return true;
-//                case R.id.navigation_notifications:
-//                    mTextMessage.setText(R.string.title_notifications);
-//                    return true;
-//            }
-//            return false;
-            mViewPager.setCurrentItem(item.getOrder());
-            return true;
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView.setNavigationItemSelectedListener(this);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("DouBan");
+
         mBottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         setupViewPager(mViewPager);
     }
@@ -101,16 +85,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         @Override
         public void onPageSelected(int position) {
-//            if (prevMenuItem != null) {
-//                prevMenuItem.setChecked(false);
-//            }
-//            else
-//            {
-//                mBottomNavigationView.getMenu().getItem(0).setChecked(false);
-//            }
-//            Log.d("page", "onPageSelected: "+position);
-//            mBottomNavigationView.getMenu().getItem(position).setChecked(true);
-//            prevMenuItem = mBottomNavigationView.getMenu().getItem(position);
+            if (prevMenuItem != null) {
+                prevMenuItem.setChecked(false);
+            }
+            else
+            {
+                mBottomNavigationView.getMenu().getItem(0).setChecked(false);
+            }
+            Log.d("page", "onPageSelected: "+position);
+            mBottomNavigationView.getMenu().getItem(position).setChecked(true);
+            prevMenuItem = mBottomNavigationView.getMenu().getItem(position);
 
         }
 
@@ -119,10 +103,51 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
     };
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//            switch (item.getItemId()) {
+//                case R.id.navigation_home:
+//                    mTextMessage.setText(R.string.title_Top250);
+//                    return true;
+//                case R.id.navigation_dashboard:
+//                    mTextMessage.setText(R.string.title_inTheater);
+//                    return true;
+//                case R.id.navigation_notifications:
+//                    mTextMessage.setText(R.string.title_notifications);
+//                    return true;
+//            }
+//            return false;
+            mViewPager.setCurrentItem(item.getOrder());
+            return true;
+        }
+    };
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        // Get the SearchView and set the searchable configuration
+//        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        mSearchView = (SearchView) menu.findItem(R.id.search_view).getActionView();
+        // Assumes current activity is the searchable activity
+//        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        mSearchView.setIconifiedByDefault(true); // Do not iconify the widget; expand it by default
+        mSearchView.setQueryHint("影片名称...");
+        mSearchView.setSubmitButtonEnabled(true);
+        mSearchView.setQueryRefinementEnabled(true);
+        mSearchView.setOnQueryTextListener(new     SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Toast.makeText(MainActivity.this,query,Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
         return true;
     }
 
@@ -137,9 +162,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.action_about) {
             return true;
         }
-
+        if (id == R.id.search_view) {
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -148,13 +176,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             if (System.currentTimeMillis() - exitTime > 2000) {
 //                Snackbar.make(frameLayout, "再点一次，退出", Snackbar.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"再点一次，退出",Toast.LENGTH_LONG).show();
                 exitTime = System.currentTimeMillis();
-            } else{
-                super.onBackPressed();
-                Intent intent = new Intent(Intent.ACTION_MAIN);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.addCategory(Intent.CATEGORY_HOME);
-                startActivity(intent);}
+            }
         }
     }
 

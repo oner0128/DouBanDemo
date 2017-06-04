@@ -90,7 +90,7 @@ public class Top250FragmentLinear extends Fragment implements Top250View {
                         mTop250Adapter.clearData();
                         loadMovies();
                     }
-                }, 1000);
+                }, 500);
             }
         });
         //loading more
@@ -106,7 +106,7 @@ public class Top250FragmentLinear extends Fragment implements Top250View {
                             count = 10;
                             mTop250PresentImpl.loadingMoreMovie(start, count);
                         }
-                    }, 800);
+                    }, 500);
                 } else {
                     Toast.makeText(getActivity(), "Loading data completed", Toast.LENGTH_SHORT).show();
                 }

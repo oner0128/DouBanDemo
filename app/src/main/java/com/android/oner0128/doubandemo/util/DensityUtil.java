@@ -14,10 +14,7 @@ public class DensityUtil {
 	private static int[] deviceWidthHeight = new int[2];
 	public static int[] getDeviceInfo(Context context) {
 		if ((deviceWidthHeight[0] == 0) && (deviceWidthHeight[1] == 0)) {
-			DisplayMetrics metrics = new DisplayMetrics();
-			((Activity) context).getWindowManager().getDefaultDisplay()
-					.getMetrics(metrics);
-
+			DisplayMetrics metrics = context.getResources().getDisplayMetrics();
 			deviceWidthHeight[0] = metrics.widthPixels;
 			deviceWidthHeight[1] = metrics.heightPixels;
 		}

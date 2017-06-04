@@ -1,4 +1,4 @@
-apply plugin: 'org.greenrobot.greendao' // apply plugin
+//apply plugin: 'org.greenrobot.greendao' // apply plugin
 apply plugin: 'com.android.application'
 
 android {
@@ -6,7 +6,7 @@ android {
     buildToolsVersion '25.0.3'
     defaultConfig {
         applicationId "com.android.oner0128.doubandemo"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -19,16 +19,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets {
-        main.java.srcDirs += 'build/generated/source/greendao'
-    }
+//    sourceSets {
+//        main.java.srcDirs += 'build/generated/source/greendao'
+//    }
     productFlavors {
     }
 }
-greendao {
-    schemaVersion 1
-    targetGenDir 'src/main/java'
-}
+//greendao {
+//    schemaVersion 1
+//    targetGenDir 'src/main/java'
+//}
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -53,7 +53,8 @@ dependencies {
     compile 'com.android.support:cardview-v7:25.3.1'
     compile 'com.android.support:multidex:1.0.1'
     //greenDAO
-    compile 'org.greenrobot:greendao:3.2.2'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    //compile 'org.greenrobot:greendao:3.2.2'
+
     compile 'com.android.support:support-vector-drawable:25.3.1'
+    compile 'com.github.githubwing:ByeBurger:1.2.3'
 }

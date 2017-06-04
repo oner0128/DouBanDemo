@@ -5,15 +5,19 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.android.oner0128.doubandemo.App;
 import com.android.oner0128.doubandemo.R;
+import com.android.oner0128.doubandemo.util.DensityUtil;
 import com.android.oner0128.doubandemo.view.activity.MovieDetailActivity;
 import com.android.oner0128.doubandemo.view.fragment.InTheatersFragment;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,7 +30,6 @@ public class InTheatersListCursorAdapter extends CursorRecyclerViewAdapter<InThe
     private final String LOG_TAG = InTheatersListCursorAdapter.class.getSimpleName();
     private final Context mContext;
     private final Fragment mFragment;
-
 
     public InTheatersListCursorAdapter(Context context,Fragment fragment, Cursor cursor) {
         super(context, cursor);
@@ -50,8 +53,8 @@ public class InTheatersListCursorAdapter extends CursorRecyclerViewAdapter<InThe
         Glide.with(mFragment)
                 .load(imagePosterURL)
                 .placeholder(R.mipmap.ic_launcher)
-                .error(R.mipmap.ic_launcher_round)
-                .override(700, 933)
+                .override(App.deviceWidthHeight[0], App.deviceWidthHeight[1])
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .centerCrop()
                 .into(viewHolder.imagePoster);
         viewHolder.mView.setOnClickListener(new View.OnClickListener() {

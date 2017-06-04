@@ -5,7 +5,6 @@ import com.android.oner0128.doubandemo.util.IntenetUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
 import okhttp3.Interceptor;
