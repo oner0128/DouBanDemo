@@ -56,4 +56,5 @@ dependencies {
     //compile 'org.greenrobot:greendao:3.2.2'
     compile 'com.android.support:support-vector-drawable:+'
     compile 'com.github.githubwing:ByeBurger:1.2.3'
+    compile 'com.android.support:support-v4:25.3.1'
 }

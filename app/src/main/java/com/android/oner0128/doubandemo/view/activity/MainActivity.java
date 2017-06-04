@@ -1,8 +1,10 @@
 package com.android.oner0128.doubandemo.view.activity;
 
+import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -14,15 +16,15 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.view.View;
 import android.widget.Toast;
 
 import com.android.oner0128.doubandemo.R;
 import com.android.oner0128.doubandemo.adapter.ViewPagerAdapter;
+import com.android.oner0128.doubandemo.view.fragment.AboutDialog;
 import com.android.oner0128.doubandemo.view.fragment.FragmentComingsoon;
 import com.android.oner0128.doubandemo.view.fragment.InTheatersFragment;
 import com.android.oner0128.doubandemo.view.fragment.Top250FragmentLinear;
-import com.wingsofts.byeburgernavigationview.ByeBurgerBehavior;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,7 +33,7 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     @BindView(R.id.viewpager)
     ViewPager mViewPager;
-    @BindView(R.id.navigation)
+    @BindView(R.id.bottom_navigation)
     BottomNavigationView mBottomNavigationView;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
@@ -39,13 +41,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawer;
-
+    @BindView(R.id.fab_share)
+    FloatingActionButton mFloatingActionButton;
     SearchView mSearchView;
     long exitTime = 0;
     private Top250FragmentLinear mTop250Fragment;
     private FragmentComingsoon mFragmentComingsoon;
     private InTheatersFragment mInTheatersFragment;
-
+//    private android.support.v4.app.FragmentManager fragmentManager=getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,13 +59,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-        
+
         navigationView.setNavigationItemSelectedListener(this);
         setSupportActionBar(toolbar);
         //set title
         getSupportActionBar().setTitle(getString(R.string.title_inTheater));
         mBottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         setupViewPager(mViewPager);
+
+        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog();
+            }
+        });
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -171,6 +181,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_about) {
+//            DialogFragment newFragment = new AboutFragment();
+//            newFragment.show(getFragmentManager(), "about");
+            showDialog();
             return true;
         }
         if (id == R.id.search_view) {
@@ -178,7 +191,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         return super.onOptionsItemSelected(item);
     }
-
+    private void showDialog() {
+        DialogFragment newFragment = new AboutDialog();
+        newFragment.show(getFragmentManager(), "about");
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -189,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                Snackbar.make(frameLayout, "再点一次，退出", Snackbar.LENGTH_LONG).show();
                 Toast.makeText(getApplicationContext(), "再点一次，退出", Toast.LENGTH_LONG).show();
                 exitTime = System.currentTimeMillis();
-            }else  super.onBackPressed();
+            } else super.onBackPressed();
         }
     }
 
