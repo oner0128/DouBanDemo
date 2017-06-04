@@ -22,12 +22,13 @@ import com.android.oner0128.doubandemo.adapter.ViewPagerAdapter;
 import com.android.oner0128.doubandemo.view.fragment.FragmentComingsoon;
 import com.android.oner0128.doubandemo.view.fragment.InTheatersFragment;
 import com.android.oner0128.doubandemo.view.fragment.Top250FragmentLinear;
+import com.wingsofts.byeburgernavigationview.ByeBurgerBehavior;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     @BindView(R.id.viewpager)
     ViewPager mViewPager;
     @BindView(R.id.navigation)
@@ -41,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     SearchView mSearchView;
     long exitTime = 0;
-    private TextView mTextMessage;
     private Top250FragmentLinear mTop250Fragment;
     private FragmentComingsoon mFragmentComingsoon;
     private InTheatersFragment mInTheatersFragment;
@@ -56,19 +56,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
+        
         navigationView.setNavigationItemSelectedListener(this);
         setSupportActionBar(toolbar);
-
+        //set title
+        getSupportActionBar().setTitle(getString(R.string.title_inTheater));
         mBottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         setupViewPager(mViewPager);
     }
-    private void setupViewPager(ViewPager viewPager)
-    {
+
+    private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        mTop250Fragment=Top250FragmentLinear.getInstance();
-        mFragmentComingsoon=FragmentComingsoon.getInstance();
-        mInTheatersFragment=InTheatersFragment.getInstance();
+        mTop250Fragment = Top250FragmentLinear.getInstance();
+        mFragmentComingsoon = FragmentComingsoon.getInstance();
+        mInTheatersFragment = InTheatersFragment.getInstance();
         adapter.addFragment(mInTheatersFragment);
         adapter.addFragment(mTop250Fragment);
         adapter.addFragment(mFragmentComingsoon);
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private MenuItem prevMenuItem;
-    private ViewPager.OnPageChangeListener onPageChangeListener=new ViewPager.OnPageChangeListener() {
+    private ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -87,15 +88,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         public void onPageSelected(int position) {
             if (prevMenuItem != null) {
                 prevMenuItem.setChecked(false);
-            }
-            else
-            {
+            } else {
                 mBottomNavigationView.getMenu().getItem(0).setChecked(false);
             }
-            Log.d("page", "onPageSelected: "+position);
+            Log.d("page", "onPageSelected: " + position);
             mBottomNavigationView.getMenu().getItem(position).setChecked(true);
             prevMenuItem = mBottomNavigationView.getMenu().getItem(position);
-
         }
 
         @Override
@@ -121,9 +119,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            }
 //            return false;
             mViewPager.setCurrentItem(item.getOrder());
+            switch (item.getOrder()) {
+                case 0:
+                    getSupportActionBar().setTitle(getString(R.string.title_inTheater));
+                    return true;
+                case 1:
+                    getSupportActionBar().setTitle(getString(R.string.title_Top250));
+                    return true;
+                case 2:
+                    getSupportActionBar().setTitle(getString(R.string.title_comingsoon));
+                    return true;
+            }
             return true;
         }
     };
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -137,12 +147,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mSearchView.setQueryHint("影片名称...");
         mSearchView.setSubmitButtonEnabled(true);
         mSearchView.setQueryRefinementEnabled(true);
-        mSearchView.setOnQueryTextListener(new     SearchView.OnQueryTextListener() {
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(MainActivity.this,query,Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, query, Toast.LENGTH_SHORT).show();
                 return false;
             }
+
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
@@ -176,9 +187,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             if (System.currentTimeMillis() - exitTime > 2000) {
 //                Snackbar.make(frameLayout, "再点一次，退出", Snackbar.LENGTH_LONG).show();
-                Toast.makeText(getApplicationContext(),"再点一次，退出",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "再点一次，退出", Toast.LENGTH_LONG).show();
                 exitTime = System.currentTimeMillis();
-            }
+            }else  super.onBackPressed();
         }
     }
 

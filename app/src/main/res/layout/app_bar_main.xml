@@ -16,21 +16,16 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
-
-    <LinearLayout
-        android:id="@+id/container"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             >
         </android.support.v4.view.ViewPager>
 
@@ -41,9 +36,17 @@
             android:layout_gravity="bottom"
             android:elevation="2dp"
             android:translationZ="2dp"
+            app:layout_behavior="@string/bye_burger_bottom_behavior"
             android:background="?android:attr/windowBackground"
             app:menu="@menu/bottom_navigation" />
-
-    </LinearLayout>
-
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="70dp"
+        android:layout_marginRight="10dp"
+        app:srcCompat="@drawable/ic_comingsoon_black_24dp"
+        app:layout_behavior="@string/bye_burger_float_behavior"
+        app:layout_scrollFlags="scroll|enterAlways" />
 </android.support.design.widget.CoordinatorLayout>

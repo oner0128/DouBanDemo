@@ -68,8 +68,7 @@ public class MovieDetailActivity extends AppCompatActivity implements BaseView {
         if (intent != null) {
             title = intent.getStringExtra("MovieTitle");
             id = intent.getStringExtra("MovieID");
-            Log.v("detail id", id);
-            Log.v("detail title", title);
+            Log.v("Moviedetail ", "id:"+id+"-title:"+title);
             getSupportActionBar().setTitle(title);
         }
         fab.setBackgroundColor(getResources().getColor(R.color.color_fab_scrolling));
