@@ -23,7 +23,7 @@ import android.widget.Toast;
 import com.android.oner0128.doubandemo.R;
 import com.android.oner0128.doubandemo.adapter.ViewPagerAdapter;
 import com.android.oner0128.doubandemo.view.fragment.AboutDialog;
-import com.android.oner0128.doubandemo.view.fragment.FragmentComingsoon;
+import com.android.oner0128.doubandemo.view.fragment.ComingsoonFragment;
 import com.android.oner0128.doubandemo.view.fragment.InTheatersFragment;
 import com.android.oner0128.doubandemo.view.fragment.Top250FragmentLinear;
 
@@ -31,23 +31,21 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
     @BindView(R.id.viewpager)
     ViewPager mViewPager;
     @BindView(R.id.bottom_navigation)
     BottomNavigationView mBottomNavigationView;
-    @BindView(R.id.nav_view)
-    NavigationView navigationView;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.drawer_layout)
-    DrawerLayout drawer;
+
     @BindView(R.id.fab_share)
     FloatingActionButton mFloatingActionButton;
     SearchView mSearchView;
     long exitTime = 0;
     private Top250FragmentLinear mTop250Fragment;
-    private FragmentComingsoon mFragmentComingsoon;
+    private ComingsoonFragment mComingsoonFragment;
     private InTheatersFragment mInTheatersFragment;
 //    private android.support.v4.app.FragmentManager fragmentManager=getSupportFragmentManager();
 
@@ -56,12 +54,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        navigationView.setNavigationItemSelectedListener(this);
         setSupportActionBar(toolbar);
         //set title
         getSupportActionBar().setTitle(getString(R.string.title_inTheater));
@@ -79,11 +71,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         mTop250Fragment = Top250FragmentLinear.getInstance();
-        mFragmentComingsoon = FragmentComingsoon.getInstance();
+        mComingsoonFragment = ComingsoonFragment.getInstance();
         mInTheatersFragment = InTheatersFragment.getInstance();
         adapter.addFragment(mInTheatersFragment);
         adapter.addFragment(mTop250Fragment);
-        adapter.addFragment(mFragmentComingsoon);
+        adapter.addFragment(mComingsoonFragment);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(onPageChangeListener);
     }
@@ -161,8 +153,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Intent intent=new Intent(getApplicationContext(), SearchMovieActivity.class);
-                intent.putExtra("SearchString",query);
+                Intent intent = new Intent(getApplicationContext(), SearchMovieActivity.class);
+                intent.putExtra("SearchString", query);
                 startActivity(intent);
                 return false;
             }
@@ -194,46 +186,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         return super.onOptionsItemSelected(item);
     }
+
     private void showDialog() {
         DialogFragment newFragment = new AboutDialog();
         newFragment.show(getFragmentManager(), "about");
     }
+
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
             if (System.currentTimeMillis() - exitTime > 2000) {
 //                Snackbar.make(frameLayout, "再点一次，退出", Snackbar.LENGTH_LONG).show();
                 Toast.makeText(getApplicationContext(), "再点一次，退出", Toast.LENGTH_LONG).show();
                 exitTime = System.currentTimeMillis();
-            } else super.onBackPressed();
-        }
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle bottom_navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_Top250_grid) {
-
-        } else if (id == R.id.nav_in_theaters) {
-
-        } else if (id == R.id.nav_top250_linear) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+            } else {
+//                super.onBackPressed();
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                startActivity(intent);
+            }
     }
 }

@@ -17,7 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.oner0128.doubandemo.R;
-import com.android.oner0128.doubandemo.adapter.ComingsoonListCursorAdapter;
+import com.android.oner0128.doubandemo.adapter.GridLayoutCursorAdapter;
 import com.android.oner0128.doubandemo.bean.MovieBean;
 import com.android.oner0128.doubandemo.data.MoviesContract;
 import com.android.oner0128.doubandemo.presenter.ComingsoonPresenterImpl;
@@ -30,7 +30,7 @@ import butterknife.ButterKnife;
  * Created by rrr on 2017/5/7.
  */
 
-public class FragmentComingsoon extends Fragment implements ComingsoonView,LoaderManager.LoaderCallbacks<Cursor>,View.OnScrollChangeListener {
+public class ComingsoonFragment extends Fragment implements ComingsoonView,LoaderManager.LoaderCallbacks<Cursor>,View.OnScrollChangeListener {
     @BindView(R.id.fragment_comingsoon)
     CoordinatorLayout fragment_comingsoon;
     @BindView(R.id.recycler_comingsoon)
@@ -40,9 +40,9 @@ public class FragmentComingsoon extends Fragment implements ComingsoonView,Loade
 //    @BindView(R.id.toolbar)
 //    Toolbar toolbar;
     GridLayoutManager gridLayoutManager;
-    ComingsoonListCursorAdapter mComingsoonListCursorAdapter;
+    GridLayoutCursorAdapter mGridLayoutCursorAdapter;
     ComingsoonPresenterImpl mComingsoonPresenterImpl;
-    public static FragmentComingsoon INSTANCE;
+    public static ComingsoonFragment INSTANCE;
     public final String[] MOVIEDS_COLUNMS = {
             MoviesContract.ComingsoonMoviesEntry._ID,
             MoviesContract.ComingsoonMoviesEntry.COLUMN_TITLE,
@@ -54,11 +54,11 @@ public class FragmentComingsoon extends Fragment implements ComingsoonView,Loade
     public static final int COLUMN_DOUBAN_ID = 2;
     public static final int COLUMN_IMAGE_POSTER = 3;
     private static final int MOVIES_LIST_LOADER_ID = 2;
-    private static final String LOG_TAG = FragmentComingsoon.class.getSimpleName();
-    public static FragmentComingsoon getInstance() {
+    private static final String LOG_TAG = ComingsoonFragment.class.getSimpleName();
+    public static ComingsoonFragment getInstance() {
         if (INSTANCE == null) {
-            synchronized (FragmentComingsoon.class) {
-                if (INSTANCE == null) INSTANCE = new FragmentComingsoon();
+            synchronized (ComingsoonFragment.class) {
+                if (INSTANCE == null) INSTANCE = new ComingsoonFragment();
             }
         }
         return INSTANCE;
@@ -81,7 +81,7 @@ public class FragmentComingsoon extends Fragment implements ComingsoonView,Loade
     }
 
     private void initPresenterAndAdapter() {
-        mComingsoonListCursorAdapter = new ComingsoonListCursorAdapter(getContext(),this,null);
+        mGridLayoutCursorAdapter = new GridLayoutCursorAdapter(getContext(),this,null);
         mComingsoonPresenterImpl = new ComingsoonPresenterImpl(getActivity(),this);
     }
 
@@ -89,7 +89,7 @@ public class FragmentComingsoon extends Fragment implements ComingsoonView,Loade
         getActivity().getSupportLoaderManager().initLoader(MOVIES_LIST_LOADER_ID, null, this);
 //        gridLayoutManager = new CustomGridLayoutManager(getContext(), 2);
         recycler_comingsoon.setLayoutManager(new GridLayoutManager(getContext(),2));
-        recycler_comingsoon.setAdapter(mComingsoonListCursorAdapter);
+        recycler_comingsoon.setAdapter(mGridLayoutCursorAdapter);
         //swipe refresh
         mSwipeRefreshLayout.setColorSchemeResources(R.color.blue_primary_dark, R.color.blue_primary_light, R.color.color_fab_scrolling);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -164,12 +164,12 @@ public class FragmentComingsoon extends Fragment implements ComingsoonView,Loade
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        mComingsoonListCursorAdapter.swapCursor(data);
+        mGridLayoutCursorAdapter.swapCursor(data);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        mComingsoonListCursorAdapter.swapCursor(null);
+        mGridLayoutCursorAdapter.swapCursor(null);
     }
 
     @Override

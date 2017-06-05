@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.android.oner0128.doubandemo.R;
-import com.android.oner0128.doubandemo.adapter.InTheatersListCursorAdapter;
+import com.android.oner0128.doubandemo.adapter.GridLayoutCursorAdapter;
 import com.android.oner0128.doubandemo.bean.MovieBean;
 import com.android.oner0128.doubandemo.data.MoviesContract;
 import com.android.oner0128.doubandemo.presenter.InTheatersPresentImpl;
@@ -36,7 +36,7 @@ public class InTheatersFragment extends Fragment implements InTheatersView,Loade
     RecyclerView recycler_in_theaters;
     @BindView(R.id.swipe_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
-    InTheatersListCursorAdapter mInTheatersListCursorAdapter;
+    GridLayoutCursorAdapter mInTheatersListCursorAdapter;
     GridLayoutManager gridLayoutManager;
     InTheatersPresentImpl inTheatersPresentImpl;
     public static InTheatersFragment INSTANCE;
@@ -78,7 +78,7 @@ public class InTheatersFragment extends Fragment implements InTheatersView,Loade
     }
 
     private void initPresenterAndAdapter() {
-        mInTheatersListCursorAdapter = new InTheatersListCursorAdapter(getContext(),this,null);
+        mInTheatersListCursorAdapter = new GridLayoutCursorAdapter(getContext(),this,null);
         inTheatersPresentImpl = new InTheatersPresentImpl(getActivity(),this);
     }
 

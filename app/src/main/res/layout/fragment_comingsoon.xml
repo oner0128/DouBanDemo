@@ -4,7 +4,7 @@
     android:id="@+id/fragment_comingsoon"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:mContext="com.android.oner0128.doubandemo.view.fragment.FragmentComingsoon">
+    tools:mContext="com.android.oner0128.doubandemo.view.fragment.ComingsoonFragment">
     <!-- TODO: Update blank fragment layout -->
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"
-            tools:listitem="@layout/item_recyclerview_comingsoon"></android.support.v7.widget.RecyclerView>
+            tools:listitem="@layout/item_recyclerview_grid"></android.support.v7.widget.RecyclerView>
     </android.support.v4.widget.SwipeRefreshLayout>
     <!--<android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

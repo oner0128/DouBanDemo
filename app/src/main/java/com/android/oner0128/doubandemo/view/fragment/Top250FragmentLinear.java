@@ -106,7 +106,7 @@ public class Top250FragmentLinear extends Fragment implements Top250View {
                             count = 10;
                             mTop250PresentImpl.loadingMoreMovie(start, count);
                         }
-                    }, 500);
+                    }, 10);
                 } else {
                     Toast.makeText(getActivity(), "Loading data completed", Toast.LENGTH_SHORT).show();
                 }

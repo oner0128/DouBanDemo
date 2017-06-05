@@ -61,82 +61,22 @@ public class APIService {
 //            .addInterceptor(CACHE_CONTROL_INTERCEPTOP).writeTimeout(5, TimeUnit.SECONDS)
             .cache(cache).build();
 
-    public Top250Service mTop250Service;
-    public InTheatersService inTheatersService;
-    public ComingsoonService mComingsoonService;
-    public MovieDetailSevice mMovieDetailSevice;
-    public SearchMovieService mSearchMovieService;
+    public DouBanService mDouBanService;
+
     private static Object syncobj = new Object();
-    public SearchMovieService getSearchMovieService() {
-        if (mSearchMovieService == null) {
-            synchronized (syncobj) {
-                if (mSearchMovieService == null) {
-                    mSearchMovieService = new Retrofit.Builder()
-                            .baseUrl(BASE_MOVIE_URL)
-                            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                            .addConverterFactory(GsonConverterFactory.create())
-                            .client(mOkHttpClient).build().create(SearchMovieService.class);
-                }
-            }
-        }
-        return mSearchMovieService;
-    }
-    public ComingsoonService getComingsoonService() {
-        if (mComingsoonService == null) {
-            synchronized (syncobj) {
-                if (mComingsoonService == null) {
-                    mComingsoonService = new Retrofit.Builder()
-                            .baseUrl(BASE_MOVIE_URL)
-                            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                            .addConverterFactory(GsonConverterFactory.create())
-                            .client(mOkHttpClient).build().create(ComingsoonService.class);
-                }
-            }
-        }
-        return mComingsoonService;
-    }
-    public Top250Service getTop250Service() {
-        if (mTop250Service == null) {
-            synchronized (syncobj) {
-                if (mTop250Service == null) {
-                    mTop250Service = new Retrofit.Builder()
-                            .baseUrl(BASE_MOVIE_URL)
-                            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                            .addConverterFactory(GsonConverterFactory.create())
-                            .client(mOkHttpClient).build().create(Top250Service.class);
-                }
-            }
-        }
-        return mTop250Service;
-    }
 
-    public MovieDetailSevice getMovieDetailSevice() {
-        if (mMovieDetailSevice == null) {
+    public DouBanService getDouBanService() {
+        if (mDouBanService == null) {
             synchronized (syncobj) {
-                if (mMovieDetailSevice == null) {
-                    mMovieDetailSevice = new Retrofit.Builder()
+                if (mDouBanService == null) {
+                    mDouBanService = new Retrofit.Builder()
                             .baseUrl(BASE_MOVIE_URL)
                             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                             .addConverterFactory(GsonConverterFactory.create())
-                            .client(mOkHttpClient).build().create(MovieDetailSevice.class);
+                            .client(mOkHttpClient).build().create(DouBanService.class);
                 }
             }
         }
-        return mMovieDetailSevice;
-    }
-
-    public InTheatersService getInTheatersService() {
-        if (inTheatersService == null) {
-            synchronized (syncobj) {
-                if (inTheatersService == null) {
-                    inTheatersService = new Retrofit.Builder()
-                            .baseUrl(BASE_MOVIE_URL)
-                            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                            .addConverterFactory(GsonConverterFactory.create())
-                            .client(mOkHttpClient).build().create(InTheatersService.class);
-                }
-            }
-        }
-        return inTheatersService;
+        return mDouBanService;
     }
 }

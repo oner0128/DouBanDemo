@@ -1,7 +1,6 @@
 package com.android.oner0128.doubandemo.presenter;
 
 import android.app.Activity;
-import android.util.Log;
 
 import com.android.oner0128.doubandemo.api.APIService;
 import com.android.oner0128.doubandemo.bean.MovieBean;
@@ -31,7 +30,7 @@ public class InTheatersPresentImpl extends BasePresenterImpl implements InTheate
     @Override
     public void getInTheatersMovies() {
         fragment.showProgressDialog();
-        Disposable disposable = APIService.getINSTANCE().getInTheatersService()
+        Disposable disposable = APIService.getINSTANCE().getDouBanService()
                 .getInTheatersMovies()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

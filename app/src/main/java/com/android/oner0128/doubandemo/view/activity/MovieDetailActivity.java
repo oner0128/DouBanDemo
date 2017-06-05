@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewStub;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -17,7 +16,8 @@ import android.widget.Toast;
 
 import com.android.oner0128.doubandemo.R;
 import com.android.oner0128.doubandemo.api.APIService;
-import com.android.oner0128.doubandemo.bean.MoiveDetailBean;
+import com.android.oner0128.doubandemo.bean.MovieBean;
+import com.android.oner0128.doubandemo.bean.MovieDetailBean;
 import com.android.oner0128.doubandemo.view.BaseView;
 import com.bumptech.glide.Glide;
 
@@ -91,17 +91,17 @@ public class MovieDetailActivity extends AppCompatActivity implements BaseView {
 
     private void getMovieDetail() {
         if (id != null) {
-            APIService.getINSTANCE().getMovieDetailSevice()
+            APIService.getINSTANCE().getDouBanService()
                     .getMovieDetail(id).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<MoiveDetailBean>() {
+                    .subscribe(new Observer<MovieDetailBean>() {
                         @Override
                         public void onSubscribe(@NonNull Disposable d) {
 
                         }
 
                         @Override
-                        public void onNext(@NonNull MoiveDetailBean moiveDetailBean) {
+                        public void onNext(@NonNull MovieDetailBean moiveDetailBean) {
                             hideProgressDialog();
 //                            Log.v("detail",moiveDetailBean.getImages().getLarge());
                             Glide.with(getApplicationContext()).

@@ -1,12 +1,9 @@
 package com.android.oner0128.doubandemo.presenter;
 
-import android.util.Log;
-
 import com.android.oner0128.doubandemo.api.APIService;
 import com.android.oner0128.doubandemo.bean.MovieBean;
 import com.android.oner0128.doubandemo.view.fragment.Top250FragmentLinear;
 
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
@@ -26,7 +23,7 @@ public class Top250PresenterImplLinear extends BasePresenterImpl implements Top2
     @Override
     public void getMovieList(int start, int count) {
         fragment.showProgressDialog();
-        Disposable disposable = APIService.getINSTANCE().getTop250Service()
+        Disposable disposable = APIService.getINSTANCE().getDouBanService()
                 .getTop250Movies(start, count)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -56,7 +53,7 @@ public class Top250PresenterImplLinear extends BasePresenterImpl implements Top2
 
     @Override
     public void loadingMoreMovie(int start, int count) {
-        Disposable disposable = APIService.getINSTANCE().getTop250Service()
+        Disposable disposable = APIService.getINSTANCE().getDouBanService()
                 .getTop250Movies(start, count)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

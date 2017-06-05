@@ -104,6 +104,7 @@ public class SearchMovieActivityFragment extends Fragment implements SearchView 
                     Snackbar.LENGTH_INDEFINITE).setAction("重试", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    mAdapter.clearData();
                     mSearchPresenterImpl.getSearchList(searchString);
                 }
             }).show();

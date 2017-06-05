@@ -27,14 +27,14 @@ public class SearchPresenterImpl extends BasePresenterImpl implements SearchPres
     @Override
     public void getSearchList(String searchString) {
         fragment.showProgressDialog();
-        Disposable disposable = APIService.getINSTANCE().getSearchMovieService()
+        Disposable disposable = APIService.getINSTANCE().getDouBanService()
                 .getSearchMovies(searchString)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<MovieBean>() {
                     @Override
                     public void onNext(@NonNull MovieBean movieBean) {
-                        Log.d("Test",movieBean.getCount()+movieBean.getTitle());
+//                        Log.d("Test",movieBean.getCount()+movieBean.getTitle());
                         fragment.hideProgressDialog();
                         fragment.updateListItem(movieBean);
                     }
@@ -48,7 +48,7 @@ public class SearchPresenterImpl extends BasePresenterImpl implements SearchPres
 
                     @Override
                     public void onComplete() {
-                        Log.e("onComplete","onComplete");
+//                        Log.e("onComplete","onComplete");
                     }
                 });
         addDisposabe(disposable);

@@ -5,8 +5,7 @@ import android.app.Activity;
 import com.android.oner0128.doubandemo.api.APIService;
 import com.android.oner0128.doubandemo.bean.MovieBean;
 import com.android.oner0128.doubandemo.util.PutMoviesToSQLite;
-import com.android.oner0128.doubandemo.view.fragment.FragmentComingsoon;
-import com.android.oner0128.doubandemo.view.fragment.InTheatersFragment;
+import com.android.oner0128.doubandemo.view.fragment.ComingsoonFragment;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -19,19 +18,19 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class ComingsoonPresenterImpl extends BasePresenterImpl implements ComingsoonPresenter {
-    FragmentComingsoon fragment;
+    ComingsoonFragment fragment;
     Activity activity;
-    public ComingsoonPresenterImpl(FragmentComingsoon fragment) {
+    public ComingsoonPresenterImpl(ComingsoonFragment fragment) {
         this.fragment = fragment;
     }
-    public ComingsoonPresenterImpl(Activity activity, FragmentComingsoon fragment) {
+    public ComingsoonPresenterImpl(Activity activity, ComingsoonFragment fragment) {
         this.fragment = fragment;
         this.activity=activity;
     }
     @Override
     public void getComingsoonMovies() {
         fragment.showProgressDialog();
-        Disposable disposable = APIService.getINSTANCE().getComingsoonService()
+        Disposable disposable = APIService.getINSTANCE().getDouBanService()
                 .getComingsoonMovies()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
