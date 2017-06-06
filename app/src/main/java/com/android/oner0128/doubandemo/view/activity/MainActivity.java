@@ -26,6 +26,7 @@ import com.android.oner0128.doubandemo.view.fragment.AboutDialog;
 import com.android.oner0128.doubandemo.view.fragment.ComingsoonFragment;
 import com.android.oner0128.doubandemo.view.fragment.InTheatersFragment;
 import com.android.oner0128.doubandemo.view.fragment.Top250FragmentLinear;
+import com.android.oner0128.doubandemo.view.fragment.ZhihuFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private Top250FragmentLinear mTop250Fragment;
     private ComingsoonFragment mComingsoonFragment;
     private InTheatersFragment mInTheatersFragment;
+    private ZhihuFragment mZhihuFragment;
 //    private android.support.v4.app.FragmentManager fragmentManager=getSupportFragmentManager();
 
     @Override
@@ -73,9 +75,13 @@ public class MainActivity extends AppCompatActivity {
         mTop250Fragment = Top250FragmentLinear.getInstance();
         mComingsoonFragment = ComingsoonFragment.getInstance();
         mInTheatersFragment = InTheatersFragment.getInstance();
+        mZhihuFragment = ZhihuFragment.getInstance();
+
         adapter.addFragment(mInTheatersFragment);
         adapter.addFragment(mTop250Fragment);
         adapter.addFragment(mComingsoonFragment);
+        adapter.addFragment(mZhihuFragment);
+
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(onPageChangeListener);
     }
@@ -131,6 +137,9 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case 2:
                     getSupportActionBar().setTitle(getString(R.string.title_comingsoon));
+                    return true;
+                case 3:
+                    getSupportActionBar().setTitle("zhihu");
                     return true;
             }
             return true;

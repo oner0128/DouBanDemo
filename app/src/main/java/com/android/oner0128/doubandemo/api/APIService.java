@@ -20,6 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class APIService {
     private static final String BASE_MOVIE_URL = "https://api.douban.com/v2/movie/";
+    private static final String BASE_ZHIHU_URL = "https://news-at.zhihu.com/api/4/";
     private static final Interceptor CACHE_CONTROL_INTERCEPTOP = new Interceptor() {
         @Override
         public Response intercept(Chain chain) throws IOException {
@@ -61,8 +62,8 @@ public class APIService {
 //            .addInterceptor(CACHE_CONTROL_INTERCEPTOP).writeTimeout(5, TimeUnit.SECONDS)
             .cache(cache).build();
 
-    public DouBanService mDouBanService;
-
+    private DouBanService mDouBanService;
+    private ZhihuService mZhihuService;
     private static Object syncobj = new Object();
 
     public DouBanService getDouBanService() {
@@ -78,5 +79,19 @@ public class APIService {
             }
         }
         return mDouBanService;
+    }
+    public ZhihuService getZhihuService() {
+        if (mZhihuService == null) {
+            synchronized (syncobj) {
+                if (mZhihuService == null) {
+                    mZhihuService = new Retrofit.Builder()
+                            .baseUrl(BASE_ZHIHU_URL)
+                            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .client(mOkHttpClient).build().create(ZhihuService.class);
+                }
+            }
+        }
+        return mZhihuService;
     }
 }

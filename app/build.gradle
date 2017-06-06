@@ -61,4 +61,6 @@ dependencies {
     compile 'com.github.githubwing:ByeBurger:1.2.3'
     compile 'cn.bingoogolapple:bga-banner:2.1.7@aar'
 //    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    compile 'com.zhy:base-rvadapter:3.0.3'
 }

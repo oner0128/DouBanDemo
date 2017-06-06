@@ -40,7 +40,7 @@ public class Top250FragmentLinear extends Fragment implements Top250View {
     private Top250AdapterLinear mTop250Adapter;
 
     public int start, count, total;
-    static Top250FragmentLinear INSTANCE;
+    private static Top250FragmentLinear INSTANCE;
 
 
     public static Top250FragmentLinear getInstance() {
