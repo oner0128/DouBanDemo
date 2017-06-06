@@ -27,7 +27,7 @@
         <activity
             android:name=".view.activity.MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <provider
             android:name=".data.MoviesProvider"
@@ -41,6 +41,10 @@
         <activity
             android:name=".view.activity.SearchMovieActivity"
             android:label="@string/title_activity_search_movie"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.activity.ZhihuStoryContentActivity"
+            android:label="@string/title_activity_zhihu_story_content"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

@@ -64,4 +64,5 @@ dependencies {
 //    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     //adapter
     compile 'com.zhy:base-rvadapter:3.0.3'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }

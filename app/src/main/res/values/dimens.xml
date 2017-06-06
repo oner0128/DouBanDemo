@@ -30,4 +30,11 @@
     <dimen name="list_item_spacing_half">8dp</dimen>
     <dimen name="textSize_20">20sp</dimen>
     <dimen name="space_5">5dp</dimen>
+    <dimen name="space_260">260dp</dimen>
+    <dimen name="space_35">35dp</dimen>
+    <dimen name="space_15">15dp</dimen>
+    <dimen name="textSize_22">22sp</dimen>
+    <dimen name="space_10">10dp</dimen>
+    <dimen name="textSize_12">12sp</dimen>
+    <dimen name="space_20">20dp</dimen>
 </resources>

@@ -18,5 +18,6 @@
     <string name="title_inTheater">InTheaters</string>
     <string name="title_comingsoon">ComingSoon</string>
     <string name="title_activity_search_movie">SearchMovieActivity</string>
+    <string name="title_activity_zhihu_story_content">ZhihuStoryContentActivity</string>
 
 </resources>

@@ -1,12 +1,12 @@
 package com.android.oner0128.doubandemo.view.item;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.android.oner0128.doubandemo.R;
-import com.android.oner0128.doubandemo.bean.ZhihuLatestNewsBean;
+import com.android.oner0128.doubandemo.view.activity.ZhihuStoryContentActivity;
 import com.bumptech.glide.Glide;
 import com.zhy.adapter.recyclerview.base.ItemViewDelegate;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
@@ -14,8 +14,6 @@ import com.zhy.adapter.recyclerview.base.ViewHolder;
 import java.util.List;
 
 import cn.bingoogolapple.bgabanner.BGABanner;
-import cn.bingoogolapple.bgabanner.BGABannerUtil;
-import cn.bingoogolapple.bgabanner.BGAViewPager;
 
 /**
  * Created by rrr on 2017/6/6.
@@ -25,7 +23,7 @@ public class ZhihuBannerItemDelegate implements ItemViewDelegate<ZhihuItem> {
     private static final String TAG = "ZhihuBannerItemDelegate";
 
     private Context mContext;
-
+private List<Integer> ids;
     @Override
     public int getItemViewLayoutId() {
         return R.layout.item_zhihu_header_banner;
@@ -40,7 +38,8 @@ public class ZhihuBannerItemDelegate implements ItemViewDelegate<ZhihuItem> {
     public void convert(ViewHolder viewHolder, ZhihuItem zhihuItem, int i) {
         mContext = viewHolder.getConvertView().getContext();
         BGABanner banner = viewHolder.getView(R.id.banner_zhihu_header);
-        ZhihuBannerItem item = (ZhihuBannerItem) zhihuItem;
+        final ZhihuBannerItem item = (ZhihuBannerItem) zhihuItem;
+        ids=item.getIds();
         banner.setAdapter(new BGABanner.Adapter<ImageView, String>() {
             @Override
             public void fillBannerItem(BGABanner banner, ImageView itemView, String model, int position) {
@@ -55,7 +54,10 @@ public class ZhihuBannerItemDelegate implements ItemViewDelegate<ZhihuItem> {
             @Override
             public void onBannerItemClick(BGABanner banner, View itemView, Object model, int position) {
                 //此处可设置banner子项的点击事件
-                Toast.makeText(mContext,"banner"+position,Toast.LENGTH_LONG).show();
+//                Toast.makeText(mContext,"banner"+position,Toast.LENGTH_LONG).show();
+                Intent intent=new Intent(mContext, ZhihuStoryContentActivity.class);
+                intent.putExtra("storyId",ids.get(position));
+                mContext.startActivity(intent);
             }
         });
         banner.setData(item.getImages(),item.getTitles());
