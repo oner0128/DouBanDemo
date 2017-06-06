@@ -6,11 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -25,7 +21,7 @@ import com.android.oner0128.doubandemo.adapter.ViewPagerAdapter;
 import com.android.oner0128.doubandemo.view.fragment.AboutDialog;
 import com.android.oner0128.doubandemo.view.fragment.ComingsoonFragment;
 import com.android.oner0128.doubandemo.view.fragment.InTheatersFragment;
-import com.android.oner0128.doubandemo.view.fragment.Top250FragmentLinear;
+import com.android.oner0128.doubandemo.view.fragment.Top250Fragment;
 import com.android.oner0128.doubandemo.view.fragment.ZhihuFragment;
 
 import butterknife.BindView;
@@ -45,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton mFloatingActionButton;
     SearchView mSearchView;
     long exitTime = 0;
-    private Top250FragmentLinear mTop250Fragment;
+    private Top250Fragment mTop250Fragment;
     private ComingsoonFragment mComingsoonFragment;
     private InTheatersFragment mInTheatersFragment;
     private ZhihuFragment mZhihuFragment;
@@ -72,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        mTop250Fragment = Top250FragmentLinear.getInstance();
+        mTop250Fragment = Top250Fragment.getInstance();
         mComingsoonFragment = ComingsoonFragment.getInstance();
         mInTheatersFragment = InTheatersFragment.getInstance();
         mZhihuFragment = ZhihuFragment.getInstance();

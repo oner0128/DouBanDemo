@@ -57,10 +57,11 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     //greenDAO
     //compile 'org.greenrobot:greendao:3.2.2'
-
+    //hide bottom
     compile 'com.github.githubwing:ByeBurger:1.2.3'
+    //banner
     compile 'cn.bingoogolapple:bga-banner:2.1.7@aar'
 //    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-
+    //adapter
     compile 'com.zhy:base-rvadapter:3.0.3'
 }

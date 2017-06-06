@@ -2,7 +2,7 @@ package com.android.oner0128.doubandemo.presenter;
 
 import com.android.oner0128.doubandemo.api.APIService;
 import com.android.oner0128.doubandemo.bean.MovieBean;
-import com.android.oner0128.doubandemo.view.fragment.Top250FragmentLinear;
+import com.android.oner0128.doubandemo.view.fragment.Top250Fragment;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -14,10 +14,10 @@ import io.reactivex.schedulers.Schedulers;
  * Created by rrr on 2017/4/24.
  */
 
-public class Top250PresenterImplLinear extends BasePresenterImpl implements Top250FragmentPresenter {
-    static Top250FragmentLinear fragment;
+public class Top250PresenterImpl extends BasePresenterImpl implements Top250FragmentPresenter {
+    static Top250Fragment fragment;
 
-    public Top250PresenterImplLinear(Top250FragmentLinear fragment) {
+    public Top250PresenterImpl(Top250Fragment fragment) {
         this.fragment = fragment;
     }
     @Override

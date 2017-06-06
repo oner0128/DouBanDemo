@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.oner0128.doubandemo.R;
-import com.android.oner0128.doubandemo.adapter.Top250AdapterLinear;
+import com.android.oner0128.doubandemo.adapter.Top250Adapter;
 import com.android.oner0128.doubandemo.bean.MovieBean;
 import com.android.oner0128.doubandemo.presenter.SearchPresenterImpl;
 import com.android.oner0128.doubandemo.view.fragment.SearchView;
@@ -33,7 +33,7 @@ public class SearchMovieActivityFragment extends Fragment implements SearchView 
     SwipeRefreshLayout mSwipeRefreshLayout;
     SearchPresenterImpl mSearchPresenterImpl;
     private ArrayList<MovieBean.Subjects> movies;
-    private Top250AdapterLinear mAdapter;
+    private Top250Adapter mAdapter;
     private String searchString;
 
     @Override
@@ -60,7 +60,7 @@ public class SearchMovieActivityFragment extends Fragment implements SearchView 
 
     private void initView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new Top250AdapterLinear(mRecyclerView, getContext(), movies);
+        mAdapter = new Top250Adapter(mRecyclerView, getContext(), movies);
         mRecyclerView.setAdapter(mAdapter);
         loadMovies();
         //swipe refresh

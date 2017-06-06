@@ -14,6 +14,8 @@ import com.zhy.adapter.recyclerview.base.ViewHolder;
 import java.util.List;
 
 import cn.bingoogolapple.bgabanner.BGABanner;
+import cn.bingoogolapple.bgabanner.BGABannerUtil;
+import cn.bingoogolapple.bgabanner.BGAViewPager;
 
 /**
  * Created by rrr on 2017/6/6.
@@ -24,7 +26,6 @@ public class ZhihuBannerItemDelegate implements ItemViewDelegate<ZhihuItem> {
 
     private Context mContext;
 
-    private List<Integer> mIds;
     @Override
     public int getItemViewLayoutId() {
         return R.layout.item_zhihu_header_banner;
@@ -40,7 +41,6 @@ public class ZhihuBannerItemDelegate implements ItemViewDelegate<ZhihuItem> {
         mContext = viewHolder.getConvertView().getContext();
         BGABanner banner = viewHolder.getView(R.id.banner_zhihu_header);
         ZhihuBannerItem item = (ZhihuBannerItem) zhihuItem;
-        mIds=item.getIds();
         banner.setAdapter(new BGABanner.Adapter<ImageView, String>() {
             @Override
             public void fillBannerItem(BGABanner banner, ImageView itemView, String model, int position) {
@@ -55,7 +55,7 @@ public class ZhihuBannerItemDelegate implements ItemViewDelegate<ZhihuItem> {
             @Override
             public void onBannerItemClick(BGABanner banner, View itemView, Object model, int position) {
                 //此处可设置banner子项的点击事件
-                Toast.makeText(mContext,TAG+mIds.get(position)+"",Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext,"banner"+position,Toast.LENGTH_LONG).show();
             }
         });
         banner.setData(item.getImages(),item.getTitles());

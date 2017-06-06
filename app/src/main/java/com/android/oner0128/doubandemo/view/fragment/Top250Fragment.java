@@ -1,25 +1,23 @@
 package com.android.oner0128.doubandemo.view.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.android.oner0128.doubandemo.R;
-import com.android.oner0128.doubandemo.adapter.Top250AdapterLinear;
+import com.android.oner0128.doubandemo.adapter.Top250Adapter;
 import com.android.oner0128.doubandemo.adapter.OnLoadMoreListener;
 import com.android.oner0128.doubandemo.bean.MovieBean;
-import com.android.oner0128.doubandemo.presenter.Top250PresenterImplLinear;
+import com.android.oner0128.doubandemo.presenter.Top250PresenterImpl;
 
 import java.util.ArrayList;
 
@@ -27,7 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class Top250FragmentLinear extends Fragment implements Top250View {
+public class Top250Fragment extends Fragment implements Top250View {
     @BindView(R.id.fragment_top250_linear)
     FrameLayout fragment_in_theaters;
     @BindView(R.id.recycler_top250)
@@ -35,18 +33,18 @@ public class Top250FragmentLinear extends Fragment implements Top250View {
     @BindView(R.id.swipe_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
-    Top250PresenterImplLinear mTop250PresentImpl;
+    Top250PresenterImpl mTop250PresentImpl;
     private ArrayList<MovieBean.Subjects> movies;
-    private Top250AdapterLinear mTop250Adapter;
+    private Top250Adapter mTop250Adapter;
 
     public int start, count, total;
-    private static Top250FragmentLinear INSTANCE;
+    private static Top250Fragment INSTANCE;
 
 
-    public static Top250FragmentLinear getInstance() {
+    public static Top250Fragment getInstance() {
         if (INSTANCE == null) {
-            synchronized (Top250FragmentLinear.class) {
-                if (INSTANCE == null) INSTANCE = new Top250FragmentLinear();
+            synchronized (Top250Fragment.class) {
+                if (INSTANCE == null) INSTANCE = new Top250Fragment();
             }
         }
         return INSTANCE;
@@ -56,7 +54,7 @@ public class Top250FragmentLinear extends Fragment implements Top250View {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_top250_linear, container, false);
+        View view = inflater.inflate(R.layout.fragment_top250, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -69,13 +67,13 @@ public class Top250FragmentLinear extends Fragment implements Top250View {
     }
 
     private void initPresenterAndAdapter() {
-        mTop250PresentImpl = new Top250PresenterImplLinear(this);
+        mTop250PresentImpl = new Top250PresenterImpl(this);
         movies = new ArrayList<>();
     }
 
     private void initView() {
         recycler_top250_linear.setLayoutManager(new LinearLayoutManager(getContext()));
-        mTop250Adapter = new Top250AdapterLinear(recycler_top250_linear, getContext(), movies);
+        mTop250Adapter = new Top250Adapter(recycler_top250_linear, getContext(), movies);
         recycler_top250_linear.setAdapter(mTop250Adapter);
         loadMovies();
         //swipe refresh
@@ -83,32 +81,32 @@ public class Top250FragmentLinear extends Fragment implements Top250View {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        //refresh data
-                        mTop250Adapter.clearData();
-                        loadMovies();
-                    }
-                }, 500);
+                //refresh data
+                mTop250Adapter.clearData();
+                loadMovies();
             }
         });
         //loading more
         mTop250Adapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                if (movies.size() <= total) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            //Generating more data
-                            start += count;
-                            count = 10;
-                            mTop250PresentImpl.loadingMoreMovie(start, count);
-                        }
-                    }, 10);
+                if (start < total) {
+                    //Generating more data
+                    start += count;
+                    count = 15;
+                    if (start==240)count=10;
+                    mTop250PresentImpl.loadingMoreMovie(start, count);
                 } else {
-                    Toast.makeText(getActivity(), "Loading data completed", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getActivity(), "no more data ", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(recycler_top250_linear,
+                            "No more data",
+                            Snackbar.LENGTH_INDEFINITE).setAction("- -!", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mTop250Adapter.notifyItemRemoved(mTop250Adapter.getItemCount()+1);
+                            mTop250Adapter.notifyDataSetChanged();
+                        }
+                    }).show();
                 }
             }
         });
@@ -116,7 +114,7 @@ public class Top250FragmentLinear extends Fragment implements Top250View {
 
     private void loadMovies() {
         start = 0;
-        count = 10;
+        count = 15;
         mTop250PresentImpl.getMovieList(start, count);
     }
 
@@ -135,6 +133,7 @@ public class Top250FragmentLinear extends Fragment implements Top250View {
 
     @Override
     public void showError(String error) {
+        Log.e("error",error);
         if (recycler_top250_linear != null) {
             mSwipeRefreshLayout.setRefreshing(true);
             Snackbar.make(recycler_top250_linear,
@@ -142,8 +141,8 @@ public class Top250FragmentLinear extends Fragment implements Top250View {
                     Snackbar.LENGTH_INDEFINITE).setAction("重试", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (start==0)
-                    mTop250PresentImpl.getMovieList(start, count);
+                    if (start == 0)
+                        mTop250PresentImpl.getMovieList(start, count);
                     else mTop250PresentImpl.loadingMoreMovie(start, count);
                 }
             }).show();
@@ -160,6 +159,8 @@ public class Top250FragmentLinear extends Fragment implements Top250View {
 
     @Override
     public void loadingMoreItem(MovieBean movieBean) {
+//        if (start==240)
+//        Log.e("getItemCount()",""+mTop250Adapter.getItemCount());
         mTop250Adapter.notifyItemRemoved(mTop250Adapter.getItemCount());
         total = movieBean.getTotal();
         movies.addAll(movieBean.getSubjects());

@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
  * Created by rrr on 2017/4/26.
  */
 
-public class Top250AdapterLinear extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class Top250Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private boolean isLoading=true;
     private Context mContext;
     private List<MovieBean.Subjects> movies;
@@ -41,7 +41,7 @@ public class Top250AdapterLinear extends RecyclerView.Adapter<RecyclerView.ViewH
         this.onLoadMoreListener = mOnLoadMoreListener;
     }
 
-    public Top250AdapterLinear(RecyclerView recyclerView, Context mContext, ArrayList<MovieBean.Subjects> movies) {
+    public Top250Adapter(RecyclerView recyclerView, Context mContext, ArrayList<MovieBean.Subjects> movies) {
         this.mContext = mContext;
         this.movies = movies;
 
@@ -51,7 +51,6 @@ public class Top250AdapterLinear extends RecyclerView.Adapter<RecyclerView.ViewH
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 //                if (dy > 0) {
-
                     visibleItemCount = linearLayoutManager.getChildCount();
                     pastVisiblesItems = linearLayoutManager.findFirstVisibleItemPosition();
                     totalItemCount = linearLayoutManager.getItemCount();
@@ -90,18 +89,23 @@ public class Top250AdapterLinear extends RecyclerView.Adapter<RecyclerView.ViewH
                     .diskCacheStrategy(DiskCacheStrategy.RESULT)
                     .placeholder(R.mipmap.ic_launcher)
                     .into(userViewHolder.imageView);
-            userViewHolder.tv_title.setText(movie.getTitle());
+
+            userViewHolder.tv_title.setText(position+1+"."+movie.getTitle());
+
             userViewHolder.tv_rating.setText(movie.getRating().getAverage()+"/10.0");
-            String cast="";
-            List<MovieBean.Subjects.Casts>genres=movie.getCasts();
-            for (MovieBean.Subjects.Casts s:genres)cast+=s.getName()+" ";
-            userViewHolder.tv_casts.setText("主演:"+cast);
-            userViewHolder.tv_director.setText("导演:"+movie.getDirectors().get(0).getName()+"");
+
+            StringBuilder casts=new StringBuilder("主演:");
+            for (MovieBean.Subjects.Casts cast:movie.getCasts())casts.append(cast.getName()+" ");
+            userViewHolder.tv_casts.setText(casts.toString());
+
+            userViewHolder.tv_director.setText("导演:"+movie.getDirectors().get(0).getName());
+
             userViewHolder.tv_years.setText("年份:"+movie.getYear());
-            String genre="";
-            List<String>genreList=movie.getGenres();
-            for (String s:genreList)genre+=s+" ";
-            userViewHolder.tv_genres.setText("类型:"+genre);
+
+            final StringBuilder genre=new StringBuilder("类型:");
+            for (String s:movie.getGenres())genre.append(s+" ");
+            userViewHolder.tv_genres.setText(genre.toString());
+
             userViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

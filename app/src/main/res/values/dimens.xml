@@ -28,4 +28,6 @@
     <dimen name="item_card_height">146dp</dimen>
     <dimen name="list_item_spacing">16dp</dimen>
     <dimen name="list_item_spacing_half">8dp</dimen>
+    <dimen name="textSize_20">20sp</dimen>
+    <dimen name="space_5">5dp</dimen>
 </resources>

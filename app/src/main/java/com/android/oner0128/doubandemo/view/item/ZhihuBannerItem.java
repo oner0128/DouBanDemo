@@ -13,7 +13,7 @@ public class ZhihuBannerItem implements ZhihuItem{
     private List<ZhihuLatestNewsBean.TopStoriesBean> topStories;
     private List<String> images;
     private List<String> titles;
-    private List<Integer> ids;
+
 
     public ZhihuBannerItem(List<ZhihuLatestNewsBean.TopStoriesBean> topStories) {
         this.topStories = topStories;
@@ -23,12 +23,10 @@ public class ZhihuBannerItem implements ZhihuItem{
     private void initData() {
         images = new ArrayList<>();
         titles = new ArrayList<>();
-        ids = new ArrayList<>();
 
         for (ZhihuLatestNewsBean.TopStoriesBean topStory : topStories) {
             images.add(topStory.getImage());
             titles.add(topStory.getTitle());
-            ids.add(topStory.getId());
         }
     }
 
@@ -44,7 +42,4 @@ public class ZhihuBannerItem implements ZhihuItem{
         return titles;
     }
 
-    public List<Integer> getIds() {
-        return ids;
-    }
 }
