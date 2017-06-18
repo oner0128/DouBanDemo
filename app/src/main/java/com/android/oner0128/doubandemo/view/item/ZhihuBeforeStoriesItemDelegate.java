@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.android.oner0128.doubandemo.R;
+import com.android.oner0128.doubandemo.bean.ZhihuBeforeNewsBean;
 import com.android.oner0128.doubandemo.bean.ZhihuLatestNewsBean;
 import com.android.oner0128.doubandemo.view.activity.ZhihuStoryContentActivity;
 import com.bumptech.glide.Glide;
@@ -16,7 +17,7 @@ import com.zhy.adapter.recyclerview.base.ViewHolder;
  * Created by rrr on 2017/6/6.
  */
 
-public class ZhihuStoriesItemDelegate implements ItemViewDelegate<ZhihuItem> {
+public class ZhihuBeforeStoriesItemDelegate implements ItemViewDelegate<ZhihuItem> {
     @Override
     public int getItemViewLayoutId() {
         return R.layout.item_zhihu_stories_list;
@@ -24,14 +25,14 @@ public class ZhihuStoriesItemDelegate implements ItemViewDelegate<ZhihuItem> {
 
     @Override
     public boolean isForViewType(ZhihuItem zhihuItem, int i) {
-        return zhihuItem instanceof ZhihuLatestNewsBean.StoriesBean;
+        return zhihuItem instanceof ZhihuBeforeNewsBean.StoriesBean;
     }
 
     @Override
     public void convert(ViewHolder viewHolder, ZhihuItem zhihuItem, int i) {
         final Context mContext = viewHolder.getConvertView().getContext();
 
-        final ZhihuLatestNewsBean.StoriesBean storiesEntity = (ZhihuLatestNewsBean.StoriesBean) zhihuItem;
+        final ZhihuBeforeNewsBean.StoriesBean storiesEntity = (ZhihuBeforeNewsBean.StoriesBean) zhihuItem;
 
         viewHolder.setText(R.id.story_title_tv, storiesEntity.getTitle());
 

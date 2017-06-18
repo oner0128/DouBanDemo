@@ -2,6 +2,7 @@ package com.android.oner0128.doubandemo.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -41,5 +42,13 @@ public class DateUtil {
             e.printStackTrace();
         }
         return date;
+    }
+    public static String getYesterday(String dateStr){
+        Date date=str2date(dateStr,"yyyyMMdd");
+        Calendar calendar=Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_MONTH,-1);
+        date=calendar.getTime();
+        return new SimpleDateFormat("yyyyMMdd").format(date);
     }
 }

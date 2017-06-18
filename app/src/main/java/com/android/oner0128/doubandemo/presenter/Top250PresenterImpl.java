@@ -4,6 +4,7 @@ import com.android.oner0128.doubandemo.api.APIService;
 import com.android.oner0128.doubandemo.bean.MovieBean;
 import com.android.oner0128.doubandemo.view.fragment.Top250Fragment;
 
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
@@ -20,6 +21,7 @@ public class Top250PresenterImpl extends BasePresenterImpl implements Top250Frag
     public Top250PresenterImpl(Top250Fragment fragment) {
         this.fragment = fragment;
     }
+
     @Override
     public void getMovieList(int start, int count) {
         fragment.showProgressDialog();
@@ -76,5 +78,33 @@ public class Top250PresenterImpl extends BasePresenterImpl implements Top250Frag
                     }
                 });
         addDisposabe(disposable);
+
+//        APIService.getINSTANCE().getDouBanService()
+//                .getTop250Movies(start, count)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer<MovieBean>() {
+//                    @Override
+//                    public void onSubscribe(Disposable d) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(MovieBean movieBean) {
+//////                        Log.d("Test",movieBean.getCount()+movieBean.getTitle());
+//                        fragment.hideProgressDialog();
+//                        fragment.loadingMoreItem(movieBean);
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        fragment.showError(e.toString());
+//                    }
+//
+//                    @Override
+//                    public void onComplete() {
+//
+//                    }
+//                });
     }
 }

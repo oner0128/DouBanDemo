@@ -2,7 +2,6 @@ package com.android.oner0128.doubandemo.view.fragment;
 
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -13,17 +12,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.android.oner0128.doubandemo.R;
-import com.android.oner0128.doubandemo.adapter.OnLoadMoreListener;
 import com.android.oner0128.doubandemo.adapter.ZhihuAdapter;
+import com.android.oner0128.doubandemo.bean.ZhihuBeforeNewsBean;
 import com.android.oner0128.doubandemo.bean.ZhihuLatestNewsBean;
 import com.android.oner0128.doubandemo.presenter.ZhihuPresenterImpl;
+import com.android.oner0128.doubandemo.util.DateUtil;
 import com.android.oner0128.doubandemo.view.item.ZhihuBannerItem;
 import com.android.oner0128.doubandemo.view.item.ZhihuHeaderTitleItem;
 import com.android.oner0128.doubandemo.view.item.ZhihuItem;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
+import com.zhy.adapter.recyclerview.wrapper.LoadMoreWrapper;
 
 import java.util.ArrayList;
 
@@ -47,7 +48,7 @@ public class ZhihuFragment extends Fragment implements ZhihuView {
     private ZhihuAdapter mAdapter;
     private String mdate;
     private static ZhihuFragment INSTANCE;
-
+    private LoadMoreWrapper mLoadMoreWrapper;
     public static ZhihuFragment getInstance() {
         if (INSTANCE == null) {
             synchronized (ZhihuFragment.class) {
@@ -63,6 +64,7 @@ public class ZhihuFragment extends Fragment implements ZhihuView {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_zhihu, container, false);
         ButterKnife.bind(this, view);
+        Logger.addLogAdapter(new AndroidLogAdapter());
         return view;
     }
 
@@ -82,9 +84,18 @@ public class ZhihuFragment extends Fragment implements ZhihuView {
     private void initView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new ZhihuAdapter(getContext(), mDatas);
-        recyclerView.setAdapter(mAdapter);
+        mLoadMoreWrapper=new LoadMoreWrapper(mAdapter);
+        mLoadMoreWrapper.setLoadMoreView(R.layout.item_loading_more);
+        mLoadMoreWrapper.setOnLoadMoreListener(new LoadMoreWrapper.OnLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                if (mdate!=null){
+                    Logger.d(DateUtil.getYesterday(mdate));
+                mPresenter.getNewsBefore(mdate);}
+            }
+        });
+        recyclerView.setAdapter(mLoadMoreWrapper);
         getLatestNews();
-
     }
 
     private void getLatestNews() {
@@ -162,7 +173,14 @@ public class ZhihuFragment extends Fragment implements ZhihuView {
     }
 
     @Override
-    public void updateNewsBeforeItem() {
-
+    public void updateNewsBeforeItem(ZhihuBeforeNewsBean zhihuBeforeNewsBean) {
+        mdate = zhihuBeforeNewsBean.getDate();
+        //date title
+        mDatas.add(new ZhihuHeaderTitleItem(mdate));
+        //stories
+        mDatas.addAll(zhihuBeforeNewsBean.getStories());
+        mLoadMoreWrapper.notifyDataSetChanged();
+        mAdapter.notifyDataSetChanged();
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 }

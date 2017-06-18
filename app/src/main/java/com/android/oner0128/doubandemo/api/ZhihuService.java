@@ -16,7 +16,7 @@ public interface ZhihuService {
     @GET("news/latest")
     Observable<ZhihuLatestNewsBean> getZhihuLatestNews();
     @GET("news/before/{date}")
-    Observable<ZhihuBeforeNewsBean> getZhihuBeforeNews();
+    Observable<ZhihuBeforeNewsBean> getZhihuBeforeNews(@Path("date")String date);
     @GET("news/{storyId}")
     Observable<ZhihuStoryContentBean> getStoryContent(@Path("storyId") int storyId);
 }

@@ -24,6 +24,10 @@ android {
 //    }
     productFlavors {
     }
+    // add dataBinding
+    dataBinding {
+        enabled = true
+    }
 }
 //greendao {
 //    schemaVersion 1
@@ -65,4 +69,6 @@ dependencies {
     //adapter
     compile 'com.zhy:base-rvadapter:3.0.3'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    compile 'com.orhanobut:logger:2.1.1'
 }

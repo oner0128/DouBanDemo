@@ -1,12 +1,14 @@
 package com.android.oner0128.doubandemo.bean;
 
+import com.android.oner0128.doubandemo.view.item.ZhihuItem;
+
 import java.util.List;
 
 /**
  * Created by rrr on 2017/6/6.
  */
 
-public class ZhihuBeforeNewsBean {
+public class ZhihuBeforeNewsBean implements ZhihuItem{
 
     /**
      * date : 20170504
@@ -32,7 +34,7 @@ public class ZhihuBeforeNewsBean {
         this.stories = stories;
     }
 
-    public static class StoriesBean {
+    public static class StoriesBean implements ZhihuItem{
         /**
          * images : ["https://pic1.zhimg.com/v2-251caac5f32c931380856c98bd28b050.jpg"]
          * type : 0
