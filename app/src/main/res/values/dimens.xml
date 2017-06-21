@@ -20,7 +20,7 @@
     <dimen name="image_margin_vertical">8dp</dimen>
     <dimen name="card_recycler_corner_radius">0dp</dimen>
     <dimen name="card_recycler_elevation">1.5dp</dimen>
-    <dimen name="app_bar_movie_detail_height">250dp</dimen>
+    <dimen name="app_bar_movie_detail_height">310dp</dimen>
     <!-- margin -->
     <dimen name="text_margin">8dp</dimen>
 
@@ -37,4 +37,6 @@
     <dimen name="space_10">10dp</dimen>
     <dimen name="textSize_12">12sp</dimen>
     <dimen name="space_20">20dp</dimen>
+    <dimen name="movie_detail_width">150dp</dimen>
+    <dimen name="movie_detail_height">200dp</dimen>
 </resources>

@@ -17,4 +17,5 @@
     <color name="color_fab_scrolling">#FFA000</color>
     <color name="white">#FFFFFF</color>
     <color name="colorLightGray">#E0E0E0</color>
+    <color name="transparent_white">#00FFFFFF</color>
 </resources>

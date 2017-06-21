@@ -96,8 +96,22 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 mBottomNavigationView.getMenu().getItem(0).setChecked(false);
             }
-            Log.d("page", "onPageSelected: " + position);
+//            Log.d("page", "onPageSelected: " + position);
             mBottomNavigationView.getMenu().getItem(position).setChecked(true);
+            switch (position) {
+                case 0:
+                    getSupportActionBar().setTitle(getString(R.string.title_inTheater));
+                    break;
+                case 1:
+                    getSupportActionBar().setTitle(getString(R.string.title_Top250));
+                    break;
+                case 2:
+                    getSupportActionBar().setTitle(getString(R.string.title_comingsoon));
+                    break;
+                case 3:
+                    getSupportActionBar().setTitle("zhihu");
+                    break;
+            }
             prevMenuItem = mBottomNavigationView.getMenu().getItem(position);
         }
 
@@ -111,18 +125,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//            switch (item.getItemId()) {
-//                case R.id.navigation_home:
-//                    mTextMessage.setText(R.string.title_Top250);
-//                    return true;
-//                case R.id.navigation_dashboard:
-//                    mTextMessage.setText(R.string.title_inTheater);
-//                    return true;
-//                case R.id.navigation_notifications:
-//                    mTextMessage.setText(R.string.title_notifications);
-//                    return true;
-//            }
-//            return false;
             mViewPager.setCurrentItem(item.getOrder());
             switch (item.getOrder()) {
                 case 0:

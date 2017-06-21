@@ -64,7 +64,7 @@ public class ZhihuFragment extends Fragment implements ZhihuView {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_zhihu, container, false);
         ButterKnife.bind(this, view);
-        Logger.addLogAdapter(new AndroidLogAdapter());
+//        Logger.addLogAdapter(new AndroidLogAdapter());
         return view;
     }
 
@@ -179,8 +179,8 @@ public class ZhihuFragment extends Fragment implements ZhihuView {
         mDatas.add(new ZhihuHeaderTitleItem(mdate));
         //stories
         mDatas.addAll(zhihuBeforeNewsBean.getStories());
-        mLoadMoreWrapper.notifyDataSetChanged();
+        mLoadMoreWrapper.notifyDataSetChanged();//移除loadingmore
         mAdapter.notifyDataSetChanged();
-        mSwipeRefreshLayout.setRefreshing(false);
+//        mSwipeRefreshLayout.setRefreshing(false);
     }
 }

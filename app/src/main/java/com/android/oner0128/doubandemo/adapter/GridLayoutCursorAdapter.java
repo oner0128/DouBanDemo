@@ -45,7 +45,7 @@ public class GridLayoutCursorAdapter extends CursorRecyclerViewAdapter<GridLayou
     @Override
     public void onBindViewHolder(final GridLayoutCursorAdapter.ViewHodler viewHolder, final Cursor cursor) {
         //movie_image
-        String imagePosterURL = cursor.getString(ComingsoonFragment.COLUMN_IMAGE_POSTER);
+        final String imagePosterURL = cursor.getString(ComingsoonFragment.COLUMN_IMAGE_POSTER);
         final String title = cursor.getString(ComingsoonFragment.COLUMN_TITLE);
         final String id = cursor.getString(ComingsoonFragment.COLUMN_DOUBAN_ID);
         Glide.with(mFragment)
@@ -62,6 +62,7 @@ public class GridLayoutCursorAdapter extends CursorRecyclerViewAdapter<GridLayou
                 Intent intent = new Intent(mContext, MovieDetailActivity.class);
                 intent.putExtra("MovieID", id);
                 intent.putExtra("MovieTitle", title);
+                intent.putExtra("MovieImg",imagePosterURL);
                 mContext.startActivity(intent);
             }
         });

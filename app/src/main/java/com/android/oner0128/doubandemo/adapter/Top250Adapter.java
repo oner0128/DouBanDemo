@@ -82,7 +82,7 @@ public class Top250Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (holder instanceof UserViewHolder) {
             final MovieBean.Subjects movie = movies.get(position);
             UserViewHolder userViewHolder = (UserViewHolder) holder;
-            String imageViewURL = movie.getImages().getSmall();
+            final String imageViewURL = movie.getImages().getSmall();
             Glide.with(mContext)
                     .load(imageViewURL)
                     .centerCrop()
@@ -112,6 +112,7 @@ public class Top250Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     Intent intent=new Intent(mContext, MovieDetailActivity.class);
                     intent.putExtra("MovieID",movie.getId());
                     intent.putExtra("MovieTitle",movie.getTitle());
+                    intent.putExtra("MovieImg",imageViewURL);
                     mContext.startActivity(intent);
                 }
             });
