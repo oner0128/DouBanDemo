@@ -17,7 +17,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/imageV_top250"
+            android:id="@+id/imageV_post"
             android:layout_width="80dp"
             android:layout_height="130dp"
             android:layout_marginBottom="@dimen/image_margin_vertical"

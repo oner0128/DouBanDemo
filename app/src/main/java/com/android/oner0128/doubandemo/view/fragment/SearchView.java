@@ -1,6 +1,6 @@
 package com.android.oner0128.doubandemo.view.fragment;
 
-import com.android.oner0128.doubandemo.bean.MovieBean;
+import com.android.oner0128.doubandemo.bean.MoviesBean;
 import com.android.oner0128.doubandemo.view.BaseView;
 
 /**
@@ -8,5 +8,5 @@ import com.android.oner0128.doubandemo.view.BaseView;
  */
 
 public interface SearchView extends BaseView {
-    void updateListItem(MovieBean movieBean);
+    void updateListItem(MoviesBean moviesBean);
 }

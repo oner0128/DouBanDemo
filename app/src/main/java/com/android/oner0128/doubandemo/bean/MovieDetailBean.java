@@ -304,33 +304,31 @@ public class MovieDetailBean {
             return alt;
         }
 
-        public void setAlt(String alt) {
-            this.alt = alt;
-        }
 
         public AvatarsBean getAvatars() {
             return avatars;
         }
 
-        public void setAvatars(AvatarsBean avatars) {
-            this.avatars = avatars;
-        }
 
         public String getName() {
             return name;
         }
 
-        public void setName(String name) {
-            this.name = name;
+        @Override
+        public String getJob() {
+            return "演员";
         }
+
+        @Override
+        public String getImgUrl() {
+            return getAvatars().getMedium();
+        }
+
 
         public String getId() {
             return id;
         }
 
-        public void setId(String id) {
-            this.id = id;
-        }
 
         public static class AvatarsBean {
             /**
@@ -400,6 +398,14 @@ public class MovieDetailBean {
 
         public String getName() {
             return name;
+        }
+        @Override
+        public String getImgUrl() {
+            return getAvatars().getMedium();
+        }
+        @Override
+        public String getJob() {
+            return "导演";
         }
 
         public void setName(String name) {

@@ -6,4 +6,5 @@ package com.android.oner0128.doubandemo.presenter;
 
 public interface SearchPresenter  {
     void getSearchList(String searchString);
+    void loadingMoreSearchList(String searchString,int start,int count);
 }

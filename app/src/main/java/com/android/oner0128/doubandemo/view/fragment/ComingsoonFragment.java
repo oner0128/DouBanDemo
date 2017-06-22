@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 
 import com.android.oner0128.doubandemo.R;
 import com.android.oner0128.doubandemo.adapter.GridLayoutCursorAdapter;
-import com.android.oner0128.doubandemo.bean.MovieBean;
+import com.android.oner0128.doubandemo.bean.MoviesBean;
 import com.android.oner0128.doubandemo.data.MoviesContract;
 import com.android.oner0128.doubandemo.presenter.ComingsoonPresenterImpl;
 import com.android.oner0128.doubandemo.util.RecyclerViewScrollListener;
@@ -147,12 +147,12 @@ public class ComingsoonFragment extends Fragment implements ComingsoonView,Loade
     }
 
     @Override
-    public void updateComingsoonItems(MovieBean movieBean) {
+    public void updateComingsoonItems(MoviesBean moviesBean) {
 
     }
 
     @Override
-    public void updateMoreItems(MovieBean movieBean) {
+    public void updateMoreItems(MoviesBean moviesBean) {
 
     }
 

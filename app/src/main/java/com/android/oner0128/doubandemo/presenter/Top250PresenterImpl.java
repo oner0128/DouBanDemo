@@ -1,10 +1,9 @@
 package com.android.oner0128.doubandemo.presenter;
 
 import com.android.oner0128.doubandemo.api.APIService;
-import com.android.oner0128.doubandemo.bean.MovieBean;
+import com.android.oner0128.doubandemo.bean.MoviesBean;
 import com.android.oner0128.doubandemo.view.fragment.Top250Fragment;
 
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
@@ -29,9 +28,9 @@ public class Top250PresenterImpl extends BasePresenterImpl implements Top250Frag
                 .getTop250Movies(start, count)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableObserver<MovieBean>() {
+                .subscribeWith(new DisposableObserver<MoviesBean>() {
                     @Override
-                    public void onNext(@NonNull MovieBean movieBean) {
+                    public void onNext(@NonNull MoviesBean movieBean) {
 //                        Log.d("Test",movieBean.getCount()+movieBean.getTitle());
                         fragment.hideProgressDialog();
                         fragment.updateListItem(movieBean);
@@ -59,9 +58,9 @@ public class Top250PresenterImpl extends BasePresenterImpl implements Top250Frag
                 .getTop250Movies(start, count)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableObserver<MovieBean>() {
+                .subscribeWith(new DisposableObserver<MoviesBean>() {
                     @Override
-                    public void onNext(@NonNull MovieBean movieBean) {
+                    public void onNext(@NonNull MoviesBean movieBean) {
 //                        Log.d("Test",movieBean.getCount()+movieBean.getTitle());
                         fragment.hideProgressDialog();
                         fragment.loadingMoreItem(movieBean);
@@ -83,14 +82,14 @@ public class Top250PresenterImpl extends BasePresenterImpl implements Top250Frag
 //                .getTop250Movies(start, count)
 //                .subscribeOn(Schedulers.io())
 //                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Observer<MovieBean>() {
+//                .subscribe(new Observer<MoviesBean>() {
 //                    @Override
 //                    public void onSubscribe(Disposable d) {
 //
 //                    }
 //
 //                    @Override
-//                    public void onNext(MovieBean movieBean) {
+//                    public void onNext(MoviesBean movieBean) {
 //////                        Log.d("Test",movieBean.getCount()+movieBean.getTitle());
 //                        fragment.hideProgressDialog();
 //                        fragment.loadingMoreItem(movieBean);

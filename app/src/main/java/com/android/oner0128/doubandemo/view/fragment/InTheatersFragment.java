@@ -18,7 +18,7 @@ import android.widget.FrameLayout;
 
 import com.android.oner0128.doubandemo.R;
 import com.android.oner0128.doubandemo.adapter.GridLayoutCursorAdapter;
-import com.android.oner0128.doubandemo.bean.MovieBean;
+import com.android.oner0128.doubandemo.bean.MoviesBean;
 import com.android.oner0128.doubandemo.data.MoviesContract;
 import com.android.oner0128.doubandemo.presenter.InTheatersPresentImpl;
 
@@ -125,12 +125,12 @@ public class InTheatersFragment extends Fragment implements InTheatersView,Loade
     }
 
     @Override
-    public void updateInTheatersItems(MovieBean movieBean) {
+    public void updateInTheatersItems(MoviesBean moviesBean) {
 
     }
 
     @Override
-    public void updateMoreItems(MovieBean movieBean) {
+    public void updateMoreItems(MoviesBean moviesBean) {
 
     }
 

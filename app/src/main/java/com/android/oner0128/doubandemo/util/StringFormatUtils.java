@@ -15,7 +15,7 @@ public class StringFormatUtils {
             StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < list.size(); i++) {
                 if (i < list.size() - 1) {
-                    stringBuilder.append(list.get(i)).append(" / ");
+                    stringBuilder.append(list.get(i)).append("/");
                 } else {
                     stringBuilder.append(list.get(i));
                 }
@@ -32,7 +32,7 @@ public class StringFormatUtils {
             StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < casts.size(); i++) {
                 if (i < casts.size() - 1) {
-                    stringBuilder.append(casts.get(i).getName()).append(" / ");
+                    stringBuilder.append(casts.get(i).getName()).append("/");
                 } else {
                     stringBuilder.append(casts.get(i).getName());
                 }

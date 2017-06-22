@@ -2,6 +2,7 @@ package com.android.oner0128.doubandemo.view.fragment;
 
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -49,6 +50,7 @@ public class ZhihuFragment extends Fragment implements ZhihuView {
     private String mdate;
     private static ZhihuFragment INSTANCE;
     private LoadMoreWrapper mLoadMoreWrapper;
+
     public static ZhihuFragment getInstance() {
         if (INSTANCE == null) {
             synchronized (ZhihuFragment.class) {
@@ -84,14 +86,21 @@ public class ZhihuFragment extends Fragment implements ZhihuView {
     private void initView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new ZhihuAdapter(getContext(), mDatas);
-        mLoadMoreWrapper=new LoadMoreWrapper(mAdapter);
+        mLoadMoreWrapper = new LoadMoreWrapper(mAdapter);
         mLoadMoreWrapper.setLoadMoreView(R.layout.item_loading_more);
         mLoadMoreWrapper.setOnLoadMoreListener(new LoadMoreWrapper.OnLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                if (mdate!=null){
-                    Logger.d(DateUtil.getYesterday(mdate));
-                mPresenter.getNewsBefore(mdate);}
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mdate != null) {
+                            Logger.d(DateUtil.getYesterday(mdate));
+                            mPresenter.getNewsBefore(mdate);
+                        }
+                    }
+                }, 500);
             }
         });
         recyclerView.setAdapter(mLoadMoreWrapper);

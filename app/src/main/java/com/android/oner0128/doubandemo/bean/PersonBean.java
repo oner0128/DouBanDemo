@@ -6,4 +6,6 @@ package com.android.oner0128.doubandemo.bean;
 
 public interface PersonBean {
     String getName();
+    String getJob();
+    String getImgUrl();
 }

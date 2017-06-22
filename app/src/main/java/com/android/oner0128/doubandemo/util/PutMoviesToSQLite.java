@@ -2,14 +2,10 @@ package com.android.oner0128.doubandemo.util;
 
 import android.app.Activity;
 import android.content.ContentValues;
-import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 
-import com.android.oner0128.doubandemo.bean.MovieBean;
+import com.android.oner0128.doubandemo.bean.MoviesBean;
 import com.android.oner0128.doubandemo.data.MoviesContract;
-
-import org.json.JSONException;
 
 import java.util.List;
 import java.util.Vector;
@@ -22,9 +18,9 @@ public class PutMoviesToSQLite {
     private static final String LOG_TAG = PutMoviesToSQLite.class.getSimpleName();
 
     //从DouBan获取intheatersMovies
-    public static void getInTheatersMoviesFromJson(Activity activity , MovieBean movieBean) {
+    public static void getInTheatersMoviesFromJson(Activity activity , MoviesBean moviesBean) {
         activity.getContentResolver().delete(MoviesContract.InTheatersMoviesEntry.CONTENT_URI, null, null);
-        List<MovieBean.Subjects> list = movieBean.getSubjects();
+        List<MoviesBean.Subjects> list = moviesBean.getSubjects();
         int size = list.size();
         Vector<ContentValues> valuesVector = new Vector<>(size);
         String title;
@@ -79,9 +75,9 @@ public class PutMoviesToSQLite {
             Log.d(LOG_TAG, LOG_TAG + " complete." + isInsert + " inserted (in_theater)");
     }
     //从DouBan获取comingsoonMovies
-    public static void getComingsoonMoviesFromJson(Activity activity , MovieBean movieBean) {
+    public static void getComingsoonMoviesFromJson(Activity activity , MoviesBean moviesBean) {
         activity.getContentResolver().delete(MoviesContract.ComingsoonMoviesEntry.CONTENT_URI, null, null);
-        List<MovieBean.Subjects> list = movieBean.getSubjects();
+        List<MoviesBean.Subjects> list = moviesBean.getSubjects();
         int size = list.size();
         Vector<ContentValues> valuesVector = new Vector<>(size);
         String title;

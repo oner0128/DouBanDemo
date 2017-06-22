@@ -16,7 +16,7 @@ import android.widget.FrameLayout;
 import com.android.oner0128.doubandemo.R;
 import com.android.oner0128.doubandemo.adapter.Top250Adapter;
 import com.android.oner0128.doubandemo.adapter.OnLoadMoreListener;
-import com.android.oner0128.doubandemo.bean.MovieBean;
+import com.android.oner0128.doubandemo.bean.MoviesBean;
 import com.android.oner0128.doubandemo.presenter.Top250PresenterImpl;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class Top250Fragment extends Fragment implements Top250View {
     SwipeRefreshLayout mSwipeRefreshLayout;
 
     Top250PresenterImpl mTop250PresentImpl;
-    private ArrayList<MovieBean.Subjects> movies;
+    private ArrayList<MoviesBean.Subjects> movies;
     private Top250Adapter mTop250Adapter;
 
     public int start, count, total;
@@ -150,20 +150,20 @@ public class Top250Fragment extends Fragment implements Top250View {
     }
 
     @Override
-    public void updateListItem(MovieBean movieBean) {
-        total = movieBean.getTotal();
-        movies.addAll(movieBean.getSubjects());
+    public void updateListItem(MoviesBean moviesBean) {
+        total = moviesBean.getTotal();
+        movies.addAll(moviesBean.getSubjects());
         mTop250Adapter.notifyDataSetChanged();
         mTop250Adapter.setLoaded();
     }
 
     @Override
-    public void loadingMoreItem(MovieBean movieBean) {
+    public void loadingMoreItem(MoviesBean moviesBean) {
 //        if (start==240)
 //        Log.e("getItemCount()",""+mTop250Adapter.getItemCount());
         mTop250Adapter.notifyItemRemoved(mTop250Adapter.getItemCount());
-        total = movieBean.getTotal();
-        movies.addAll(movieBean.getSubjects());
+        total = moviesBean.getTotal();
+        movies.addAll(moviesBean.getSubjects());
         mTop250Adapter.notifyDataSetChanged();
         mTop250Adapter.setLoaded();
     }

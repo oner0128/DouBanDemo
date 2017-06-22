@@ -201,16 +201,16 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-            if (System.currentTimeMillis() - exitTime > 2000) {
-//                Snackbar.make(frameLayout, "再点一次，退出", Snackbar.LENGTH_LONG).show();
-                Toast.makeText(getApplicationContext(), "再点一次，退出", Toast.LENGTH_LONG).show();
-                exitTime = System.currentTimeMillis();
-            } else {
+//            if (System.currentTimeMillis() - exitTime > 2000) {
+////                Snackbar.make(frameLayout, "再点一次，退出", Snackbar.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), "再点一次，退出", Toast.LENGTH_LONG).show();
+//                exitTime = System.currentTimeMillis();
+//            } else {
 //                super.onBackPressed();
                 Intent intent = new Intent(Intent.ACTION_MAIN);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.addCategory(Intent.CATEGORY_HOME);
                 startActivity(intent);
-            }
+//            }
     }
 }

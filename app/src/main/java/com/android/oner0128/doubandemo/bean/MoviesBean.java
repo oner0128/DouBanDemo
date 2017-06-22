@@ -6,7 +6,7 @@ import java.util.List;
  * Created by rrr on 2017/4/22.
  */
 
-public class MovieBean {
+public class MoviesBean {
 
     /**
      * count : 20
@@ -269,7 +269,7 @@ public class MovieBean {
             }
         }
 
-        public static class Casts {
+        public static class Casts implements PersonBean{
             /**
              * alt : https://movie.douban.com/celebrity/1054521/
              * avatars : {"small":"https://img3.doubanio.com/img/celebrity/small/17525.jpg","large":"https://img3.doubanio.com/img/celebrity/large/17525.jpg","medium":"https://img3.doubanio.com/img/celebrity/medium/17525.jpg"}
@@ -300,6 +300,16 @@ public class MovieBean {
 
             public String getName() {
                 return name;
+            }
+
+            @Override
+            public String getJob() {
+                return null;
+            }
+
+            @Override
+            public String getImgUrl() {
+                return null;
             }
 
             public void setName(String name) {
@@ -351,7 +361,7 @@ public class MovieBean {
             }
         }
 
-        public static class Directors {
+        public static class Directors implements PersonBean{
             /**
              * alt : https://movie.douban.com/celebrity/1047973/
              * avatars : {"small":"https://img3.doubanio.com/img/celebrity/small/230.jpg","large":"https://img3.doubanio.com/img/celebrity/large/230.jpg","medium":"https://img3.doubanio.com/img/celebrity/medium/230.jpg"}
@@ -382,6 +392,16 @@ public class MovieBean {
 
             public String getName() {
                 return name;
+            }
+
+            @Override
+            public String getJob() {
+                return null;
+            }
+
+            @Override
+            public String getImgUrl() {
+                return null;
             }
 
             public void setName(String name) {

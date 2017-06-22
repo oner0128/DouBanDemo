@@ -8,6 +8,9 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatRatingBar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -17,16 +20,26 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.oner0128.doubandemo.R;
 import com.android.oner0128.doubandemo.api.APIService;
 import com.android.oner0128.doubandemo.bean.MovieDetailBean;
+import com.android.oner0128.doubandemo.bean.PersonBean;
 import com.android.oner0128.doubandemo.util.StringFormatUtils;
 import com.android.oner0128.doubandemo.view.BaseView;
+import com.android.oner0128.doubandemo.view.item.PersonItemDelegate;
 import com.bumptech.glide.Glide;
+import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
+import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,6 +64,10 @@ public class MovieDetailActivity extends AppCompatActivity implements BaseView {
     FrameLayout frameLayout;
 
     //header
+    @BindView(R.id.ratingbar)
+    AppCompatRatingBar ratingBar;
+    @BindView(R.id.layout_header_content)
+    LinearLayout layout_header_content;
     @BindView(R.id.image_background_scrolling)
     ImageView iv_background_scrolling;
     @BindView(R.id.iv_header_photo)
@@ -80,19 +97,22 @@ public class MovieDetailActivity extends AppCompatActivity implements BaseView {
     TextView tv_title_aka;
     @BindView(R.id.tv_summary)
     TextView tv_summary;
-
+    @BindView(R.id.rv_casts)
+    RecyclerView rv_casts;
     private String title;
     private String imgUrl;
     private String id;
     private String share;
     private String MovieUrl;
-
+    List<PersonBean> persons=new ArrayList<>();
+    MultiItemTypeAdapter<PersonBean>  adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -124,6 +144,7 @@ public class MovieDetailActivity extends AppCompatActivity implements BaseView {
                 }
             }
         });
+        setAdapter();
         getMovieDetail();
         setHeader();
     }
@@ -149,34 +170,10 @@ public class MovieDetailActivity extends AppCompatActivity implements BaseView {
                         }
 
                         @Override
-                        public void onNext(@NonNull MovieDetailBean moiveDetailBean) {
+                        public void onNext(@NonNull MovieDetailBean movieDetailBean) {
                             hideProgressDialog();
-                            //header
-
-                            Glide.with(getApplicationContext()).
-                                    load(moiveDetailBean.getImages().getLarge())
-                                    .into(iv_header_photo);
-                            tv_header_rating_rate.setText("" + moiveDetailBean.getRating().getAverage());
-                            tv_header_rating_number.setText(moiveDetailBean.getRatings_count() + "人评分");
-
-                            tv_header_directors.setText(StringFormatUtils.formatCastsToString(moiveDetailBean.getDirectors()));
-
-                           //casts
-                            tv_header_casts.setText(StringFormatUtils.formatCastsToString(moiveDetailBean.getCasts()));
-                            //geners
-                            tv_header_genres.setText(StringFormatUtils.formatListToString(moiveDetailBean.getGenres()));
-                            //year
-                            tv_header_years.setText(moiveDetailBean.getYear());
-                            //countries
-                            tv_header_countries.setText(StringFormatUtils.formatListToString(moiveDetailBean.getCountries()));
-
-                            //content
-                            //aka
-                            tv_title_aka.setText(StringFormatUtils.formatListToString(moiveDetailBean.getAka()));
-                            tv_summary.setText(moiveDetailBean.getSummary());
-                            MovieUrl = moiveDetailBean.getMobile_url();
-                            share = moiveDetailBean.getOriginal_title() + '\n' + moiveDetailBean.getMobile_url();
-                        }
+                            showMovieDetail(movieDetailBean);
+                          }
 
                         @Override
                         public void onError(@NonNull Throwable e) {
@@ -195,17 +192,59 @@ public class MovieDetailActivity extends AppCompatActivity implements BaseView {
                     });
         }
     }
+    private void showMovieDetail(MovieDetailBean movieDetailBean){
+        //header
+        Glide.with(getApplicationContext()).
+                load(movieDetailBean.getImages().getLarge())
+                .into(iv_header_photo);
+
+        tv_header_rating_rate.setText("" + movieDetailBean.getRating().getAverage());
+        tv_header_rating_number.setText(movieDetailBean.getRatings_count() + "人评分");
+
+        tv_header_directors.setText(StringFormatUtils.formatCastsToString(movieDetailBean.getDirectors()));
+
+        //casts
+        tv_header_casts.setText(StringFormatUtils.formatCastsToString(movieDetailBean.getCasts()));
+        //geners
+        tv_header_genres.setText(StringFormatUtils.formatListToString(movieDetailBean.getGenres()));
+        //year
+        tv_header_years.setText(movieDetailBean.getYear());
+        //countries
+        tv_header_countries.setText(StringFormatUtils.formatListToString(movieDetailBean.getCountries()));
+
+        //content
+        ratingBar.setRating( (float)movieDetailBean.getRating().getAverage()/2);
+        //aka
+        tv_title_aka.setText(StringFormatUtils.formatListToString(movieDetailBean.getAka()));
+        tv_summary.setText(movieDetailBean.getSummary());
+        MovieUrl = movieDetailBean.getMobile_url();
+        share = movieDetailBean.getOriginal_title() + '\n' + movieDetailBean.getMobile_url();
+        //cast &director
+        persons.addAll(movieDetailBean.getDirectors());
+        persons.addAll(movieDetailBean.getCasts());
+
+        adapter.notifyDataSetChanged();
+    }
+
+    private void setAdapter() {
+        adapter=new MultiItemTypeAdapter<>(this,persons);
+        adapter.addItemViewDelegate(new PersonItemDelegate());
+        rv_casts.setLayoutManager(new LinearLayoutManager(this));
+        rv_casts.setAdapter(adapter);
+    }
 
     @Override
     public void showProgressDialog() {
         progressBar.setVisibility(View.VISIBLE);
         layout_content.setVisibility(View.INVISIBLE);
+        layout_header_content.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void hideProgressDialog() {
         progressBar.setVisibility(View.INVISIBLE);
         layout_content.setVisibility(View.VISIBLE);
+        layout_header_content.setVisibility(View.VISIBLE);
     }
 
     @Override

@@ -38,5 +38,5 @@
     <dimen name="textSize_12">12sp</dimen>
     <dimen name="space_20">20dp</dimen>
     <dimen name="movie_detail_width">150dp</dimen>
-    <dimen name="movie_detail_height">200dp</dimen>
+    <dimen name="movie_detail_height">210dp</dimen>
 </resources>

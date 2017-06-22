@@ -13,8 +13,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.oner0128.doubandemo.R;
+import com.android.oner0128.doubandemo.bean.MoviesBean;
+import com.android.oner0128.doubandemo.util.StringFormatUtils;
 import com.android.oner0128.doubandemo.view.activity.MovieDetailActivity;
-import com.android.oner0128.doubandemo.bean.MovieBean;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
@@ -31,7 +32,7 @@ import butterknife.ButterKnife;
 public class Top250Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private boolean isLoading=true;
     private Context mContext;
-    private List<MovieBean.Subjects> movies;
+    private List<MoviesBean.Subjects> movies;
     private int visibleItemCount ,pastVisiblesItems,totalItemCount ;
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
@@ -41,7 +42,7 @@ public class Top250Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.onLoadMoreListener = mOnLoadMoreListener;
     }
 
-    public Top250Adapter(RecyclerView recyclerView, Context mContext, ArrayList<MovieBean.Subjects> movies) {
+    public Top250Adapter(RecyclerView recyclerView, Context mContext, ArrayList<MoviesBean.Subjects> movies) {
         this.mContext = mContext;
         this.movies = movies;
 
@@ -80,7 +81,7 @@ public class Top250Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof UserViewHolder) {
-            final MovieBean.Subjects movie = movies.get(position);
+            final MoviesBean.Subjects movie = movies.get(position);
             UserViewHolder userViewHolder = (UserViewHolder) holder;
             final String imageViewURL = movie.getImages().getSmall();
             Glide.with(mContext)
@@ -94,17 +95,13 @@ public class Top250Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             userViewHolder.tv_rating.setText(movie.getRating().getAverage()+"/10.0");
 
-            StringBuilder casts=new StringBuilder("主演:");
-            for (MovieBean.Subjects.Casts cast:movie.getCasts())casts.append(cast.getName()+" ");
-            userViewHolder.tv_casts.setText(casts.toString());
+            userViewHolder.tv_casts.setText("主演:"+StringFormatUtils.formatCastsToString(movie.getCasts()));
 
-            userViewHolder.tv_director.setText("导演:"+movie.getDirectors().get(0).getName());
+            userViewHolder.tv_director.setText("导演:"+StringFormatUtils.formatCastsToString(movie.getDirectors()));
 
             userViewHolder.tv_years.setText("年份:"+movie.getYear());
 
-            final StringBuilder genre=new StringBuilder("类型:");
-            for (String s:movie.getGenres())genre.append(s+" ");
-            userViewHolder.tv_genres.setText(genre.toString());
+            userViewHolder.tv_genres.setText("类型:"+StringFormatUtils.formatListToString(movie.getGenres()));
 
             userViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -158,13 +155,13 @@ public class Top250Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         public LoadingViewHolder(View view) {
             super(view);
-            progressBar = (ProgressBar) view.findViewById(R.id.progressBar2);
+            progressBar = (ProgressBar) view.findViewById(R.id.progressBar_loading_more);
         }
     }
 
     // "Normal item" ViewHolder
     public class UserViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.imageV_top250)
+        @BindView(R.id.imageV_post)
         ImageView imageView;
         @BindView(R.id.card_view_item_recycler_view)
         CardView cardView;

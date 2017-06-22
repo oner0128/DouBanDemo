@@ -1,6 +1,6 @@
 package com.android.oner0128.doubandemo.view.fragment;
 
-import com.android.oner0128.doubandemo.bean.MovieBean;
+import com.android.oner0128.doubandemo.bean.MoviesBean;
 import com.android.oner0128.doubandemo.view.BaseView;
 
 /**
@@ -8,6 +8,6 @@ import com.android.oner0128.doubandemo.view.BaseView;
  */
 
 public interface InTheatersView extends BaseView {
-    void updateInTheatersItems(MovieBean movieBean);
-    void updateMoreItems(MovieBean movieBean);
+    void updateInTheatersItems(MoviesBean moviesBean);
+    void updateMoreItems(MoviesBean moviesBean);
 }

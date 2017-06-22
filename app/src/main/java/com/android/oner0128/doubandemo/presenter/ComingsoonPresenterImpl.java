@@ -3,7 +3,7 @@ package com.android.oner0128.doubandemo.presenter;
 import android.app.Activity;
 
 import com.android.oner0128.doubandemo.api.APIService;
-import com.android.oner0128.doubandemo.bean.MovieBean;
+import com.android.oner0128.doubandemo.bean.MoviesBean;
 import com.android.oner0128.doubandemo.util.PutMoviesToSQLite;
 import com.android.oner0128.doubandemo.view.fragment.ComingsoonFragment;
 
@@ -34,9 +34,9 @@ public class ComingsoonPresenterImpl extends BasePresenterImpl implements Coming
                 .getComingsoonMovies()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableObserver<MovieBean>() {
+                .subscribeWith(new DisposableObserver<MoviesBean>() {
                     @Override
-                    public void onNext(@NonNull MovieBean movieBean) {
+                    public void onNext(@NonNull MoviesBean movieBean) {
 //                        Log.d("Test",movieBean.getCount()+movieBean.getTitle());
                         fragment.hideProgressDialog();
 //                        MovieList list=MovieList.setMovieList(movieBean);
